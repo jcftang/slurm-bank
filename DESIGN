@@ -7,12 +7,41 @@ Based on discussions from
 
 # Requirements
 
-Account enforcing is enabled in *slurm.conf*
+This documentation assumes the user knows basic slurm administration.
 
-	AccountingStorageEnforce=limits
+Slurmdbd must be configured and working, account enforcing is enabled
+in *slurm.conf*
+
+    AccountingStorageEnforce=limits
+
+The following parameters must also be set, we do not want a decay or
+reset of the usage that is recorded in slurmdbd.
+
+    PriorityDecayHalfLife=0
+    PriorityUsageResetPeriod=NONE
 
 What is also required is a pretty good estimate of the total available
 hours that you have on your cluster that you can allocate to accounts.
+
+Users will need to learn how to use accounts (nothing new here)
+
+sacctmgr and sshare is required and must be working.
+
+# How it works
+
+Time is deposited to an account, which gets drawn from whenever a job
+is submitted to the cluster. Currently the "GrpCPUMins" is used.
+
+# Missing components
+
+* Help script to add/remove hours from a given account (short of
+  manually doing it by hand and doing the sums).
+
+* Ability to *end* accounts at a given date, could associate accounts
+  with overlapping reservations. We tried this but we can't set a
+  *maint* reservation that is honoured by slurm. So this is a no go
+  for now. One idea is to do it with an external database and some
+  helpter scripts.
 
 # Tested on
 
