@@ -1,0 +1,20 @@
+# DESIGN
+
+Based on discussions from 
+
+* http://groups.google.com/group/slurm-devel/browse_frm/thread/1c8805fb274c108f#
+* http://groups.google.com/group/slurm-devel/browse_thread/thread/b06f3985cc7504b2?tvc=2
+
+# Requirements
+
+Account enforcing is enabled in *slurm.conf*
+
+	AccountingStorageEnforce=limits
+
+What is also required is a pretty good estimate of the total available
+hours that you have on your cluster that you can allocate to accounts.
+
+# Tested on
+
+* SLURM 2.2.0
+* SL5x (and system version of perl/sh)
