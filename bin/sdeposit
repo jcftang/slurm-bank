@@ -1,0 +1,70 @@
+#!/bin/sh
+
+# somewhat emulate GOLD's gdeposit account
+#
+# Requires 'sacctmgr' 
+
+export SLURMBANK_DIR=$(dirname "$0")
+SACCTMGR_BIN=sacctmgr
+SACCTMGR_OPT=
+SACCTMGR="$SACCTMGR_BIN $SACCTMGR_OPT "
+
+die()
+{
+	[ $# -gt 0 ] && echo "error: $@" >&2
+	flags_help
+	exit 1
+}
+
+
+log()
+{
+	echo "log: $@" >&2
+}
+
+
+debug()
+{
+	[ "${FLAGS_debug}" = "${FLAGS_TRUE}" ] || return
+	echo "DEBUG: $@" >&2
+}
+
+main() 
+{
+	# source  shflags library
+	. "$SLURMBANK_DIR/shflags"
+
+	# define some variables
+	debug "define some variables"
+	DEFINE_boolean 'debug' false 'enable debug mode' 'd'
+	DEFINE_string 'account' 'null' 'specify a slurm account' 'a'
+	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
+	DEFINE_integer 'time' '0' 'specify time in hours' 't'
+
+	# parse the command line
+	debug "parse command line"
+	FLAGS_PARENT="sdeposit"
+	FLAGS "$@" || exit $?
+	eval set -- "${FLAGS_ARGV}"
+
+	debug "check if cluster is specified"
+	[ ${FLAGS_cluster} = 'null' ] && die "${FLAGS_cluster}" "is not an cluster, no cluster specified"
+
+	debug "check if account is specified"
+	[ ${FLAGS_account} = 'null' ] && die "${FLAGS_account}" "is not an account, no account specified"
+
+	debug "${FLAGS_account} is the account to be deposited"
+	debug "$((${FLAGS_time} * 60 ))mins to be deposited"
+
+
+	# the balance account - this could be re-worked in a more clever way and check for exitcodes
+	BALANCE=`$SACCTMGR -np list associations cluster=${FLAGS_cluster} format=account,GrpCPUMins account=${FLAGS_account} | head -1 | awk -F'|' '{print $2}'` 
+	debug "${BALANCE}mins is the balance of ${FLAGS_account} on ${FLAGS_cluster}"
+	
+	# new balance is the old balance +/- a delta
+	NEW_BALANCE=$((${BALANCE} + (${FLAGS_time} * 60)))
+	debug "Updating account with the following (${FLAGS_time}hrs * 60) + ${BALANCE}mins = ${NEW_BALANCE} mins"
+	$SACCTMGR -i modify account account=${FLAGS_account} set GrpCPUMins=${NEW_BALANCE} where cluster=${FLAGS_cluster} 
+}
+
+main "$@"
