@@ -13,7 +13,6 @@
 # 
 
 # TODO:
-# - fix clustername (chuck currently hardcoded) - maybe find it from scontrol ?
 # - have option to run for multiple/all clusters
 # - re-write using SLURM-Perl API
 
@@ -27,6 +26,7 @@ my %acc_usage = ();
 my %user_usage = ();
 my $thisuser = (getpwuid($<))[0];	# who's running the script
 my $showallusers = 0;
+my $clustername = "";
 my ($account, $user, $rawusage, $prev_acc);
 
 
@@ -72,13 +72,32 @@ if (defined($opts{a})) {
 
 #####################################################################
 # start
+# get the local clustername
+#####################################################################
+
+open (SCONTROL, 'scontrol show config |')
+	or die "$0: Unable to run scontrol: $!\n";
+
+while (<SCONTROL>) {
+	if (/^ClusterName\s*=\s*(\S+)/) {
+		$clustername = $1;
+	}
+}
+
+close(SCONTROL);
+
+if ($clustername eq "") {
+	die "$0: Unable to determine local cluster name via scontrol. Exiting..\n";
+}
+
+
+#####################################################################
 # run sacctmgr to find all Account limits from the list of 
 # Assocations
 #####################################################################
 
-# FIXME: cluster name(s) !!
-open (SACCTMGR, 'sacctmgr list association cluster=chuck format="Account,GrpCPUMins"' .
-		' -p -n |')
+open (SACCTMGR, "sacctmgr list association cluster=$clustername format='Account,GrpCPUMins'" .
+		" -p -n |")
 	or die "$0: Unable to run sacctmgr: $!\n";
 
 # GrpCPUMins are not in 'sshare'
@@ -99,7 +118,7 @@ close(SACCTMGR);
 #####################################################################
 
 if ((scalar keys %acc_limits) == 0) {
-	die "Unable to find any GrpCPUMins set on Accounts. Exiting..\n";
+	die "$0: Unable to find any GrpCPUMins set on Accounts via sacctmgr. Exiting..\n";
 }
 
 
