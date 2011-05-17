@@ -5,12 +5,28 @@ BINS=sbalance sdeposit
 
 all: build
 
-build:
+build: docs
 	@test -f bin/shflags || (echo "Run 'git submodule init && git submodule update' first." ; exit 1 )
 
 	for man in $(MANS); do \
 		./mdwn2man $$man 1 doc/$$man.mdwn > $$man.1; \
 	done
+
+# If ikiwiki is available, build static html docs suitable for being
+# shipped in the software package.
+ifeq ($(shell which ikiwiki),)
+IKIWIKI=@echo "** ikiwiki not found, skipping building docs" >&2; true
+else
+IKIWIKI=ikiwiki
+endif
+
+docs:
+	$(IKIWIKI) doc html -v --wikiname slurm-bank --plugin=goodstuff \
+		--no-usedirs --disable-plugin=openid --plugin=sidebar \
+		--underlaydir=/dev/null --disable-plugin=shortcut \
+		--disable-plugin=smiley \
+		--plugin=comments --set comments_pagespec="*" \
+		--exclude='news/.*'
 
 install: build
 	install -d $(DESTDIR)$(PREFIX)/bin
@@ -28,3 +44,4 @@ clean:
 	for man in $(MANS); do \
                 rm -f $$man.1; \
         done
+	rm -rf html
