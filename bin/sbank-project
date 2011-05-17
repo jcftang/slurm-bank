@@ -1,0 +1,63 @@
+usage() 
+{
+	echo "usage: sbank project create -c CLUSTER -a ACCOUNT"
+	echo "       sbank project delete -c CLUSTER -a ACCOUNT"
+}
+
+parse_args() {
+        # parse options
+        FLAGS "$@" || exit $?
+        eval set -- "${FLAGS_ARGV}"
+}
+
+cmd_default() 
+{
+	usage
+}
+
+cmd_create()
+{
+	# define some variables
+	debug "define some variables"
+	DEFINE_string 'account' 'null' 'specify a slurm account' 'a'
+	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	debug "check if cluster is specified"
+	[ ${FLAGS_cluster} = 'null' ] && die "${FLAGS_cluster}" "is not an cluster, no cluster specified"
+
+	debug "check if account is specified"
+	[ ${FLAGS_account} = 'null' ] && die "${FLAGS_account}" "is not an account, no account specified"
+
+	debug "creating account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster}"
+	$SACCTMGR add account ${FLAGS_account} cluster=${FLAGS_cluster} parent=root
+}
+
+cmd_delete()
+{
+	# define some variables
+	debug "define some variables"
+	DEFINE_string 'account' 'null' 'specify a slurm account' 'a'
+	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	debug "check if cluster is specified"
+	[ ${FLAGS_cluster} = 'null' ] && die "${FLAGS_cluster}" "is not an cluster, no cluster specified"
+
+	debug "check if account is specified"
+	[ ${FLAGS_account} = 'null' ] && die "${FLAGS_account}" "is not an account, no account specified"
+
+	debug "creating account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster}"
+	$SACCTMGR delete account ${FLAGS_account} cluster=${FLAGS_cluster} parent=root
+}
+cmd_help()
+{
+	usage
+	exit 0
+}

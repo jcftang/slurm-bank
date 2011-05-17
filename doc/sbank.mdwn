@@ -1,0 +1,28 @@
+# NAME
+
+sbank - slurm bank administrator command
+
+# SYNOPSIS
+
+sbank <subcommand> [OPTION]...
+
+# DESCRIPTION
+
+Top level command which wraps a bunch of subcommands for administrating
+a slurmdbd where fairshare has been turned off.
+
+* project
+
+  Create and delete projects in a defined way
+
+* user
+
+  Create users in a defined way
+
+# SEE ALSO
+
+* [[sdeposit]](1)
+
+# AUTHOR
+
+Jimmy Tang <jtang@tchpc.tcd.ie>

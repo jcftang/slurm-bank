@@ -1,0 +1,97 @@
+#!/bin/sh
+
+# somewhat emulate GOLD's gdeposit account
+#
+# Requires 'sacctmgr' 
+
+export SLURMBANK_DIR=$(dirname "$0")
+SACCTMGR_BIN=sacctmgr
+SACCTMGR_OPT=
+SACCTMGR="$SACCTMGR_BIN $SACCTMGR_OPT "
+
+usage() 
+{
+	echo "usage: sbank <command>"
+	echo
+	echo "Available subcommands are:"
+	echo "    project    Manage projects and accounts"
+	echo "    user       Manage user associations" 
+	echo 
+	echo "Try 'sbank <subcommand> help' for details."
+}
+
+die()
+{
+	[ $# -gt 0 ] && echo "error: $@" >&2
+	flags_help
+	exit 1
+}
+
+
+log()
+{
+	echo "log: $@" >&2
+}
+
+
+debug()
+{
+	[ "${FLAGS_debug}" = "${FLAGS_TRUE}" ] || return
+	echo "DEBUG: $@" >&2
+}
+
+main() 
+{
+	# source  shflags library
+	. "$SLURMBANK_DIR/shflags"
+
+	# This environmental variable fixes non-POSIX getopt style argument
+        # parsing, effectively breaking git-flow subcommand parsing on several
+        # Linux platforms.
+	export POSIXLY_CORRECT=1
+
+	if [ $# -lt 1 ]; then
+                usage
+                exit 1
+        fi
+
+	# define some variables
+	debug "define some variables"
+	DEFINE_boolean 'debug' false 'enable debug mode' 'd'
+
+	# parse the command line
+	debug "parse command line"
+	FLAGS_PARENT="sbank"
+	FLAGS "$@" || exit $?
+	eval set -- "${FLAGS_ARGV}"
+
+	# sanity checks
+        SUBCOMMAND="$1"; shift
+
+	if [ ! -e "$SLURMBANK_DIR/sbank-$SUBCOMMAND" ]; then
+		usage
+		exit 1
+	fi
+
+	# run command
+	. $SLURMBANK_DIR/sbank-$SUBCOMMAND
+	FLAGS_PARENT="sbank $SUBCOMMAND"
+	
+	# test if the first argument is a flag (i.e. starts with '-')
+	# in that case, we interpret this arg as a flag for the default
+	# command
+	SUBACTION="default"
+	if [ "$1" != "" ] && ! echo "$1" | grep -q "^-"; then
+		SUBACTION="$1"; shift
+	fi
+	if ! type "cmd_$SUBACTION" >/dev/null 2>&1; then
+		warn "Unknown subcommand: '$SUBACTION'"
+		usage
+		exit 1
+	fi
+
+	# run the specified action
+	cmd_$SUBACTION "$@"
+}
+
+main "$@"
