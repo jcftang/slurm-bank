@@ -50,7 +50,8 @@ be the case).
 # Missing components
 
 * Helper script to add/remove hours from a given account (short of
-  manually doing it by hand and doing the sums).
+  manually doing it by hand and doing the sums). (This is somewhat
+  done as sdeposit)
 
 * And to add/remove users from an Account.
 
