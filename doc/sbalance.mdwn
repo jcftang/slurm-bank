@@ -33,11 +33,6 @@ account.
   display display all accounts (defaults to all accounts of the
   current user; implies '-u')
 
-
-
-
-# FILES
-
 # EXAMPLES
 
 Show your own balance

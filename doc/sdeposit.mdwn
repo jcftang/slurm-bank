@@ -34,8 +34,6 @@ values.
   if you wish to deduct hours from the account. This value must be an
   integer value.
 
-# FILES
-
 # EXAMPLES
 
 Deposit '1000000' hrs to account 'tcd_10_00049' on the cluster chuck

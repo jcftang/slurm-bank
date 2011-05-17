@@ -1,12 +1,12 @@
-# Motivation
+## Motivation
 
 To replace [slurm][] and [maui][] combination with just slurm.
 
-# Design
+## Design
 
 The [[design]] document.
 
-# Documentation
+## Documentation
 
 * [[sbalance]]
 * [[sdeposit]]
