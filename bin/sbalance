@@ -77,19 +77,30 @@ if (defined($opts{a})) {
 #####################################################################
 
 # FIXME: cluster name(s) !!
-open (SACCTMGR, 'sacctmgr list association cluster=chuck format="Cluster,Account,User,GrpCPUMins"' .
-		' -p -n | awk -F"|" \'{if ($4 != "") print $2 " " $4}\' |')
+open (SACCTMGR, 'sacctmgr list association cluster=chuck format="Account,GrpCPUMins"' .
+		' -p -n |')
 	or die "$0: Unable to run sacctmgr: $!\n";
 
 # GrpCPUMins are not in 'sshare'
 while (<SACCTMGR>) {
-	# format is "acct_string nnnn" where nnnn is the number of GrpCPUMins allocated
-	if (/^(\S+)\s+(\d+)$/) {
-		$acc_limits{"\U$1"} = sprintf("%.0f", $2);
+	# format is "acct_string|nnnn|" where nnnn is the number of GrpCPUMins allocated
+	if (/^([^|]+)\|([^|]*)/) {
+		if ($2 ne "") {
+			$acc_limits{"\U$1"} = sprintf("%.0f", $2);
+		}
 	}
 }
 
 close(SACCTMGR);
+
+
+#####################################################################
+# quick sanity check - did we find any GrpCPUMins ?
+#####################################################################
+
+if ((scalar keys %acc_limits) == 0) {
+	die "Unable to find any GrpCPUMins set on Accounts. Exiting..\n";
+}
 
 
 #####################################################################
