@@ -2,7 +2,12 @@
 
 # Emulate Gold's 'mybalance' script for SLURM
 # 
-# Assumes Enforced Limits, with GrpCPUMins set on Accounts
+# Assumes Enforced Limits, with GrpCPUMins set on Accounts (not users)
+# 
+# Specifically, the following must be set in slurm.conf:
+#     AccountingStorageEnforce=limits
+#     PriorityDecayHalfLife=0
+#     PriorityUsageResetPeriod=NONE
 # 
 # Requires 'sacctmgr' and 'sshare'
 # 
@@ -33,6 +38,13 @@ sub usage() {
         print "$0 [-h] [-a]\n";
 	print "\t-h:\tshow this help message\n";
 	die   "\t-a:\tshow all users in the account\n";
+}
+
+# format minutes as hours, with thousands comma separator
+sub fmt_mins_as_hrs( $ ) {
+	my $n = shift;
+
+	return thous(sprintf("%.0f", $n/60));
 }
 
 # add commas
@@ -147,10 +159,10 @@ if ($showallusers) {
 			}
 
 			printf "%-10s %11s | %16s %11s | %13s %11s\n",
-				$user, thous(sprintf("%.0f", $rawusage/60)),
-				$account, thous($acc_usage{$account}),
-				thous($acc_limits{$account}),
-				thous($acc_limits{$account} - $acc_usage{$account});
+				$user, fmt_mins_as_hrs(sprintf("%.0f", $rawusage/60)),
+				$account, fmt_mins_as_hrs($acc_usage{$account}),
+				fmt_mins_as_hrs($acc_limits{$account}),
+				fmt_mins_as_hrs($acc_limits{$account} - $acc_usage{$account});
 		}
 	}
 
@@ -181,17 +193,17 @@ if ($showallusers) {
 
 
 	# display formatted output
-	printf "%-10s %11s | %16s %11s | %13s %11s (CPU mins)\n",
+	printf "%-10s %11s | %16s %11s | %13s %11s (CPU hrs)\n",
 		"User", "Usage", "Account", "Usage", "Account Limit", "Available";
 	printf "%10s %11s + %16s %11s + %13s %11s\n",
 		"-"x10, "-"x11, "-"x16, "-"x11, "-"x13, "-"x11;
 
 	foreach my $acc (sort keys %user_usage) {
 		printf "%-10s %11s | %16s %11s | %13s %11s\n",
-			$thisuser, thous($user_usage{$acc}),
-			$acc, thous($acc_usage{$acc}),
-			thous($acc_limits{$acc}),
-			thous($acc_limits{$acc} - $acc_usage{$acc});
+			$thisuser, fmt_mins_as_hrs($user_usage{$acc}),
+			$acc, fmt_mins_as_hrs($acc_usage{$acc}),
+			fmt_mins_as_hrs($acc_limits{$acc}),
+			fmt_mins_as_hrs($acc_limits{$acc} - $acc_usage{$acc});
 	}
 }
 
