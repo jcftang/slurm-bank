@@ -1,0 +1,49 @@
+# NAME
+
+sbalance - show slurm balance
+
+# SYNOPSIS
+
+sbalance [OPTION]...
+
+# DESCRIPTION
+
+show the balance of used and available hours to the user for a given
+account.
+
+* -h
+
+  show help message
+
+* -u
+
+  show all users in the account (defaults to just the current user)
+
+* -c
+
+  display per cluster 'clustername' (defaults to the local cluster)
+
+* -a
+
+  display per account 'accountname' (defaults to all accounts of the
+  current user; implies '-u')
+
+# FILES
+
+# EXAMPLES
+
+Show your own balance
+
+	sbalance
+
+Show the balance of all users
+
+	sbalance -u
+
+# SEE ALSO
+
+* [[sdeposit]](1)
+
+# AUTHOR
+
+Paddy Doyle <paddy@tchpc.tcd.ie>
