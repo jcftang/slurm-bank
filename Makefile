@@ -6,7 +6,7 @@ BINS=sbalance sdeposit sbank sbank-project sbank-user
 all: build
 
 build: docs
-	@test -f bin/shflags || (echo "Run 'git submodule init && git submodule update' first." ; exit 1 )
+	@test -f src/shflags || (echo "Run 'git submodule init && git submodule update' first." ; exit 1 )
 
 	for man in $(MANS); do \
 		./mdwn2man $$man 1 doc/$$man.mdwn > $$man.1; \
@@ -30,9 +30,9 @@ docs:
 
 install: build
 	install -d $(DESTDIR)$(PREFIX)/bin
-	install bin/shflags $(DESTDIR)$(PREFIX)/bin
+	install src/shflags $(DESTDIR)$(PREFIX)/bin
 	for bin in $(BINS); do \
-		install bin/$$bin $(DESTDIR)$(PREFIX)/bin; \
+		install src/$$bin $(DESTDIR)$(PREFIX)/bin; \
 	done
 
 	install -d $(DESTDIR)$(PREFIX)/share/man/man1
