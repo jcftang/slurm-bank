@@ -34,9 +34,9 @@ my ($account, $user, $rawusage, $prev_acc);
 #####################################################################
 sub usage() {
         print "Usage:\n";
-        print "$0 [-h] [-a]\n";
+        print "$0 [-h] [-u]\n";
 	print "\t-h:\tshow this help message\n";
-	die   "\t-a:\tshow all users in the account\n";
+	die   "\t-u:\tshow all users in the account\n";
 }
 
 # format minutes as hours, with thousands comma separator
@@ -58,13 +58,13 @@ sub thous( $ ) {
 # get options
 #####################################################################
 my %opts;
-getopts('hac:', \%opts) || usage();
+getopts('huc:', \%opts) || usage();
 
 if (defined($opts{h})) {
         usage();
 }
 
-if (defined($opts{a})) {
+if (defined($opts{u})) {
         $showallusers = 1;
 }
 
@@ -138,9 +138,10 @@ if ($showallusers) {
 	# show all users in only my Accounts
 
 	my @my_accs = ();
+	my $cluster_str = ($clustername ne "") ? "-M $clustername " : "";
 
 	# firstly grab the list of accounts that I'm a part of
-	open (SSHARE, "sshare -hp |") or die "$0: Unable to run sacctmgr: $!\n";
+	open (SSHARE, "sshare $cluster_str -hp |") or die "$0: Unable to run sacctmgr: $!\n";
 
 	while (<SSHARE>) {
 		# only show outputs for accounts we're part of
@@ -170,7 +171,7 @@ if ($showallusers) {
 
 
 	# now, display all users from just those accounts
-	open (SSHARE2, "sshare -aA " . (join ",",@my_accs) . " -hp 2>/dev/null |") or die "$0: Unable to run sacctmgr: $!\n";
+	open (SSHARE2, "sshare $cluster_str -aA " . (join ",",@my_accs) . " -hp 2>/dev/null |") or die "$0: Unable to run sacctmgr: $!\n";
 
 	$prev_acc = "";
 
@@ -218,7 +219,9 @@ if ($showallusers) {
 	# simple version:
 	# only show my usage in the Accounts
 
-	open (SSHARE, "sshare -hp |") or die "$0: Unable to run sacctmgr: $!\n";
+	my $cluster_str = ($clustername ne "") ? "-M $clustername " : "";
+
+	open (SSHARE, "sshare $cluster_str -hp |") or die "$0: Unable to run sacctmgr: $!\n";
 
 	while (<SSHARE>) {
 		# only show outputs for accounts we're part of
