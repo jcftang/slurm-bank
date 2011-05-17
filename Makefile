@@ -44,4 +44,6 @@ clean:
 	for man in $(MANS); do \
                 rm -f $$man.1; \
         done
-	rm -rf html
+	rm -rf html doc/.ikiwiki
+
+.PHONY: docs
