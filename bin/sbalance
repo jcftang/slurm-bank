@@ -26,6 +26,7 @@ my %user_usage = ();
 my $thisuser = (getpwuid($<))[0];	# who's running the script
 my $showallusers = 0;
 my $clustername = "";
+my $accountname = "";
 my ($account, $user, $rawusage, $prev_acc);
 
 
@@ -33,11 +34,12 @@ my ($account, $user, $rawusage, $prev_acc);
 # subroutines
 #####################################################################
 sub usage() {
-        print "Usage:\n";
-        print "$0 [-h] [-u] [-c clustername]\n";
+	print "Usage:\n";
+	print "$0 [-h] [-u] [-c clustername] [-a accountname]\n";
 	print "\t-h:\tshow this help message\n";
-	print "\t-c:\tdisplay per cluster 'clustername'\n";
-	die   "\t-u:\tshow all users in the account\n";
+	print "\t-c:\tdisplay per cluster 'clustername' (defaults to the local cluster)\n";
+	print "\t-a:\tdisplay per account 'accountname' (defaults to all accounts of the current user; implies '-u')\n";
+	die   "\t-u:\tshow all users in the account (defaults to just the current user)\n";
 }
 
 # format minutes as hours, with thousands comma separator
@@ -59,18 +61,22 @@ sub thous( $ ) {
 # get options
 #####################################################################
 my %opts;
-getopts('huc:', \%opts) || usage();
+getopts('huc:a:', \%opts) || usage();
 
 if (defined($opts{h})) {
-        usage();
+	usage();
 }
 
 if (defined($opts{u})) {
-        $showallusers = 1;
+	$showallusers = 1;
 }
 
 if (defined($opts{c})) {
-        $clustername = $opts{c};
+	$clustername = $opts{c};
+}
+
+if (defined($opts{a})) {
+	$accountname = $opts{a};
 }
 
 
@@ -134,12 +140,22 @@ if ((scalar keys %acc_limits) == 0) {
 # and secondly to dump all users in those accounts
 #####################################################################
 
-if ($showallusers) {
+if ($showallusers || $accountname ne "") {
 	# complex version:
 	# show all users in only my Accounts
 
 	my @my_accs = ();
 	my $cluster_str = ($clustername ne "") ? "-M $clustername " : "";
+
+	$account = "";	# init to a value to stop perl warnings
+
+	# only look to a specified account, rather than all
+	# note we still need to run the loop below, to gather the account usage
+	# values for all accounts
+	if ($accountname ne "") {
+		push @my_accs, $accountname;
+	}
+
 
 	# firstly grab the list of accounts that I'm a part of
 	open (SSHARE, "sshare $cluster_str -hp |") or die "$0: Unable to run sacctmgr: $!\n";
@@ -152,8 +168,12 @@ if ($showallusers) {
 			$rawusage     = $3;
 
 			if ($user ne "") {
-				# build up list of my accounts
-				push @my_accs, $account;
+				# a user field present means we're part of the account, so add it;
+				# unless we're only looking for a specific account
+				if ($accountname eq "") {
+					# build up list of my accounts
+					push @my_accs, $account;
+				}
 			} elsif (exists($acc_limits{$account})) {
 				# and store the account limits while we're here
 				$acc_usage{$account} = sprintf("%.0f", $rawusage/60);
