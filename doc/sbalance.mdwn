@@ -28,6 +28,14 @@ account.
   display per account 'accountname' (defaults to all accounts of the
   current user; implies '-u')
 
+* -A
+
+  display display all accounts (defaults to all accounts of the
+  current user; implies '-u')
+
+
+
+
 # FILES
 
 # EXAMPLES
@@ -36,9 +44,13 @@ Show your own balance
 
 	sbalance
 
-Show the balance of all users
+Show the balance of all users in your accounts
 
 	sbalance -u
+
+Show the balance of all accounts in the cluster
+
+	sbalance -A -c mycluster
 
 # SEE ALSO
 
