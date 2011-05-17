@@ -58,25 +58,20 @@ be the case).
 * Helper script to add/remove hours from a given account (short of
   manually doing it by hand and doing the sums). (This is somewhat
   done as [[sdeposit]])
-
-* And to add/remove users from an Account.
-
+* And to add/remove users from an Account. (see below with gchproject
+  idea).
 * Ability to *end* accounts at a given date, could associate accounts
   with overlapping reservations. We tried this but we can't set a
   *maint* reservation that is honoured by slurm. So this is a no go
   for now. One idea is to do it with an external database and some
   helper scripts (done via crontab or something similar).
-
     * Note that setting GrpCPUMins to 0 can be used to do this - to put
-      an end on the account.
-      
+      an end on the account.  
     * One idea is to do this offline with an external database and a
       handful of scripts.
-
 * This was mainly conceived as a Gold (bank) replacement, if we ditch maui,
   what other functionality will users miss? Have a 'showq' and 'checkjob'
   wrapper?
-
 * some additional commands/wrapper scripts to mimic GOLD
  * wrapper script for creating accounts (gmkproject like command),
    default behaviour should create accounts associated with a default
