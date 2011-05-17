@@ -34,8 +34,9 @@ my ($account, $user, $rawusage, $prev_acc);
 #####################################################################
 sub usage() {
         print "Usage:\n";
-        print "$0 [-h] [-u]\n";
+        print "$0 [-h] [-u] [-c clustername]\n";
 	print "\t-h:\tshow this help message\n";
+	print "\t-c:\tdisplay per cluster 'clustername'\n";
 	die   "\t-u:\tshow all users in the account\n";
 }
 
