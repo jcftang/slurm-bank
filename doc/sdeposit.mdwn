@@ -36,10 +36,16 @@ values.
 
 # EXAMPLES
 
-Deposit '1000000' hrs to account 'tcd_10_00049' on the cluster chuck
+Deposit '1000000' hours to account 'account-00049' on the cluster
+'mycluster'
 
-	sdeposit -c chuck -a tcd_10_00049 -t 1000000
+    sdeposit -c 'mycluster' -a account-00049 -t 1000000
 
+Remove '1000' hours from an account 'account-0001' on the cluster
+'mycluster'
+
+    sdeposit -c 'mycluster' -a account-0001 -t -1000
+    
 # SEE ALSO
 
 * [[sbalance]](1)
