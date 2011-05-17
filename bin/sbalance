@@ -166,8 +166,6 @@ if ($showallusers) {
 	}
 
 
-print "sshare $account_str $cluster_str -hp\n";
-
 	# firstly grab the list of accounts that I'm a part of
 	open (SSHARE, "sshare $account_str $cluster_str -hp |") or die "$0: Unable to run sacctmgr: $!\n";
 
