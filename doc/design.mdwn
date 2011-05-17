@@ -77,6 +77,15 @@ be the case).
   what other functionality will users miss? Have a 'showq' and 'checkjob'
   wrapper?
 
+* some additional commands/wrapper scripts to mimic GOLD
+ * wrapper script for creating accounts (gmkproject like command),
+   default behaviour should create accounts associated with a default
+   root account and allow the user to define a parent account if
+   necessary.
+ * wrapper script for adding/deleting users from (gchproject like command)
+ * wrapper script for making users (gmkuser), do we need to create
+   users in slurmdbd before associating users with projects/accounts.
+
 # TODO for the script
 
 * Re-write using Slurm-Perl API
