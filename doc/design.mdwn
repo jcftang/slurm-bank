@@ -42,6 +42,11 @@ A consequence of this is that it will kill jobs mid-run (say if another
 user in the Account uses up all the time first) - again, probably not
 a bad thing.
 
+## Time period
+
+The tools work with hours as the time unit (conversions are done where
+needed).
+
 ## Note
 
 It *seems* that the slurmctld must be restarted sometimes - for new
@@ -72,22 +77,6 @@ be the case).
 # TODO for the script
 
 * Re-write using Slurm-Perl API
-
-* Have a flag to report in hours, rather than minutes
-
-* Remove awk/grep calls - do the regex/filtering in Perl
-
-* Better checking of what can go wrong:
-
-    * if no GrpCPUMins is set on an account
-
-    * no assocations for sshare to report (e.g. if haven't restarted slurmctld)
-
-    * wrong clustername
-
-    * user who's running the script not set up in the bank yet
-
-* Some kind of 'admin' option to show a cumulative total of used hours.
 
 # Tested on
 
