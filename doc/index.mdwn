@@ -1,6 +1,14 @@
 ## Motivation
 
-To replace [slurm][] and [maui][] combination with just slurm.
+To replace [slurm][], [GOLD][] and [maui][] combination with just
+slurm.
+
+* Having just slurm without maui means there are less things to go
+  wrong
+* Overall performance for scheduling and launching jobs is much better
+  with just slurm
+* GOLD is overly complicated and we don't need many of the features
+  from GOLD
 
 ## Design
 
@@ -13,3 +21,4 @@ The [[design]] document.
 
 [slurm]: https://computing.llnl.gov/linux/slurm/
 [maui]: http://www.clusterresources.com/products/maui/
+[GOLD]: http://www.clusterresources.com/pages/products/gold/

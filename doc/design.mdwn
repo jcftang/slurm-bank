@@ -21,9 +21,10 @@ reset of the usage that is recorded in slurmdbd.
     PriorityUsageResetPeriod=NONE
 
 What is also required is a pretty good estimate of the total available
-hours that you have on your cluster that you can allocate to accounts.
+cpu hours that you have on your cluster that you can allocate to
+accounts.
 
-Users will need to learn how to use accounts (nothing new here)
+Users will need to learn how to use accounts (nothing new here).
 
 sacctmgr and sshare is required and must be working.
 
