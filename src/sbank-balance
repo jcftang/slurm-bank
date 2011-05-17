@@ -1,0 +1,44 @@
+usage() 
+{
+	echo "usage: sbank balance [flags] args"
+	echo "    -c display per cluster 'clustername' (defaults to the local cluster)"
+	echo "    -a display per account 'accountname' (defaults to all accounts of the current user; implies '
+-u')"
+	echo "    -u show all users in the account (defaults to just the current user)"
+	echo "    -A display all accounts (defaults to all accounts of the current user; implies '-u')"
+}
+
+parse_args() {
+        # parse options
+        FLAGS "$@" || exit $?
+        eval set -- "${FLAGS_ARGV}"
+}
+
+cmd_default() 
+{
+	usage
+}
+
+cmd_balance()
+{
+	# define some variables
+	debug "define some variables"
+	DEFINE_string 'account' 'null' 'specify a slurm account' 'a'
+	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
+	DEFINE_string 'user' 'null' 'specify a user' 'u'
+	DEFINE_boolean 'all' false 'show all users in the account' 'A'
+
+	FLAGS_PARENT="sbank balance"
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	# switch statement to create command line options to call perl script?
+}
+
+cmd_help()
+{
+	usage
+	exit 0
+}
