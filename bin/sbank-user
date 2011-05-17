@@ -23,6 +23,8 @@ cmd_create()
 	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
 	DEFINE_string 'user' 'null' 'specify a user' 'u'
 
+	FLAGS_PARENT="sbank user create"	
+
 	# parse the command line
 	debug "parse command line"
 	parse_args "$@"

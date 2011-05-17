@@ -22,6 +22,8 @@ cmd_create()
 	DEFINE_string 'account' 'null' 'specify a slurm account' 'a'
 	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
 
+	FLAGS_PARENT="sbank project create"
+
 	# parse the command line
 	debug "parse command line"
 	parse_args "$@"
@@ -42,6 +44,8 @@ cmd_delete()
 	debug "define some variables"
 	DEFINE_string 'account' 'null' 'specify a slurm account' 'a'
 	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
+
+	FLAGS_PARENT="sbank project delete"
 
 	# parse the command line
 	debug "parse command line"
