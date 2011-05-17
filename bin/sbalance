@@ -25,6 +25,7 @@ my %acc_usage = ();
 my %user_usage = ();
 my $thisuser = (getpwuid($<))[0];	# who's running the script
 my $showallusers = 0;
+my $showallaccs = 0;
 my $clustername = "";
 my $accountname = "";
 my ($account, $user, $rawusage, $prev_acc);
@@ -35,10 +36,11 @@ my ($account, $user, $rawusage, $prev_acc);
 #####################################################################
 sub usage() {
 	print "Usage:\n";
-	print "$0 [-h] [-u] [-c clustername] [-a accountname]\n";
+	print "$0 [-h] [-u] [-c clustername] [-a accountname] [-A]\n";
 	print "\t-h:\tshow this help message\n";
 	print "\t-c:\tdisplay per cluster 'clustername' (defaults to the local cluster)\n";
 	print "\t-a:\tdisplay per account 'accountname' (defaults to all accounts of the current user; implies '-u')\n";
+	print "\t-A:\tdisplay all accounts (defaults to all accounts of the current user; implies '-u')\n";
 	die   "\t-u:\tshow all users in the account (defaults to just the current user)\n";
 }
 
@@ -61,7 +63,7 @@ sub thous( $ ) {
 # get options
 #####################################################################
 my %opts;
-getopts('huc:a:', \%opts) || usage();
+getopts('huc:a:A', \%opts) || usage();
 
 if (defined($opts{h})) {
 	usage();
@@ -77,6 +79,12 @@ if (defined($opts{c})) {
 
 if (defined($opts{a})) {
 	$accountname = $opts{a};
+	$showallusers = 1;	# implied
+}
+
+if (defined($opts{A})) {
+	$showallaccs = 1;
+	$showallusers = 1;	# implied
 }
 
 
@@ -140,12 +148,13 @@ if ((scalar keys %acc_limits) == 0) {
 # and secondly to dump all users in those accounts
 #####################################################################
 
-if ($showallusers || $accountname ne "") {
+if ($showallusers) {
 	# complex version:
 	# show all users in only my Accounts
 
 	my @my_accs = ();
 	my $cluster_str = ($clustername ne "") ? "-M $clustername " : "";
+	my $account_str = ($showallaccs) ? "-a " : "";
 
 	$account = "";	# init to a value to stop perl warnings
 
@@ -157,8 +166,10 @@ if ($showallusers || $accountname ne "") {
 	}
 
 
+print "sshare $account_str $cluster_str -hp\n";
+
 	# firstly grab the list of accounts that I'm a part of
-	open (SSHARE, "sshare $cluster_str -hp |") or die "$0: Unable to run sacctmgr: $!\n";
+	open (SSHARE, "sshare $account_str $cluster_str -hp |") or die "$0: Unable to run sacctmgr: $!\n";
 
 	while (<SSHARE>) {
 		# only show outputs for accounts we're part of
