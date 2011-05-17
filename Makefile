@@ -14,6 +14,7 @@ build:
 
 install: build
 	install -d $(DESTDIR)$(PREFIX)/bin
+	install bin/shflags $(DESTDIR)$(PREFIX)/bin
 	for bin in $(BINS); do \
 		install bin/$$bin $(DESTDIR)$(PREFIX)/bin; \
 	done
