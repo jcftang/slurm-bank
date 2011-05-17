@@ -13,7 +13,6 @@
 # 
 
 # TODO:
-# - have option to run for multiple/all clusters
 # - re-write using SLURM-Perl API
 
 
@@ -59,7 +58,7 @@ sub thous( $ ) {
 # get options
 #####################################################################
 my %opts;
-getopts('ha', \%opts) || usage();
+getopts('hac:', \%opts) || usage();
 
 if (defined($opts{h})) {
         usage();
@@ -69,25 +68,31 @@ if (defined($opts{a})) {
         $showallusers = 1;
 }
 
+if (defined($opts{c})) {
+        $clustername = $opts{c};
+}
+
 
 #####################################################################
 # start
-# get the local clustername
+# get the local clustername, or use the given clustername
 #####################################################################
 
-open (SCONTROL, 'scontrol show config |')
-	or die "$0: Unable to run scontrol: $!\n";
-
-while (<SCONTROL>) {
-	if (/^ClusterName\s*=\s*(\S+)/) {
-		$clustername = $1;
-	}
-}
-
-close(SCONTROL);
-
 if ($clustername eq "") {
-	die "$0: Unable to determine local cluster name via scontrol. Exiting..\n";
+	open (SCONTROL, 'scontrol show config |')
+		or die "$0: Unable to run scontrol: $!\n";
+
+	while (<SCONTROL>) {
+		if (/^ClusterName\s*=\s*(\S+)/) {
+			$clustername = $1;
+		}
+	}
+
+	close(SCONTROL);
+
+	if ($clustername eq "") {
+		die "$0: Unable to determine local cluster name via scontrol. Exiting..\n";
+	}
 }
 
 
@@ -118,7 +123,7 @@ close(SACCTMGR);
 #####################################################################
 
 if ((scalar keys %acc_limits) == 0) {
-	die "$0: Unable to find any GrpCPUMins set on Accounts via sacctmgr. Exiting..\n";
+	die "$0: Unable to find any GrpCPUMins set on Accounts in cluster '$clustername' via sacctmgr. Exiting..\n";
 }
 
 
