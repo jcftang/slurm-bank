@@ -69,6 +69,9 @@ be the case).
 
     * Note that setting GrpCPUMins to 0 can be used to do this - to put
       an end on the account.
+      
+    * One idea is to do this offline with an external database and a
+      handful of scripts.
 
 * This was mainly conceived as a Gold (bank) replacement, if we ditch maui,
   what other functionality will users miss? Have a 'showq' and 'checkjob'

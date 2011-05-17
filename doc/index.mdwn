@@ -14,6 +14,18 @@ slurm.
 
 The [[design]] document.
 
+## Deciding on a policy
+
+* Figure out how many CPU hours are available on the cluster.
+* Decide on how many projects to support and how many hours toallocate
+  to each project.
+* Decide on how much to over-subscribe.
+* Create accounts for each project or group, perhaps setup a hierachy
+  of projects.
+* Allocate hours to the projects/groups.
+* Review projects and usage.
+* Go to start.
+
 ## Documentation
 
 * [[sbalance]]
