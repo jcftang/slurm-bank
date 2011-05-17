@@ -2,8 +2,8 @@
 
 Based on discussions from 
 
-* http://groups.google.com/group/slurm-devel/browse_frm/thread/1c8805fb274c108f#
-* http://groups.google.com/group/slurm-devel/browse_thread/thread/b06f3985cc7504b2?tvc=2
+* <http://groups.google.com/group/slurm-devel/browse_frm/thread/1c8805fb274c108f#>
+* <http://groups.google.com/group/slurm-devel/browse_thread/thread/b06f3985cc7504b2?tvc=2>
 
 # Requirements
 
@@ -51,7 +51,7 @@ be the case).
 
 * Helper script to add/remove hours from a given account (short of
   manually doing it by hand and doing the sums). (This is somewhat
-  done as sdeposit)
+  done as [[sdeposit]])
 
 * And to add/remove users from an Account.
 

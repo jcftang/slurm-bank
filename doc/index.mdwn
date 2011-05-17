@@ -1,3 +1,7 @@
+# Motivation
+
+To replace [slurm][] and [maui][] combination with just slurm.
+
 # Design
 
 The [[design]] document.
@@ -6,3 +10,6 @@ The [[design]] document.
 
 * [[sbalance]]
 * [[sdeposit]]
+
+[slurm]: https://computing.llnl.gov/linux/slurm/
+[maui]: http://www.clusterresources.com/products/maui/
