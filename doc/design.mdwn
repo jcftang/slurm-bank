@@ -76,10 +76,14 @@ be the case).
  * wrapper script for creating accounts (gmkproject like command),
    default behaviour should create accounts associated with a default
    root account and allow the user to define a parent account if
-   necessary.
- * wrapper script for adding/deleting users from (gchproject like command)
+   necessary. Need to define how projects should be created deleted,
+   do you want a structure/hierachy in the accounting db?
+   [[sbank-project]]
+ * wrapper script for adding/deleting users from (gchproject like
+   command) [[sbank-user]] or [[sbank-project]]
  * wrapper script for making users (gmkuser), do we need to create
-   users in slurmdbd before associating users with projects/accounts.
+   users in slurmdbd before associating users with
+   projects/accounts. [[sbank-user]]
 
 # TODO for the script
 
