@@ -30,11 +30,12 @@ docs:
 
 install: build
 	install -d $(DESTDIR)$(PREFIX)/bin
-	install src/shflags $(DESTDIR)$(PREFIX)/bin
+	install -m644 src/shflags $(DESTDIR)$(PREFIX)/bin
 	for bin in $(BINS); do \
-		install src/$$bin $(DESTDIR)$(PREFIX)/bin; \
+		install -m 644 src/$$bin $(DESTDIR)$(PREFIX)/bin; \
 	done
-	install src/sbank-common $(DESTDIR)$(PREFIX)/bin;
+	install -m 644 src/sbank-common $(DESTDIR)$(PREFIX)/bin;
+	chmod +x $(DESTDIR)$(PREFIX)/bin/sbank
 
 	install -d $(DESTDIR)$(PREFIX)/share/man/man1
 	for man in $(MANS); do \
