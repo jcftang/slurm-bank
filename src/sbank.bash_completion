@@ -1,0 +1,9 @@
+_sbank()
+{
+	local cur;
+	COMPREPLY=();
+	cur=${COMP_WORDS[COMP_CWORD]};
+	COMPREPLY=( $( compgen -W 'balance deposit project user' -- $cur ) );
+}
+
+complete -F _sbank sbank
