@@ -12,27 +12,47 @@ slurm.
 
 ## Design
 
-The [[design]] document.
+The [[design]] document. So far we have discovered that slurm already
+has much of the needed functionality required for "banking". Much of
+the [[sbank]] commands are just wrapper scripts to already existing
+slurm commands. One of the problems with banking is being consistent,
+the sbank wrapper scripts try to provide a workflow to provide a GOLD
+like banking system with slurm.
 
 ## Deciding on a policy
 
 * Figure out how many CPU hours are available on the cluster.
-* Decide on how many projects to support and how many hours toallocate
+* Decide on how many projects to support and how many hours to allocate
   to each project.
 * Decide on how much to over-subscribe.
 * Create accounts for each project or group, perhaps setup a hierachy
   of projects.
 * Allocate hours to the projects/groups.
-* Review projects and usage.
+* Review projects and usage. Decide if QOS or fairshare is needed or not
 * Go to start.
 
 ## Documentation
 
+### Perl scripts
+
 * [[sbalance]]
+
+### Shell scripts
+
 * [[sbank]]
 * [[sbank-balance]]
 * [[sbank-project]]
 * [[sbank-deposit]]
+
+### Experimental scripts
+
+* [[sbank-user]]
+* [[sbank-project]]
+
+### Proposed scripts
+
+* [[sbank-report]] -- this might be better provided with the
+[[sbank-balance]] script.
 
 [slurm]: https://computing.llnl.gov/linux/slurm/
 [maui]: http://www.clusterresources.com/products/maui/
