@@ -2,6 +2,7 @@ usage()
 {
 	echo "usage: sbank user create -c CLUSTER -a ACCOUNT -u USER"
 	#echo "       sbank user delete -c CLUSTER -a ACCOUNT -u USER"
+	echo "       sbank user list -c CLUSTER -a ACCOUNT -u USER"
 }
 
 parse_args() {
@@ -41,6 +42,28 @@ cmd_create()
 	debug "creating account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster}"
         $SACCTMGR add account ${FLAGS_account} cluster=${FLAGS_cluster} parent=root
 }
+
+cmd_list()
+{
+	# define some variables
+	debug "define some variables"
+	DEFINE_string 'account' '' 'specify a slurm account' 'a'
+	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
+	DEFINE_string 'user' '' 'specify a user' 'u'
+
+	FLAGS_PARENT="sbank user list"	
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	[ "${FLAGS_cluster}" != "" ]  && opts="$opts cluster=${FLAGS_cluster}"
+	[ "${FLAGS_account}" != "" ]  && opts="$opts DefaultAccount=${FLAGS_account}"
+	[ "${FLAGS_user}" != "" ]  && opts="$opts names=${FLAGS_user}"
+
+	$SACCTMGR list users $opts
+}
+
 
 cmd_help()
 {

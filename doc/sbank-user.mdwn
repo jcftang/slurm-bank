@@ -1,10 +1,10 @@
 # NAME
 
-sbank-project - Create, delete or list a slurm account
+sbank-user - Create, delete or list a slurm user
 
 # SYNOPSIS
 
-sbank project <subcommand> [OPTION]...
+sbank user <subcommand> [OPTION]...
 
 # DESCRIPTION
 
@@ -32,13 +32,17 @@ EXPERIMENTAL - creating and deleting accounts are experimental.
 
 * list
 
-  List projects/accounts in slurmdbd
+  List users in slurmdbd
 
 # EXAMPLES
 
-To list all the projects/accounts in 'mycluster'
+To list all users in 'mycluster'
 
-   sbank project list -c mycluster
+   sbank user list -c mycluster
+
+To list all users in 'account0001'
+
+   sbank user list -a account0001
  
 # SEE ALSO
 
