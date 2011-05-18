@@ -1,0 +1,58 @@
+# NAME
+
+sbank balance - show slurm balance
+
+# SYNOPSIS
+
+sbank balance [OPTION]...
+
+# DESCRIPTION
+
+Show the balance of used and available hours to the user for a given
+account. This is just a wrapper to the sbalance command, and is provided
+to give the user/admin a consistent interface.
+
+* -h
+
+  show help message
+
+* -u
+
+  show all users in the account (defaults to just the current user)
+
+* -c
+
+  display per cluster 'clustername' (defaults to the local cluster)
+
+* -a
+
+  display per account 'accountname' (defaults to all accounts of the
+  current user; implies '-u')
+
+* -A
+
+  display display all accounts (defaults to all accounts of the
+  current user; implies '-u')
+
+# EXAMPLES
+
+Show your own balance
+
+	sbank balance
+
+Show the balance of all users in your accounts
+
+	sbank balance -u
+
+Show the balance of all accounts in the cluster
+
+	sbank balance -A -c mycluster
+
+# SEE ALSO
+
+* [[sbank-deposit]](1)
+* [[sbalance]](1)
+
+# AUTHOR
+
+Jimmy Tang <jtang@tchpc.tcd.ie>

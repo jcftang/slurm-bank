@@ -16,21 +16,31 @@ parse_args() {
 
 cmd_default()
 {
+	local opts
+
 	# define some variables
 	debug "define some variables"
-	DEFINE_string 'account' 'null' 'specify a slurm account' 'a'
-	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
-	DEFINE_string 'user' 'null' 'specify a user' 'u'
+	DEFINE_string 'account' '' 'specify a slurm account' 'a'
+	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
+	DEFINE_string 'user' '' 'specify a user' 'u'
 	DEFINE_boolean 'all' false 'show all users in the account' 'A'
 
 	FLAGS_PARENT="sbank balance"
 
 	# parse the command line
 	debug "parse command line"
-	#parse_args "$@"
+	parse_args "$@"
 
-	# switch statement to create command line options to call perl script?
-	sbalance
+	# change behaviour of getopt to let perl program take args
+	unset POSIXLY_CORRECT
+
+
+	[ "${FLAGS_cluster}" != "" ]  && opts="$opts -c ${FLAGS_cluster}"
+	[ "${FLAGS_account}" != "" ]  && opts="$opts -a ${FLAGS_account}"
+	[ "${FLAGS_user}" != "" ]  && opts="$opts -u ${FLAGS_user}"
+	[ ${FLAGS_all} -eq ${FLAGS_TRUE} ] && opts="$opts -A"
+
+	sbalance $opts
 }
 
 cmd_help()

@@ -30,6 +30,7 @@ The [[design]] document.
 
 * [[sbalance]]
 * [[sbank]]
+* [[sbank-balance]]
 * [[sbank-project]]
 * [[sbank-deposit]]
 
