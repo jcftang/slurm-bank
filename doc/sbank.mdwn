@@ -20,9 +20,15 @@ a slurmdbd where fairshare has been turned off.
 
   Create users in a defined way
 
+* deposit
+
+  Add or remove hours from an account.
+
 # SEE ALSO
 
 * [[sbank-deposit]](1)
+* [[sbank-user]](1)
+* [[sbank-project]](1)
 
 # AUTHOR
 
