@@ -1,3 +1,7 @@
+## About
+
+SLURM Bank, a collection of wrapper scripts
+
 ## Motivation
 
 To replace [slurm][], [GOLD][] and [maui][] combination with just
