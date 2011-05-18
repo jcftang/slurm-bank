@@ -1,7 +1,7 @@
 Name:           slurm-bank
 Version:        1.0
 Release:        1%{?dist}
-Summary:        SLURM Bank, a collection of wrapper scripts
+Summary:        SLURM Bank, a collection of wrapper scripts to do banking
 
 Group:          System
 License:        TBD
@@ -33,7 +33,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc doc/*
+%doc doc/* AUTHORS README
 %{_bindir}/*
 %{_mandir}/*
 
