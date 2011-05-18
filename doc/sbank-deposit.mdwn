@@ -49,6 +49,7 @@ Remove '1000' hours from an account 'account-0001' on the cluster
 # SEE ALSO
 
 * [[sbalance]](1)
+* [[sbank]](1)
 * [[sbank-balance]](1)
 * [[sbank-project]](1)
 
