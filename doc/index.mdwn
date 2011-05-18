@@ -45,7 +45,6 @@ like banking system with slurm.
 
 * [[sbank]]
 * [[sbank-balance]]
-* [[sbank-project]]
 * [[sbank-deposit]]
 
 ### Experimental scripts
