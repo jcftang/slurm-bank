@@ -61,6 +61,25 @@ cmd_delete()
 	$SACCTMGR delete account ${FLAGS_account} cluster=${FLAGS_cluster} parent=root
 }
 
+cmd_list() {
+	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+
+	local SACCTMGR_EXTRA
+
+	FLAGS_PARENT="sbank project"
+	
+	debug "list accounts for all clusters"
+
+	[ "${FLAGS_cluster}" != "" ]  && SACCTMGR_EXTRA="cluster=${FLAGS_cluster}"
+
+	$SACCTMGR list associations format=cluster,account%30 ${SACCTMGR_EXTRA} | uniq
+}
+
 cmd_help()
 {
 	usage
