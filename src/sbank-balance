@@ -14,12 +14,7 @@ parse_args() {
         eval set -- "${FLAGS_ARGV}"
 }
 
-cmd_default() 
-{
-	usage
-}
-
-cmd_balance()
+cmd_default()
 {
 	# define some variables
 	debug "define some variables"
@@ -32,9 +27,10 @@ cmd_balance()
 
 	# parse the command line
 	debug "parse command line"
-	parse_args "$@"
+	#parse_args "$@"
 
 	# switch statement to create command line options to call perl script?
+	sbalance
 }
 
 cmd_help()
