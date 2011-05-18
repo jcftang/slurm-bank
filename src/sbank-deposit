@@ -1,7 +1,3 @@
-#!/bin/sh
-
-# somewhat emulate GOLD's gdeposit account
-#
 # Requires 'sacctmgr' 
 
 export SLURMBANK_DIR=$(dirname "$0")
@@ -9,31 +5,24 @@ SACCTMGR_BIN=sacctmgr
 SACCTMGR_OPT=
 SACCTMGR="$SACCTMGR_BIN $SACCTMGR_OPT "
 
-die()
+usage()
 {
-	[ $# -gt 0 ] && echo "error: $@" >&2
-	flags_help
-	exit 1
+        echo "usage: sbank deposit -c CLUSTER -a ACCOUNT -t TIME"
 }
 
-
-log()
-{
-	echo "log: $@" >&2
+parse_args() {
+        # parse options
+        FLAGS "$@" || exit $?
+        eval set -- "${FLAGS_ARGV}"
 }
 
-
-debug()
+cmd_default()
 {
-	[ "${FLAGS_debug}" = "${FLAGS_TRUE}" ] || return
-	echo "DEBUG: $@" >&2
+        usage
 }
 
-main() 
+cmd_deposit() 
 {
-	# source  shflags library
-	. "$SLURMBANK_DIR/shflags"
-
 	# define some variables
 	debug "define some variables"
 	DEFINE_boolean 'debug' false 'enable debug mode' 'd'
@@ -41,11 +30,11 @@ main()
 	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
 	DEFINE_integer 'time' '0' 'specify time in hours' 't'
 
+	FLAGS_PARENT="sbank deposit"
+
 	# parse the command line
 	debug "parse command line"
-	FLAGS_PARENT="sdeposit"
-	FLAGS "$@" || exit $?
-	eval set -- "${FLAGS_ARGV}"
+	parse_args "$@"
 
 	debug "check if cluster is specified"
 	[ ${FLAGS_cluster} = 'null' ] && die "${FLAGS_cluster}" "is not an cluster, no cluster specified"
@@ -66,5 +55,3 @@ main()
 	debug "Updating account with the following (${FLAGS_time}hrs * 60) + ${BALANCE}mins = ${NEW_BALANCE} mins"
 	$SACCTMGR -i modify account account=${FLAGS_account} set GrpCPUMins=${NEW_BALANCE} where cluster=${FLAGS_cluster} 
 }
-
-main "$@"

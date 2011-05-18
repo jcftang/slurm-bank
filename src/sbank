@@ -16,6 +16,7 @@ usage()
 	echo "Available subcommands are:"
 	echo "    project    Manage projects and accounts"
 	echo "    user       Manage user associations" 
+	echo "    deposit    Deposit hours to an account"
 	echo 
 	echo "Try 'sbank <subcommand> help' for details."
 }

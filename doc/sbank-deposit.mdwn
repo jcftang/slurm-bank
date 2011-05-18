@@ -1,10 +1,10 @@
 # NAME
 
-sdeposit - desposit hours to a slurm account
+sbank-deposit - desposit hours to a slurm account
 
 # SYNOPSIS
 
-sdeposit [OPTION]...
+sbank deposit [OPTION]...
 
 # DESCRIPTION
 
@@ -39,12 +39,12 @@ values.
 Deposit '1000000' hours to account 'account-00049' on the cluster
 'mycluster'
 
-    sdeposit -c 'mycluster' -a account-00049 -t 1000000
+    sbank deposit -c 'mycluster' -a account-00049 -t 1000000
 
 Remove '1000' hours from an account 'account-0001' on the cluster
 'mycluster'
 
-    sdeposit -c 'mycluster' -a account-0001 -t -1000
+    sbank deposit -c 'mycluster' -a account-0001 -t -1000
     
 # SEE ALSO
 
