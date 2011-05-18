@@ -34,6 +34,7 @@ install: build
 	for bin in $(BINS); do \
 		install src/$$bin $(DESTDIR)$(PREFIX)/bin; \
 	done
+	install src/sbank-common $(DESTDIR)$(PREFIX)/bin;
 
 	install -d $(DESTDIR)$(PREFIX)/share/man/man1
 	for man in $(MANS); do \
