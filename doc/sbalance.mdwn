@@ -49,7 +49,7 @@ Show the balance of all accounts in the cluster
 
 # SEE ALSO
 
-* [[sbank-deposit]](1)
+* [[sbank]](1)
 
 # AUTHOR
 

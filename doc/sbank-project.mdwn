@@ -4,7 +4,7 @@ sbank-project - Create, delete or list a slurm account
 
 # SYNOPSIS
 
-sbank project [OPTION]...
+sbank project <subcommand> [OPTION]...
 
 # DESCRIPTION
 
