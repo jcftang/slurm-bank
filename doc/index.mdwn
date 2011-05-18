@@ -29,7 +29,9 @@ The [[design]] document.
 ## Documentation
 
 * [[sbalance]]
-* [[sdeposit]]
+* [[sbank]]
+* [[sbank-project]]
+* [[sbank-deposit]]
 
 [slurm]: https://computing.llnl.gov/linux/slurm/
 [maui]: http://www.clusterresources.com/products/maui/

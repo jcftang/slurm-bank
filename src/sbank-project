@@ -2,6 +2,7 @@ usage()
 {
 	echo "usage: sbank project create -c CLUSTER -a ACCOUNT"
 	echo "       sbank project delete -c CLUSTER -a ACCOUNT"
+	echo "       sbank project list -c CLUSTER"
 }
 
 parse_args() {

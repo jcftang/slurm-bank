@@ -57,7 +57,7 @@ be the case).
 
 * Helper script to add/remove hours from a given account (short of
   manually doing it by hand and doing the sums). (This is somewhat
-  done as [[sdeposit]])
+  done as [[sbank-deposit]])
 * And to add/remove users from an Account. (see below with gchproject
   idea).
 * Ability to *end* accounts at a given date, could associate accounts
