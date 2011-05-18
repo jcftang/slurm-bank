@@ -28,7 +28,7 @@ like banking system with slurm.
 * Create accounts for each project or group, perhaps setup a hierachy
   of projects.
 * Allocate hours to the projects/groups.
-* Review projects and usage. Decide if QOS or fairshare is needed or not
+* Review projects and usage. Decide if QOS or fairshare is needed or not.
 * Go to start.
 
 ## Documentation
