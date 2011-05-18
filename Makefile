@@ -42,6 +42,11 @@ install: build
 		install -m 0644 $$man.1 $(DESTDIR)$(PREFIX)/share/man/man1; \
 	done
 
+	install -d $(DESTDIR)$(PREFIX)/share/doc/slurm-bank
+	if [ -d html ]; then \
+                rsync -a --delete html/ $(DESTDIR)$(PREFIX)/share/doc/slurm-bank/html/; \
+        fi
+
 clean:
 	for man in $(MANS); do \
                 rm -f $$man.1; \
