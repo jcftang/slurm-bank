@@ -10,7 +10,8 @@ sbank balance [OPTION]...
 
 Show the balance of used and available hours to the user for a given
 account. This is just a wrapper to the sbalance command, and is provided
-to give the user/admin a consistent interface.
+to give the user/admin a consistent interface. If no options are given,
+then sbank-balance will show the balance of the user who ran the script.
 
 * -h
 

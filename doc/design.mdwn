@@ -62,12 +62,12 @@ There is effectively no hierachy at all, we could do something like this...
 
 * root with 20U of time
   * CLASS_A with 1U time
-    * account1
-    * account2
+     * account1
+     * account2
   * CLASS_B with 0.5U time
-    * account3
+     * account3
   * CLASS_C with 0.25U time
-    * account4
+     * account4
 
 We would have to add some checks or script up the [[sbank-project]]
 wrapper to work in a pre-defined way to allow for the different
