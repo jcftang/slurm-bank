@@ -55,3 +55,8 @@ cmd_deposit()
 	debug "Updating account with the following (${FLAGS_time}hrs * 60) + ${BALANCE}mins = ${NEW_BALANCE} mins"
 	$SACCTMGR -i modify account account=${FLAGS_account} set GrpCPUMins=${NEW_BALANCE} where cluster=${FLAGS_cluster} 
 }
+
+cmd_help()
+{
+	usage
+}
