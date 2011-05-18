@@ -51,4 +51,7 @@ clean:
         done
 	rm -rf html doc/.ikiwiki
 
+dist:
+	git archive --format tar --prefix=$$(cat VERSION)/ HEAD | gzip > $$(cat VERSION).tar.gz
+
 .PHONY: docs
