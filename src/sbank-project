@@ -60,6 +60,7 @@ cmd_delete()
 	debug "creating account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster}"
 	$SACCTMGR delete account ${FLAGS_account} cluster=${FLAGS_cluster} parent=root
 }
+
 cmd_help()
 {
 	usage
