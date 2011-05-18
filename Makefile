@@ -6,8 +6,6 @@ BINS=sbalance sbank sbank-deposit sbank-balance sbank-project sbank-user
 all: build
 
 build: docs
-	@test -f src/shflags || (echo "Run 'git submodule init && git submodule update' first." ; exit 1 )
-
 	for man in $(MANS); do \
 		./mdwn2man $$man 1 doc/$$man.mdwn > $$man.1; \
 	done
