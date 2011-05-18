@@ -1,7 +1,7 @@
 PREFIX=/usr
 BINDIR=$(DESTDIR)$(PREFIX)/bin
 MANS=sbalance sbank sbank-deposit
-BINS=sbalance sdeposit sbank sbank-project sbank-user
+BINS=sbalance sbank sbank-deposit sbank-project sbank-user
 
 all: build
 
