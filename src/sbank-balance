@@ -92,6 +92,83 @@ cmd_request()
 	fi
 }
 
+cmd_requestscript()
+{
+	local walltime
+	local wall_hours
+	local cpu_hours
+	local tasks
+	local nodes
+	local acc
+	local arg
+	local line
+
+	# define some variables
+	debug "define some variables"
+	DEFINE_string 'scriptname' '' 'specify a slurm job script' 's'
+	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
+
+	FLAGS_PARENT="sbank balance requestscript"
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	[ "${FLAGS_cluster}" = "" ]  && die "must specify cluster"
+	[ "${FLAGS_scriptname}" = "" ]  && die "must specify job script name"
+
+	[ ! -f "${FLAGS_scriptname}" ]  && die "no such file: ${FLAGS_scriptname}"
+	[ ! -r "${FLAGS_scriptname}" ]  && die "unable to read: ${FLAGS_scriptname}"
+
+
+	# use the filename at the end to avoid starting a subshell and losing the variables
+	while read line
+	do
+		if [[ "${line}" =~ ^#SBATCH[[:space:]]-([[:alpha:]])[[:space:]]*(.*) ]]
+		then
+			flag=${BASH_REMATCH[1]}
+			arg=${BASH_REMATCH[2]}
+
+			case "${flag}" in
+				t)
+				       walltime=$arg ;;
+				n)
+				       tasks=$arg ;;
+				N)
+				       nodes=$arg ;;
+				U)
+					acc=$arg ;;
+			esac
+		fi
+
+
+
+	done < "${FLAGS_scriptname}"
+
+	[ -z "$walltime" ] && die "no time parameter set in the script"
+	[ -z "$tasks" -a -z "$nodes" ] && die "at least one of tasks (-n) or nodes (-N) must be set in the script"
+
+
+	# FIXME - best way to call another sbank command?
+	wall_hours=$(./sbank time calc -t $walltime)
+
+	if [ -n "$tasks" ]
+	then
+		# FIXME - best way to call another sbank command?
+		cpu_hours=$(./sbank time estimate -n $tasks -t $wall_hours)
+	elif [ -N "$tasks" ]
+	then
+		# FIXME - best way to call another sbank command?
+		# FIXME - also, what to do about -c ????? you don't have to specify it in an sbatch script
+		# maybe call sinfo with the partition from the script, and get the number of cores from a node
+		# in that partition???
+		cpu_hours=$(./sbank time estimate -N $tasks -t $wall_hours)
+	fi
+
+	# FIXME - best way to call another sbank command?
+	./sbank balance request -a $acc -c ${FLAGS_cluster} -t $cpu_hours
+}
+
 cmd_help()
 {
 	usage
