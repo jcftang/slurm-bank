@@ -22,7 +22,8 @@ usage()
 	echo "           minutes"
 	echo ""
         echo "       sbank time estimate [flags] args"
-        echo "        -n specify total number of nodes"
+        echo "        -n specify total number of ntasks, conflicts with nodes"
+        echo "        -N specify total number of node, conflicts with ntasks"
         echo "        -c specify total number of cores per node"
         echo "        -t specify total time in hours"
 
@@ -149,8 +150,9 @@ cmd_estimate()
 {
 	# define some variables
 	debug "define some variables"
-	DEFINE_integer 'nodes' '0' 'specify a total number of nodes' 'n'
-	DEFINE_integer 'cores' '0' 'specify a total number of cores per node' 'c'
+	DEFINE_integer 'ntasks' '' 'specify a total number of tasks, conflicts with nodes' 'n'
+	DEFINE_integer 'nodes' '' 'specify a total number of nodes, conflicts with ntasks' 'N'
+	DEFINE_integer 'cores' '' 'specify a total number of cores per node, required for nodes' 'c'
 	DEFINE_integer 'time' '0' 'specify a total hours (Walltime)' 't'
 
 	FLAGS_PARENT="sbank time estimate"
@@ -162,16 +164,27 @@ cmd_estimate()
 	# get account balance and substract estimate of total cores *
 	# walltime and return a value to the user
 
+	debug "ntasks=${FLAGS_ntasks} "
 	debug "nodes=${FLAGS_nodes} "
 	debug "cores=${FLAGS_cores} "
 	debug "time=${FLAGS_time} "
-	debug "requested=$(( ${FLAGS_nodes} * ${FLAGS_cores} * ${FLAGS_time} )) \n"
 
-	[ "${FLAGS_nodes}" -le "0" ] && die "nodes must be greater than 0"
-	[ "${FLAGS_cores}" -le "0" ] && die "cores must be greater than 0"
+	if [ -n "${FLAGS_nodes}" ] && [ -n "${FLAGS_ntasks}" ];
+	then
+		die "Please specify either --nodes or --ntasks"
+	fi
+
 	[ "${FLAGS_time}" -le "0" ] && die "time must be greater than 0"
 
-	printf "estimate=$(( ${FLAGS_nodes} * ${FLAGS_cores} * ${FLAGS_time} )) \n"
+	if [  -n "${FLAGS_ntasks}" ];
+	then
+		[ "${FLAGS_ntasks}" -le "0" ] && die "ntasks must be greater than 0"
+		printf "$(( ${FLAGS_ntasks} * ${FLAGS_time} ))\n"
+	else
+		[ "${FLAGS_nodes}" -le "0" ] && die "nodes must be greater than 0"
+		[ "${FLAGS_cores}" -le "0" ] && die "cores must be greater than 0"
+		printf "$(( ${FLAGS_nodes} * ${FLAGS_cores} * ${FLAGS_time} ))\n"
+	fi
 }
 
 
