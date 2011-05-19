@@ -65,7 +65,7 @@ cmd_request()
 	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
 	DEFINE_integer 'time' '0' 'specify time in hours' 't'
 
-	FLAGS_PARENT="sbank balance"
+	FLAGS_PARENT="sbank balance request"
 
 	# parse the command line
 	debug "parse command line"
