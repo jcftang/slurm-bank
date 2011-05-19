@@ -1,0 +1,42 @@
+usage() 
+{
+	echo "usage: sbank cluster"
+	echo "       sbank cluster -a"
+}
+
+parse_args() {
+        # parse options
+        FLAGS "$@" || exit $?
+        eval set -- "${FLAGS_ARGV}"
+}
+
+cmd_default() 
+{
+	cmd_list "$@"
+}
+
+cmd_list()
+{
+	# define some variables
+	debug "define some variables"
+	DEFINE_boolean 'all' false 'show all clusters' 'a'
+
+	FLAGS_PARENT="sbank cluster"	
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	if [ ${FLAGS_all} -eq ${FLAGS_TRUE} ];
+	then
+		sacctmgr -n list cluster format=cluster | sed -e 's/^ *//g;s/ *$//g'
+	else
+		scontrol show config | grep -i clustername | awk -F'=' '{print $2}' | sed -e 's/^ *//g;s/ *$//g'
+	fi
+} 	
+
+cmd_help()
+{
+	usage
+	exit 0
+}

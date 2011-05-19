@@ -33,9 +33,14 @@ end users.
 
   Time calculator.
 
+* cluster
+
+  List current cluster or all clusters in slurmdbd
+
 # SEE ALSO
 
 * [[sbank-balance]](1)
+* [[sbank-cluster]](1)
 * [[sbank-deposit]](1)
 * [[sbank-project]](1)
 * [[sbank-time]](1)

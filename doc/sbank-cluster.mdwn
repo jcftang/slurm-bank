@@ -1,0 +1,39 @@
+# NAME
+
+sbank cluster - list clusters in slurm
+
+# SYNOPSIS
+
+sbank cluster [OPTION]...
+
+# DESCRIPTION
+
+* -h
+
+  show help message
+
+* -a, --all
+
+  List all clusters in slurmdbd 
+
+# EXAMPLES
+
+Show the default cluster from slurm.conf
+
+	sbank cluster
+
+Show all clusters from slurmdbd
+
+	sbank cluster -a
+
+# SEE ALSO
+
+* [[sbank]](1)
+* [[sbank-balance]](1)
+* [[sbank-deposit]](1)
+* [[sbalance]](1)
+
+# AUTHOR
+
+Paddy Doyle <paddy@tchpc.tcd.ie>
+Jimmy Tang <jtang@tchpc.tcd.ie>
