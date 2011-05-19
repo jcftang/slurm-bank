@@ -152,7 +152,7 @@ cmd_estimate()
 	debug "define some variables"
 	DEFINE_integer 'ntasks' '' 'specify a total number of tasks, conflicts with nodes' 'n'
 	DEFINE_integer 'nodes' '' 'specify a total number of nodes, conflicts with ntasks' 'N'
-	DEFINE_integer 'cores' '' 'specify a total number of cores per node, required for nodes' 'c'
+	DEFINE_integer 'cores' '0' 'specify a total number of cores per node, required for nodes' 'c'
 	DEFINE_integer 'time' '0' 'specify a total hours (Walltime)' 't'
 
 	FLAGS_PARENT="sbank time estimate"
