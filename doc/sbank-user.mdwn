@@ -4,7 +4,7 @@ sbank-user - Create, delete or list a slurm user
 
 # SYNOPSIS
 
-sbank user <subcommand> [OPTION]...
+sbank user *subcommand* [OPTION]...
 
 # DESCRIPTION
 

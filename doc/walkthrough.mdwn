@@ -1,0 +1,7 @@
+A walkthrough of the basic features of sbank.
+
+[[!toc]]
+
+[[!inline feeds=no show=0 template=walkthrough pagenames="""
+	setup
+"""]]

@@ -4,7 +4,7 @@ sbank time - time calculator
 
 # SYNOPSIS
 
-sbank time <subcommand> [OPTION]...
+sbank time *subcommand* [OPTION]...
 
 # DESCRIPTION
 

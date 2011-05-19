@@ -4,7 +4,7 @@ sbank - slurm bank top level command
 
 # SYNOPSIS
 
-sbank <subcommand> [OPTION]...
+sbank *subcommand* [OPTION]...
 
 # DESCRIPTION
 
@@ -28,6 +28,10 @@ end users.
 * balance
 
   Show the balances of an account or a set of accounts.
+
+* time
+
+  Time calculator.
 
 # SEE ALSO
 

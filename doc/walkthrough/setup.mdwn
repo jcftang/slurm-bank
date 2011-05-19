@@ -1,0 +1,26 @@
+[[!meta title="Setup slurm and slurmdbd"]]
+
+The first thing to do is to setup [slurm][] and [slurmdbd][]. This
+documentation assumes the user knows basic slurm administration.
+
+Slurmdbd must be configured and working, account enforcing is enabled
+in *slurm.conf*
+
+    AccountingStorageEnforce=limits
+
+The following parameters must also be set, we do not want a decay or
+reset of the usage that is recorded in slurmdbd.
+
+    PriorityDecayHalfLife=0
+    PriorityUsageResetPeriod=NONE
+
+What is also required is a pretty good estimate of the total available
+cpu hours that you have on your cluster that you can allocate to
+accounts.
+
+Users will need to learn how to use accounts (nothing new here).
+
+sacctmgr and sshare is required and must be working.
+
+[slurm]: https://computing.llnl.gov/linux/slurm/
+[slurmdbd]: https://computing.llnl.gov/linux/slurm/accounting.html

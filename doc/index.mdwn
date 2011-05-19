@@ -37,6 +37,9 @@ like banking system with slurm.
 
 ## Documentation
 
+See the [[walkthrough]] for an example of how to implement and use
+slurm-bank.
+
 ### Perl scripts
 
 * [[sbalance]]
