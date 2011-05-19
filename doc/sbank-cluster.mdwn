@@ -4,15 +4,17 @@ sbank cluster - list clusters in slurm
 
 # SYNOPSIS
 
-sbank cluster [OPTION]...
+sbank cluster *subcommand* [OPTION]...
 
 # DESCRIPTION
 
-* -h
+* list
+
+  -h
 
   show help message
 
-* -a, --all
+  -a, --all
 
   List all clusters in slurmdbd 
 
@@ -20,15 +22,15 @@ sbank cluster [OPTION]...
 
 Show the default cluster from slurm.conf
 
-	sbank cluster
+	sbank cluster list
 
 Show all clusters from slurmdbd
 
-	sbank cluster -a
+	sbank cluster list -a
 
 Passing on the cluster name to another application
 
-	sbank balance request --cluster $(sbank cluster) \
+	sbank balance request --cluster $(sbank cluster list) \
 		--account tchpc --time $( sbank time estimate -n 32 -t \
 		$( sbank time calc -t 4-00:00:00 ))
 
