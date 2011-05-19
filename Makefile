@@ -34,6 +34,7 @@ install: build
 	done
 	install -m 644 src/sbank-common $(DESTDIR)$(PREFIX)/bin;
 	chmod +x $(DESTDIR)$(PREFIX)/bin/sbank
+	chmod +x $(DESTDIR)$(PREFIX)/bin/sbalance
 
 	install -d $(DESTDIR)$(PREFIX)/share/man/man1
 	for man in $(MANS); do \
