@@ -13,41 +13,69 @@ account. This is just a wrapper to the sbalance command, and is provided
 to give the user/admin a consistent interface. If no options are given,
 then sbank-balance will show the balance of the user who ran the script.
 
-* -h
+* statement - shows balance sheet statement for user.
+
+  -h
 
   show help message
 
-* -u
+  -u
 
   show all users in the account (defaults to just the current user)
 
-* -c
+  -c
 
   display per cluster 'clustername' (defaults to the local cluster)
 
-* -a
+  -a
 
   display per account 'accountname' (defaults to all accounts of the
   current user; implies '-u')
 
-* -A
+  -A
 
   display display all accounts (defaults to all accounts of the
   current user; implies '-u')
+
+* request - request a number hours from an account and returns a number
+  of hours remaining in the account.
+
+  -h
+
+  show help message
+
+  -c, --cluster
+
+  Specify the slurm cluster
+
+  -a, --account
+
+  Specify the slurm account
+
+  -t, --time
+
+  Specify the amount of hours to deposit, can be negative in value
+  if you wish to deduct hours from the account. This value must be an
+  integer value.
 
 # EXAMPLES
 
 Show your own balance
 
-	sbank balance
+	sbank balance statement
 
 Show the balance of all users in your accounts
 
-	sbank balance -u
+	sbank balance statement -u
 
 Show the balance of all accounts in the cluster
 
-	sbank balance -A -c mycluster
+	sbank balance statement -A -c mycluster
+
+Request 'hours' from an account to see if there are enough hours available
+to run a job.
+
+	sbank request -c mycluster -a account0001 -t 1000
 
 # SEE ALSO
 

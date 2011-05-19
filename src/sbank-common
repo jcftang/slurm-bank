@@ -12,6 +12,10 @@ log()
         echo "log: $@" >&2
 }
 
+warn()
+{
+        echo "warn: $@" >&2
+}
 
 debug()
 {

@@ -6,6 +6,13 @@ usage()
 -u')"
 	echo "        -u show all users in the account (defaults to just the current user)"
 	echo "        -A display all accounts (defaults to all accounts of the current user; implies '-u')"
+	echo
+	echo "       sbank balance request [flags] args"
+        echo "        -n specify total number of nodes"
+        echo "        -c specify total number of cores per node"
+        echo "        -t specify total time in hours"
+
+
 }
 
 parse_args() {
@@ -30,7 +37,7 @@ cmd_statement()
 	DEFINE_string 'user' '' 'specify a user' 'u'
 	DEFINE_boolean 'all' false 'show all users in the account' 'A'
 
-	FLAGS_PARENT="sbank balance"
+	FLAGS_PARENT="sbank balance statement"
 
 	# parse the command line
 	debug "parse command line"
@@ -39,13 +46,51 @@ cmd_statement()
 	# change behaviour of getopt to let perl program take args
 	unset POSIXLY_CORRECT
 
-
 	[ "${FLAGS_cluster}" != "" ]  && opts="$opts -c ${FLAGS_cluster}"
 	[ "${FLAGS_account}" != "" ]  && opts="$opts -a ${FLAGS_account}"
 	[ "${FLAGS_user}" != "" ]  && opts="$opts -u ${FLAGS_user}"
 	[ ${FLAGS_all} -eq ${FLAGS_TRUE} ] && opts="$opts -A"
 
 	sbalance $opts
+}
+
+cmd_request()
+{
+	local balance_initial
+	local balance_post
+
+	# define some variables
+	debug "define some variables"
+	DEFINE_string 'account' '' 'specify a slurm account' 'a'
+	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
+	DEFINE_integer 'time' '0' 'specify time in hours' 't'
+
+	FLAGS_PARENT="sbank balance"
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	[ "${FLAGS_cluster}" = "" ]  && die "must specify cluster"
+	[ "${FLAGS_account}" = "" ]  && die "must specify account"
+	[ "${FLAGS_time}" -le "0" ] && die "time must be greater than 0"
+
+	# the balance account - this could be re-worked in a more clever way and check for exitcodes
+        balance_initial=`$SACCTMGR -np list associations cluster=${FLAGS_cluster} format=account,GrpCPUMins account=${FLAGS_account} | head -1 | awk -F'|' '{print $2}'`
+        debug "${balance_initial} mins is the balance of ${FLAGS_account} on ${FLAGS_cluster}"
+        debug "$(( ${balance_initial} / 60 )) hours is in the balance of ${FLAGS_account} on ${FLAGS_cluster}"
+
+	balance_post=$(( (${balance_initial} / 60) - ${FLAGS_time} ))
+
+	debug "${balance_post} hours remaining in balance after the request"
+
+	if [ "${balance_post}" -gt "0" ]
+	then
+		echo ${balance_post}
+	else
+		warn "possible error"
+		echo ${balance_post}
+	fi
 }
 
 cmd_help()
