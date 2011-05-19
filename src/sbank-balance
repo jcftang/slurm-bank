@@ -2,8 +2,7 @@ usage()
 {
 	echo "usage: sbank balance statement [flags] args"
 	echo "        -c display per cluster 'clustername' (defaults to the local cluster)"
-	echo "        -a display per account 'accountname' (defaults to all accounts of the current user; implies '
--u')"
+	echo "        -a display per account 'accountname' (defaults to all accounts of the current user; implies '-u')"
 	echo "        -u show all users in the account (defaults to just the current user)"
 	echo "        -A display all accounts (defaults to all accounts of the current user; implies '-u')"
 	echo
@@ -23,7 +22,7 @@ parse_args() {
 
 cmd_default()
 {
-	cmd_statement "$@"
+	usage
 }
 
 cmd_statement()

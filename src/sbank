@@ -18,6 +18,7 @@ usage()
 	echo "    user       Manage user associations (EXPERIMENTAL)"
 	echo "    deposit    Deposit hours to an account"
 	echo "    balance    Show balance sheet of account(s)"
+	echo "    time       Time calculator"
 	echo 
 	echo "Try 'sbank <subcommand> help' for details."
 }
