@@ -1,0 +1,146 @@
+# Requires 'sacctmgr' 
+#
+# Parse a slurm time expression into CPU hours.
+# From the sbatch man page:
+#       -t, --time=<time>
+#       Acceptable time formats include "minutes",   "minutes:seconds",
+#       "hours:minutes:seconds",   "days-hours",   "days-hours:minutes"   and
+#       "days-hours:minutes:seconds".
+#
+
+export SLURMBANK_DIR=$(dirname "$0")
+
+usage()
+{
+        echo "usage: sbank time calc -t TIME"
+        echo "TIME can be one of the following formats (integer values only):"
+	echo -e "\tdays-hours:minutes:seconds"
+	echo -e "\tdays-hours:minutes"
+	echo -e "\tdays-hours"
+	echo -e "\thours:minutes:seconds"
+	echo -e "\tminutes:seconds"
+	echo -e "\tminutes"
+}
+
+parse_args() {
+        # parse options
+        FLAGS "$@" || exit $?
+        eval set -- "${FLAGS_ARGV}"
+}
+
+cmd_default()
+{
+	usage
+}
+
+cmd_calc()
+{
+	# define some variables
+	debug "define some variables"
+	DEFINE_string 'time' '' 'specify time in slurm time format' 't'
+
+	FLAGS_PARENT="sbank time calc"
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	debug "check if time is specified"
+	if [ "${FLAGS_time}" = "" ]
+	then
+		usage
+		die "${FLAGS_time}" "no time specified"
+	fi
+
+	debug "'${FLAGS_time}' is the time string to be parsed"
+
+
+	# set default values
+	days=0
+	hours=0
+	mins=0
+	secs=0
+
+	# parse the string
+	if [[ "${FLAGS_time}" =~ ^[0-9]+-[0-9]+:[0-9]+:[0-9]+$ ]]
+	then
+		debug "days-hours:minutes:seconds"
+		days=${FLAGS_time%-*}
+		debug "days = $days"
+		FLAGS_time=${FLAGS_time#*-}
+		hours=${FLAGS_time%%:*}
+		debug "hours = $hours"
+		FLAGS_time=${FLAGS_time#*:}
+		mins=${FLAGS_time%%:*}
+		debug "mins = $mins"
+		secs=${FLAGS_time#*:}
+		debug "secs = $secs"
+	elif [[ "${FLAGS_time}" =~ ^[0-9]+-[0-9]+:[0-9]+$ ]]
+	then
+		debug "days-hours:minutes"
+		days=${FLAGS_time%-*}
+		debug "days = $days"
+		FLAGS_time=${FLAGS_time#*-}
+		hours=${FLAGS_time%%:*}
+		debug "hours = $hours"
+		FLAGS_time=${FLAGS_time#*:}
+		mins=${FLAGS_time%%:*}
+		debug "mins = $mins"
+	elif [[ "${FLAGS_time}" =~ ^[0-9]+-[0-9]+$ ]]
+	then
+		debug "days-hours"
+		days=${FLAGS_time%-*}
+		debug "days = $days"
+		FLAGS_time=${FLAGS_time#*-}
+		hours=${FLAGS_time%%:*}
+		debug "hours = $hours"
+	elif [[ "${FLAGS_time}" =~ ^[0-9]+:[0-9]+:[0-9]+$ ]]
+	then
+		debug "hours:minutes:seconds"
+		hours=${FLAGS_time%%:*}
+		debug "hours = $hours"
+		FLAGS_time=${FLAGS_time#*:}
+		mins=${FLAGS_time%%:*}
+		debug "mins = $mins"
+		secs=${FLAGS_time#*:}
+		debug "secs = $secs"
+	elif [[ "${FLAGS_time}" =~ ^[0-9]+:[0-9]+$ ]]
+	then
+		debug "minutes:seconds"
+		mins=${FLAGS_time%%:*}
+		debug "mins = $mins"
+		secs=${FLAGS_time#*:}
+		debug "secs = $secs"
+	elif [[ "${FLAGS_time}" =~ ^[0-9]+$ ]]
+	then
+		debug "minutes"
+		mins=$FLAGS_time
+	else
+		usage
+	fi
+
+
+	# now do the cals
+
+	# call 'bc' because bash doesn't do floating point!
+	float=`echo "scale=2; ($days*86400 + $hours*3600 + $mins*60 + $secs) / 3600" | bc`
+	# and call printf because bc doesn't round numbers!
+	debug "rounded to the nearest hour:"
+	wallhours=`printf "%.0f\n" $float`
+
+	# final check - if it has been rounded down to 0 wall hours, make it 1 (this is only
+	# an estimate anyway
+	if [[ $wallhours -eq "0" ]]
+	then
+		debug "rounding up from 0 hours to 1 hour"
+		echo "1"
+	else
+		echo "$wallhours"
+	fi
+}
+
+cmd_help()
+{
+	usage
+	exit 0
+}
