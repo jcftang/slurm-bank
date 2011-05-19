@@ -4,4 +4,7 @@ A walkthrough of the basic features of sbank.
 
 [[!inline feeds=no show=0 template=walkthrough pagenames="""
 	setup
+	checking_account_balances
+	estimating_time_for_a_job
+	checking_if_enough_hours_are_available
 """]]

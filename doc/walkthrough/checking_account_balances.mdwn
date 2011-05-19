@@ -1,0 +1,19 @@
+To check your balances you would simply do
+
+	$ sbank balance statement
+	User             Usage |          Account       Usage | Account Limit   Available (CPU hrs)
+	---------- ----------- + ---------------- ----------- + ------------- -----------
+	jtang               17 |            TCHPC          30 |       315,360     315,330
+
+To see everyone in a given account, in this example the TCHPC account
+
+	$ sbank balance -a tchpc
+	User             Usage |          Account       Usage | Account Limit   Available (CPU hrs)
+	---------- ----------- + ---------------- ----------- + ------------- -----------
+	darach               0 |            TCHPC          30 |       315,360     315,330
+	dfrost               0 |            TCHPC          30 |       315,360     315,330
+	jose                 0 |            TCHPC          30 |       315,360     315,330
+	jtang *             17 |            TCHPC          30 |       315,360     315,330
+	kbradley             0 |            TCHPC          30 |       315,360     315,330
+	neil                 0 |            TCHPC          30 |       315,360     315,330
+	paddy               13 |            TCHPC          30 |       315,360     315,330
