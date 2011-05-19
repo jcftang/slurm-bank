@@ -48,6 +48,7 @@ slurm-bank.
 
 * [[sbank]]
 * [[sbank-balance]]
+* [[sbank-cluster]]
 * [[sbank-deposit]]
 * [[sbank-time]]
 

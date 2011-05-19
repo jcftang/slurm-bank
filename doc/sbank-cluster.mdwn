@@ -26,11 +26,18 @@ Show all clusters from slurmdbd
 
 	sbank cluster -a
 
+Passing on the cluster name to another application
+
+	sbank balance request --cluster $(sbank cluster) \
+		--account tchpc --time $( sbank time estimate -n 32 -t \
+		$( sbank time calc -t 4-00:00:00 ))
+
 # SEE ALSO
 
 * [[sbank]](1)
 * [[sbank-balance]](1)
 * [[sbank-deposit]](1)
+* [[sbank-time]](1)
 * [[sbalance]](1)
 
 # AUTHOR
