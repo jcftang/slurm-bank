@@ -1,11 +1,16 @@
 usage() 
 {
 	echo "usage: sbank balance statement [flags] args"
-	echo "    -c display per cluster 'clustername' (defaults to the local cluster)"
-	echo "    -a display per account 'accountname' (defaults to all accounts of the current user; implies '
+	echo "        -c display per cluster 'clustername' (defaults to the local cluster)"
+	echo "        -a display per account 'accountname' (defaults to all accounts of the current user; implies '
 -u')"
-	echo "    -u show all users in the account (defaults to just the current user)"
-	echo "    -A display all accounts (defaults to all accounts of the current user; implies '-u')"
+	echo "         -u show all users in the account (defaults to just the current user)"
+	echo "         -A display all accounts (defaults to all accounts of the current user; implies '-u')"
+	echo
+	echo "       sbank balance estimate [flags] args"
+	echo "        -n specify total number of nodes"
+	echo "        -c specify total number of cores per node"
+	echo "        -t specify total time in hours"
 }
 
 parse_args() {
@@ -16,7 +21,7 @@ parse_args() {
 
 cmd_default()
 {
-	statement "$@"
+	cmd_statement "$@"
 }
 
 cmd_statement()
@@ -48,11 +53,10 @@ cmd_statement()
 	sbalance $opts
 }
 
-cmd_request() 
+cmd_estimate()
 {
 	# define some variables
         debug "define some variables"
-        #DEFINE_string 'account' '' 'specify a slurm account' 'a'
         DEFINE_integer 'nodes' '0' 'specify a total number of nodes' 'n'
         DEFINE_integer 'cores' '0' 'specify a total number of cores per node' 'c'
         DEFINE_integer 'time' '0' 'specify a total hours (Walltime)' 't'
@@ -66,11 +70,16 @@ cmd_request()
 	# get account balance and substract estimate of total cores *
 	# walltime and return a value to the user
 
-	printf "nodes=${FLAGS_nodes} "
-	printf "cores=${FLAGS_cores} "
-	printf "time=${FLAGS_time} "
-	printf "requested=$(( ${FLAGS_nodes} * ${FLAGS_cores} * ${FLAGS_time} )) \n"
+	debug "nodes=${FLAGS_nodes} "
+	debug "cores=${FLAGS_cores} "
+	debug "time=${FLAGS_time} "
+	debug "requested=$(( ${FLAGS_nodes} * ${FLAGS_cores} * ${FLAGS_time} )) \n"
 
+	[ "${FLAGS_nodes}" -le "0" ] && die "nodes must be greater than 0"
+	[ "${FLAGS_cores}" -le "0" ] && die "cores must be greater than 0"
+	[ "${FLAGS_time}" -le "0" ] && die "time must be greater than 0"
+
+	printf "estimate=$(( ${FLAGS_nodes} * ${FLAGS_cores} * ${FLAGS_time} )) \n"
 }
 
 cmd_help()

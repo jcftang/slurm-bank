@@ -1,3 +1,4 @@
+## generic functions
 die()
 {
         [ $# -gt 0 ] && echo "error: $@" >&2
