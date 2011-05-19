@@ -3,13 +3,6 @@ BINDIR=$(DESTDIR)$(PREFIX)/bin
 MANS=sbalance sbank sbank-deposit sbank-balance sbank-project sbank-user
 BINS=sbalance sbank sbank-deposit sbank-balance sbank-project sbank-user
 
-all: build
-
-build: docs
-	for man in $(MANS); do \
-		./mdwn2man $$man 1 doc/$$man.mdwn > $$man.1; \
-	done
-
 # If ikiwiki is available, build static html docs suitable for being
 # shipped in the software package.
 ifeq ($(shell which ikiwiki),)
@@ -17,6 +10,13 @@ IKIWIKI=@echo "** ikiwiki not found, skipping building docs" >&2; true
 else
 IKIWIKI=ikiwiki
 endif
+
+all: build
+
+build: docs
+	for man in $(MANS); do \
+		./mdwn2man $$man 1 doc/$$man.mdwn > $$man.1; \
+	done
 
 docs:
 	$(IKIWIKI) doc html -v --wikiname slurm-bank --plugin=goodstuff \
