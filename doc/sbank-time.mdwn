@@ -14,12 +14,12 @@ to hours.
 
 TIME can be one of the following formats (integer values only):
 
-   days-hours:minutes:seconds
-   days-hours:minutes
-   days-hours
-   hours:minutes:seconds
-   minutes:seconds
-   minutes
+  days-hours:minutes:seconds
+  days-hours:minutes
+  days-hours
+  hours:minutes:seconds
+  minutes:seconds
+  minutes
 
 * calc - convert slurm time string to hours
 
