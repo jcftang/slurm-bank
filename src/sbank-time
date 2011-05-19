@@ -22,9 +22,9 @@ usage()
 	echo "           minutes"
 	echo ""
         echo "       sbank time estimate [flags] args"
-        echo "        -n specify total number of ntasks, conflicts with nodes"
         echo "        -N specify total number of node, conflicts with ntasks"
-        echo "        -c specify total number of cores per node"
+        echo "        -n specify total number of ntasks, conflicts with nodes"
+        echo "        -c specify total number of cores per node, required for nodes"
         echo "        -t specify total time in hours"
 
 }
