@@ -4,7 +4,7 @@ sbank balance - show slurm balance
 
 # SYNOPSIS
 
-sbank balance [OPTION]...
+sbank balance <subcommand> [OPTION]...
 
 # DESCRIPTION
 
