@@ -121,7 +121,7 @@ be the case).
 * Feedback for user, e.g. on submission estimate how many hours are
   needed then print a number of hours that is in the balance before and
   after the job has run. Maybe add this in the form of *sbank balance
-  request --nodes N --cores C --time hours --account ACCOUNT"
+  request --nodes N --cores C --time hours --account ACCOUNT*
 
 # Tested on
 

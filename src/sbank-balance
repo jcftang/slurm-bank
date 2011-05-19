@@ -1,6 +1,6 @@
 usage() 
 {
-	echo "usage: sbank balance [flags] args"
+	echo "usage: sbank balance statement [flags] args"
 	echo "    -c display per cluster 'clustername' (defaults to the local cluster)"
 	echo "    -a display per account 'accountname' (defaults to all accounts of the current user; implies '
 -u')"
@@ -15,6 +15,11 @@ parse_args() {
 }
 
 cmd_default()
+{
+	statement "$@"
+}
+
+cmd_statement()
 {
 	local opts
 
@@ -41,6 +46,31 @@ cmd_default()
 	[ ${FLAGS_all} -eq ${FLAGS_TRUE} ] && opts="$opts -A"
 
 	sbalance $opts
+}
+
+cmd_request() 
+{
+	# define some variables
+        debug "define some variables"
+        #DEFINE_string 'account' '' 'specify a slurm account' 'a'
+        DEFINE_integer 'nodes' '0' 'specify a total number of nodes' 'n'
+        DEFINE_integer 'cores' '0' 'specify a total number of cores per node' 'c'
+        DEFINE_integer 'time' '0' 'specify a total hours (Walltime)' 't'
+
+	FLAGS_PARENT="sbank balance request"
+
+        # parse the command line
+        debug "parse command line"
+        parse_args "$@"
+
+	# get account balance and substract estimate of total cores *
+	# walltime and return a value to the user
+
+	printf "nodes=${FLAGS_nodes} "
+	printf "cores=${FLAGS_cores} "
+	printf "time=${FLAGS_time} "
+	printf "requested=$(( ${FLAGS_nodes} * ${FLAGS_cores} * ${FLAGS_time} )) \n"
+
 }
 
 cmd_help()
