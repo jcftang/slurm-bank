@@ -61,12 +61,12 @@ slurmdbd. (This is our current assumption to keep things simple)
 There is effectively no hierachy at all, we could do something like this...
 
 * root with 20U of time
-  * CLASS_A with 1U time
+  * CLASS-A with 1U time
      * account1
      * account2
-  * CLASS_B with 0.5U time
+  * CLASS-B with 0.5U time
      * account3
-  * CLASS_C with 0.25U time
+  * CLASS-C with 0.25U time
      * account4
 
 We would have to add some checks or script up the [[sbank-project]]
@@ -114,6 +114,14 @@ be the case).
 # TODO for the script
 
 * Re-write using Slurm-Perl API
+* A bunch of basic tests
+
+# Ideas
+
+* Feedback for user, e.g. on submission estimate how many hours are
+  needed then print a number of hours that is in the balance before and
+  after the job has run. Maybe add this in the form of *sbank balance
+  request --nodes N --cores C --time hours --account ACCOUNT"
 
 # Tested on
 
