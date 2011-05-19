@@ -10,7 +10,8 @@ not have enough hours to run.
 	$ sbank balance request -c chuck -a tchpc -t 100
 	315260
 
-Or else if you want to script things up to be efficient/lazy
+Or else if you want to script things up to be efficient/lazy you can
+use some of the helper scripts such as [[sbank-time]].
 
 	$ sbank balance request --cluster chuck --account tchpc \
 		--time $( sbank time estimate -n 32 -t \
