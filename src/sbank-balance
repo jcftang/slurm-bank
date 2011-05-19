@@ -7,8 +7,8 @@ usage()
 	echo "        -A display all accounts (defaults to all accounts of the current user; implies '-u')"
 	echo
 	echo "       sbank balance request [flags] args"
-        echo "        -n specify total number of nodes"
-        echo "        -c specify total number of cores per node"
+        echo "        -a specify account"
+        echo "        -c specify cluster"
         echo "        -t specify total time in hours"
 
 
