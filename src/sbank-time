@@ -13,13 +13,19 @@ export SLURMBANK_DIR=$(dirname "$0")
 usage()
 {
         echo "usage: sbank time calc -t TIME"
-        echo "TIME can be one of the following formats (integer values only):"
-	echo -e "\tdays-hours:minutes:seconds"
-	echo -e "\tdays-hours:minutes"
-	echo -e "\tdays-hours"
-	echo -e "\thours:minutes:seconds"
-	echo -e "\tminutes:seconds"
-	echo -e "\tminutes"
+        echo "    TIME can be one of the following formats (integer values only):"
+	echo "           days-hours:minutes:seconds"
+	echo "           days-hours:minutes"
+	echo "           days-hours"
+	echo "           hours:minutes:seconds"
+	echo "           minutes:seconds"
+	echo "           minutes"
+	echo ""
+        echo "       sbank time estimate [flags] args"
+        echo "        -n specify total number of nodes"
+        echo "        -c specify total number of cores per node"
+        echo "        -t specify total time in hours"
+
 }
 
 parse_args() {
@@ -138,6 +144,36 @@ cmd_calc()
 		echo "$wallhours"
 	fi
 }
+
+cmd_estimate()
+{
+	# define some variables
+	debug "define some variables"
+	DEFINE_integer 'nodes' '0' 'specify a total number of nodes' 'n'
+	DEFINE_integer 'cores' '0' 'specify a total number of cores per node' 'c'
+	DEFINE_integer 'time' '0' 'specify a total hours (Walltime)' 't'
+
+	FLAGS_PARENT="sbank time estimate"
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	# get account balance and substract estimate of total cores *
+	# walltime and return a value to the user
+
+	debug "nodes=${FLAGS_nodes} "
+	debug "cores=${FLAGS_cores} "
+	debug "time=${FLAGS_time} "
+	debug "requested=$(( ${FLAGS_nodes} * ${FLAGS_cores} * ${FLAGS_time} )) \n"
+
+	[ "${FLAGS_nodes}" -le "0" ] && die "nodes must be greater than 0"
+	[ "${FLAGS_cores}" -le "0" ] && die "cores must be greater than 0"
+	[ "${FLAGS_time}" -le "0" ] && die "time must be greater than 0"
+
+	printf "estimate=$(( ${FLAGS_nodes} * ${FLAGS_cores} * ${FLAGS_time} )) \n"
+}
+
 
 cmd_help()
 {
