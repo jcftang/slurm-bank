@@ -16,3 +16,13 @@ use some of the helper scripts such as [[sbank-time]].
 	$ sbank balance request --cluster chuck --account tchpc \
 		--time $( sbank time estimate -n 32 -t \
 		$( sbank time calc -t 4-00:00:00 ))
+
+You can also feed [[sbank-balance]] a job script to see if the script's
+request can be completed or not
+
+	$ sbank balance checkscript -s sample-job1.sh  -t myaccount
+	312288
+
+The above command returns the remaining balance of your specified account
+on the current cluster. If a negative value is returned, then your job
+will most likely not complete if it is submitted.
