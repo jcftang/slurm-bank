@@ -83,7 +83,6 @@ Chaining the two commands together
 * [[sbank]](1)
 * [[sbank-balance]](1)
 * [[sbank-deposit]](1)
-* [[sbalance]](1)
 
 # AUTHOR
 

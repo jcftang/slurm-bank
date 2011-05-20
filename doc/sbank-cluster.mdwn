@@ -46,7 +46,6 @@ Passing on the cluster name to another application
 * [[sbank-balance]](1)
 * [[sbank-deposit]](1)
 * [[sbank-time]](1)
-* [[sbalance]](1)
 
 # AUTHOR
 

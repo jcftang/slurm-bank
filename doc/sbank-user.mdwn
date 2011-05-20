@@ -46,7 +46,6 @@ To list all users in 'account0001'
  
 # SEE ALSO
 
-* [[sbalance]](1)
 * [[sbank]](1)
 * [[sbank-deposit]](1)
 

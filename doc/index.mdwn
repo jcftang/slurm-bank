@@ -40,10 +40,6 @@ like banking system with slurm.
 See the [[walkthrough]] for an example of how to implement and use
 slurm-bank.
 
-### Perl scripts
-
-* [[sbalance]]
-
 ### Shell scripts
 
 * [[sbank]]

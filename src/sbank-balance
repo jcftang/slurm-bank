@@ -58,7 +58,7 @@ cmd_statement()
 	[ "${FLAGS_user}" != "" ]  && opts="$opts -u ${FLAGS_user}"
 	[ ${FLAGS_all} -eq ${FLAGS_TRUE} ] && opts="$opts -A"
 
-	sbalance $opts
+	sbank-balance.pl $opts
 }
 
 cmd_request()

@@ -81,7 +81,6 @@ to run a job.
 
 * [[sbank]](1)
 * [[sbank-deposit]](1)
-* [[sbalance]](1)
 
 # AUTHOR
 
