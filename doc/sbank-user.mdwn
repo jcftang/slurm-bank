@@ -34,6 +34,14 @@ EXPERIMENTAL - creating and deleting accounts are experimental.
 
   List users in slurmdbd
 
+* account
+
+  Return default account for the user calling this command.
+
+  -u, --user
+
+  Return the default account of a given username
+
 # EXAMPLES
 
 To list all users in 'mycluster'
