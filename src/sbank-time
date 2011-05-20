@@ -21,11 +21,15 @@ usage()
 	echo "           minutes:seconds"
 	echo "           minutes"
 	echo ""
-        echo "       sbank time estimate [flags] args"
-        echo "        -N specify total number of node, conflicts with ntasks"
-        echo "        -n specify total number of ntasks, conflicts with nodes"
-        echo "        -c specify total number of cores per node"
-        echo "        -t specify total time in hours"
+	echo "       sbank time estimate [flags] args"
+	echo "        -N specify total number of node, conflicts with ntasks"
+	echo "        -n specify total number of ntasks, conflicts with nodes"
+	echo "        -c specify total number of cores per node"
+	echo "        -t specify total time in hours"
+	echo ""
+	echo "       sbank time estimatescript [flags] args"
+	echo "        -s specify sbatch script name"
+	echo "        -v verbose output"
 
 }
 
