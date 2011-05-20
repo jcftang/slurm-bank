@@ -69,55 +69,45 @@ cmd_calc()
 	secs=0
 
 	# parse the string
-	if [[ "${FLAGS_time}" =~ ^[0-9]+-[0-9]+:[0-9]+:[0-9]+$ ]]
+	if [[ "${FLAGS_time}" =~ ^([0-9]+)-([0-9]+):([0-9]+):([0-9]+)$ ]]
 	then
 		debug "days-hours:minutes:seconds"
-		days=${FLAGS_time%-*}
-		debug "days = $days"
-		FLAGS_time=${FLAGS_time#*-}
-		hours=${FLAGS_time%%:*}
-		debug "hours = $hours"
-		FLAGS_time=${FLAGS_time#*:}
-		mins=${FLAGS_time%%:*}
-		debug "mins = $mins"
-		secs=${FLAGS_time#*:}
-		debug "secs = $secs"
-	elif [[ "${FLAGS_time}" =~ ^[0-9]+-[0-9]+:[0-9]+$ ]]
+
+		days=${BASH_REMATCH[1]}
+		hours=${BASH_REMATCH[2]}
+		mins=${BASH_REMATCH[3]}
+		secs=${BASH_REMATCH[4]}
+
+	elif [[ "${FLAGS_time}" =~ ^([0-9]+)-([0-9]+):([0-9]+)$ ]]
 	then
 		debug "days-hours:minutes"
-		days=${FLAGS_time%-*}
-		debug "days = $days"
-		FLAGS_time=${FLAGS_time#*-}
-		hours=${FLAGS_time%%:*}
-		debug "hours = $hours"
-		FLAGS_time=${FLAGS_time#*:}
-		mins=${FLAGS_time%%:*}
-		debug "mins = $mins"
-	elif [[ "${FLAGS_time}" =~ ^[0-9]+-[0-9]+$ ]]
+
+		days=${BASH_REMATCH[1]}
+		hours=${BASH_REMATCH[2]}
+		mins=${BASH_REMATCH[3]}
+
+	elif [[ "${FLAGS_time}" =~ ^([0-9]+)-([0-9]+)$ ]]
 	then
 		debug "days-hours"
-		days=${FLAGS_time%-*}
-		debug "days = $days"
-		FLAGS_time=${FLAGS_time#*-}
-		hours=${FLAGS_time%%:*}
-		debug "hours = $hours"
-	elif [[ "${FLAGS_time}" =~ ^[0-9]+:[0-9]+:[0-9]+$ ]]
+
+		days=${BASH_REMATCH[1]}
+		hours=${BASH_REMATCH[2]}
+
+	elif [[ "${FLAGS_time}" =~ ^([0-9]+):([0-9]+):([0-9]+)$ ]]
 	then
 		debug "hours:minutes:seconds"
-		hours=${FLAGS_time%%:*}
-		debug "hours = $hours"
-		FLAGS_time=${FLAGS_time#*:}
-		mins=${FLAGS_time%%:*}
-		debug "mins = $mins"
-		secs=${FLAGS_time#*:}
-		debug "secs = $secs"
-	elif [[ "${FLAGS_time}" =~ ^[0-9]+:[0-9]+$ ]]
+
+		hours=${BASH_REMATCH[1]}
+		mins=${BASH_REMATCH[2]}
+		secs=${BASH_REMATCH[3]}
+
+	elif [[ "${FLAGS_time}" =~ ^([0-9]+):([0-9]+)$ ]]
 	then
 		debug "minutes:seconds"
-		mins=${FLAGS_time%%:*}
-		debug "mins = $mins"
-		secs=${FLAGS_time#*:}
-		debug "secs = $secs"
+
+		mins=${BASH_REMATCH[1]}
+		secs=${BASH_REMATCH[2]}
+
 	elif [[ "${FLAGS_time}" =~ ^[0-9]+$ ]]
 	then
 		debug "minutes"

@@ -1,3 +1,6 @@
+# Requires 'sacctmgr'
+#
+
 usage() 
 {
 	echo "usage: sbank balance statement [flags] args"
