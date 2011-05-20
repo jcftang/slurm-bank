@@ -19,23 +19,19 @@ then sbank-balance will show the balance of the user who ran the script.
 
   show help message
 
-  -u
-
-  show all users in the account (defaults to just the current user)
-
   -c
 
   display per cluster 'clustername' (defaults to the local cluster)
 
   -a
 
-  display per account 'accountname' (defaults to all accounts of the
-  current user; implies '-u')
+  display unformatted balance of account 'accountname' (defaults to
+  all accounts of the current user)
 
   -A
 
-  display display all accounts (defaults to all accounts of the
-  current user; implies '-u')
+  display all accounts (defaults to all accounts of the
+  current user)
 
 * request - request a number hours from an account and returns a number
   of hours remaining in the account.
@@ -64,11 +60,11 @@ Show your own balance
 
 	sbank balance statement
 
-Show the balance of all users in your accounts
+Show the unformatted balance of an account
 
-	sbank balance statement -u
+	sbank balance statement -a account_name
 
-Show the balance of all accounts in the cluster
+Show the balance of all accounts in the given cluster
 
 	sbank balance statement -A -c mycluster
 
