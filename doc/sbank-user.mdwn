@@ -42,6 +42,11 @@ EXPERIMENTAL - creating and deleting accounts are experimental.
 
   Return the default account of a given username
 
+  -c, --cluster
+
+  Specify the slurm cluster
+
+
 # EXAMPLES
 
 To list all users in 'mycluster'
