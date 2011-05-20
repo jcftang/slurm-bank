@@ -1,3 +1,5 @@
+# Requires sacctmgr and scontrol
+
 usage() 
 {
 	echo "usage: sbank cluster"
@@ -29,9 +31,9 @@ cmd_list()
 
 	if [ ${FLAGS_all} -eq ${FLAGS_TRUE} ];
 	then
-		sacctmgr -n list cluster format=cluster | sed -e 's/^ *//g;s/ *$//g'
+		$SACCTMGR_BIN -n list cluster format=cluster | sed -e 's/^ *//g;s/ *$//g'
 	else
-		scontrol show config | grep -i clustername | awk -F'=' '{print $2}' | sed -e 's/^ *//g;s/ *$//g'
+		$SCONTROL_BIN show config | grep -i clustername | awk -F'=' '{print $2}' | sed -e 's/^ *//g;s/ *$//g'
 	fi
 } 	
 
