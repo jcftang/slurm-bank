@@ -46,6 +46,12 @@ install: build
                 rsync -a --delete html/ $(DESTDIR)$(PREFIX)/share/doc/slurm-bank/html/; \
         fi
 
+runtests:
+	$(MAKE) -C t runtests
+
+test: build
+	./wvtestrun $(MAKE) runtests	
+
 clean:
 	for man in $(MANS); do \
                 rm -f $$man.1; \
