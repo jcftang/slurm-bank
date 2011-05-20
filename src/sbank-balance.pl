@@ -36,12 +36,11 @@ my ($account, $user, $rawusage, $prev_acc);
 #####################################################################
 sub usage() {
 	print "Usage:\n";
-	print "$0 [-h] [-u] [-c clustername] [-a accountname] [-A]\n";
+	print "$0 [-h] [-c clustername] [-a accountname] [-A]\n";
 	print "\t-h:\tshow this help message\n";
 	print "\t-c:\tdisplay per cluster 'clustername' (defaults to the local cluster)\n";
-	print "\t-a:\tdisplay per account 'accountname' (defaults to all accounts of the current user; implies '-u')\n";
-	print "\t-A:\tdisplay all accounts (defaults to all accounts of the current user; implies '-u')\n";
-	die   "\t-u:\tshow all users in the account (defaults to just the current user)\n";
+	print "\t-a:\tdisplay unformatted balance of account 'accountname' (defaults to all accounts of the current user)\n";
+	die   "\t-A:\tdisplay all accounts (defaults to all accounts of the current user; implies '-u')\n";
 }
 
 # format minutes as hours, with thousands comma separator
@@ -79,7 +78,6 @@ if (defined($opts{c})) {
 
 if (defined($opts{a})) {
 	$accountname = $opts{a};
-	$showallusers = 1;	# implied
 }
 
 if (defined($opts{A})) {
@@ -244,6 +242,38 @@ if ($showallusers) {
 	}
 
 	close(SSHARE2);
+
+} elsif ($accountname ne "") {
+	# show only the balance for $accountname, unformatted
+
+	my $cluster_str = ($clustername ne "") ? "-M $clustername " : "";
+
+	$rawusage = "";	# init to a value to stop perl warnings
+
+	# grab the usage for just that account
+	open (SSHARE, "sshare $cluster_str -A $accountname -hp 2>/dev/null |") or die "$0: Unable to run sacctmgr: $!\n";
+
+	# the first line of input has the values
+	$_ = <SSHARE>;
+	if (/^\s*([^|]+)\|([^|]*)\|[^|]*\|[^|]*\|([^|]*)/) {
+		$account      = "\U$1";
+		$user         = $2;
+		$rawusage     = $3;
+
+		if (exists($acc_limits{$account})) {
+			# and store the account limits while we're here
+			$acc_usage{$account} = sprintf("%.0f", $rawusage/60);
+		}
+	}
+
+	close(SSHARE);
+
+	if ($rawusage eq "") {
+		die "$0: invalid account string '$accountname'\n";
+	}
+
+	# this is minutes - we need to convert to hours
+	printf "%.0f\n", (($acc_limits{$account} - $acc_usage{$account})/60);
 
 } else {
 	# simple version:
