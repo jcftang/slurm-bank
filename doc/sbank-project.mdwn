@@ -34,6 +34,54 @@ EXPERIMENTAL - creating and deleting accounts are experimental.
 
   List projects/accounts in slurmdbd
 
+* create - Create a project account
+
+  -c, --cluster
+
+  Specify the slurm cluster
+
+  -a, --account
+
+  Specify the slurm account
+
+* delete - Delete a project account
+
+  -c, --cluster
+
+  Specify the slurm cluster
+
+  -a, --account
+
+  Specify the slurm account
+
+* adduser - Add a user to a project
+
+  -u, --user
+
+  Specify the username
+
+  -c, --cluster
+
+  Specify the slurm cluster
+
+  -a, --account
+
+  Specify the slurm account
+
+* deleteuser - Delete a user from a project
+
+  -u, --user
+
+  Specify the username
+
+  -c, --cluster
+
+  Specify the slurm cluster
+
+  -a, --account
+
+  Specify the slurm account
+
 # EXAMPLES
 
 To list all the projects/accounts in 'mycluster'

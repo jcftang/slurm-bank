@@ -1,6 +1,6 @@
 # NAME
 
-sbank cluster - list clusters in slurm
+sbank cluster - manages clusters in slurm
 
 # SYNOPSIS
 
@@ -23,6 +23,18 @@ sbank cluster *subcommand* [OPTION]...
   -m, --min
 
   Return the number of cpus on a node, by default we take the max value.
+
+* create
+
+  -c, --cluster
+
+  Create a cluster in slurmdbd
+
+* delete
+
+  -c, --cluster
+
+  Delete a cluster in slurmdbd
 
 # EXAMPLES
 

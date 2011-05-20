@@ -46,12 +46,12 @@ slurm-bank.
 * [[sbank-balance]]
 * [[sbank-cluster]]
 * [[sbank-deposit]]
+* [[sbank-project]]
 * [[sbank-time]]
 
 ### Experimental scripts
 
 * [[sbank-user]]
-* [[sbank-project]]
 
 ### Proposed scripts
 
