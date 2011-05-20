@@ -41,7 +41,7 @@ cmd_create()
 	[ ${FLAGS_user} = 'null' ] && die "${FLAGS_user}" "is not an user, no user specified"
  	
 	debug "creating account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster}"
-        $SACCTMGR add account ${FLAGS_account} cluster=${FLAGS_cluster} parent=root
+        $SACCTMGR -i add user cluster=${FLAGS_cluster} name=${FLAGS_user} account=${FLAGS_account}
 }
 
 cmd_list()
@@ -73,7 +73,6 @@ cmd_list()
                 sacctmgr_opts="-n $sacctmgr_opts "
 	fi
 	$SACCTMGR $sacctmgr_opts list users $opts 
-
 }
 
 cmd_account()
@@ -115,8 +114,6 @@ cmd_account()
         fi
 
 }
-
-
 
 cmd_help()
 {

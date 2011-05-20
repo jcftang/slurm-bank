@@ -1,10 +1,5 @@
 # Requires 'sacctmgr' 
 
-export SLURMBANK_DIR=$(dirname "$0")
-SACCTMGR_BIN=sacctmgr
-SACCTMGR_OPT=
-SACCTMGR="$SACCTMGR_BIN $SACCTMGR_OPT "
-
 usage()
 {
         echo "usage: sbank deposit -c CLUSTER -a ACCOUNT -t TIME"
@@ -18,7 +13,7 @@ parse_args() {
 
 cmd_default()
 {
-        usage
+        depost "$@"
 }
 
 cmd_deposit() 
