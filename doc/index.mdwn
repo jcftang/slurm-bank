@@ -63,6 +63,10 @@ slurm-bank.
 * [[sbank-report]] -- this might be better provided with the
 [[sbank-balance]] script.
 
+## Repo history
+
+	git shortlog --since "Mon May 16 17:12:35 2011"
+
 [slurm]: https://computing.llnl.gov/linux/slurm/
 [maui]: http://www.clusterresources.com/products/maui/
 [GOLD]: http://www.clusterresources.com/pages/products/gold/
