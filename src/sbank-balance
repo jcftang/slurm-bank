@@ -11,13 +11,12 @@ usage()
 	echo
 	echo "       sbank balance request [flags] args"
 	echo "        -a specify account"
-	echo "        -c specify cluster"
+	echo "        -c specify cluster (defaults to the local cluster)"
 	echo "        -t specify total time in hours"
 	echo
 	echo "       sbank balance checkscript [flags] args"
 	echo "        -s specify sbatch script name"
 	echo "        -c specify cluster (defaults to the local cluster)"
-
 
 }
 
