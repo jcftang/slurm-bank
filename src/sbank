@@ -37,6 +37,9 @@ main()
 	# source common
 	. "$SLURMBANK_DIR/sbank-common"
 
+	# check for slurm
+	sanity_check
+
 	if [ $# -lt 1 ]; then
                 usage
                 exit 1

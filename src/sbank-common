@@ -22,3 +22,16 @@ debug()
         [ "${FLAGS_debug}" = "${FLAGS_TRUE}" ] || return
         echo "DEBUG: $@" >&2
 }
+
+sanity_check()
+{
+	# check for sacctmgr
+	# note - when this is packaged e.g. as an rpm, the installation package
+	# should take care of this as a Requirement
+	debug "SACCTMGR_BIN = $SACCTMGR_BIN"
+	if [ ! -x "${SACCTMGR_BIN}" ]
+	then
+		die "unable to find sacctmgr. Is slurm installed? Exiting.."
+	fi
+
+}
