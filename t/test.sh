@@ -4,7 +4,7 @@
 
 #set -e
 
-# uuidgen a random cluster, account and user
+# cluster, account and user
 _cluster=tcluster
 _account=taccount
 _user=tuser
