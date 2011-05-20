@@ -1,7 +1,7 @@
 PREFIX=/usr
 BINDIR=$(DESTDIR)$(PREFIX)/bin
-MANS=sbalance sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster
-BINS=sbalance sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster
+MANS=sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster
+BINS=${MANS} sbank-balance.pl
 
 # If ikiwiki is available, build static html docs suitable for being
 # shipped in the software package.
@@ -34,7 +34,7 @@ install: build
 	done
 	install -m 644 src/sbank-common $(DESTDIR)$(PREFIX)/bin;
 	chmod +x $(DESTDIR)$(PREFIX)/bin/sbank
-	chmod +x $(DESTDIR)$(PREFIX)/bin/sbalance
+	chmod +x $(DESTDIR)$(PREFIX)/bin/sbank-balance.pl
 
 	install -d $(DESTDIR)$(PREFIX)/share/man/man1
 	for man in $(MANS); do \

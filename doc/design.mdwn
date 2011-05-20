@@ -128,7 +128,7 @@ be the case).
   current user's default account on the cluster. I noticed that people might
   leave out the account name in their job script, and so slurm will just
   use their default one.
-* for 'sbalance request', I'd prefer it it printed out something like the
+* for 'sbank balance request', I'd prefer it it printed out something like the
   following, instead of just the expected balance:
 
     Current balance     = nnn
