@@ -3,7 +3,8 @@
 usage() 
 {
 	echo "usage: sbank cluster"
-	echo "       sbank cluster -a"
+	echo "       sbank cluster list -a"
+	echo "       sbank cluster cpupernode -m"
 }
 
 parse_args() {
@@ -36,6 +37,30 @@ cmd_list()
 		$SCONTROL_BIN show config | grep -i clustername | awk -F'=' '{print $2}' | sed -e 's/^ *//g;s/ *$//g'
 	fi
 } 	
+
+cmd_cpupernode() {
+	local cpus
+
+	# define some variables
+	debug "define some variables"
+	DEFINE_boolean 'min' false 'return lowest value of cpu per node' 'm'
+
+	FLAGS_PARENT="sbank cluster cpupernode"
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	if [ ${FLAGS_min} -eq ${FLAGS_TRUE} ];
+	then
+		opts="-n"
+	else
+		opts="-nr"
+	fi
+	cpus=$( $SINFO_BIN -h --format "%c %P"  | sort $opts | head -1 | awk '{print $1}' )
+	# should probably test to see if this is an integer number or not
+	echo $cpus
+}
 
 cmd_help()
 {

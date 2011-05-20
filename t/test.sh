@@ -15,6 +15,7 @@ WVPASS which perl
 WVPASS which scontrol
 WVPASS which sacctmgr
 WVPASS which sshare
+WVPASS which sinfo
 
 WVFAIL sbank
 
@@ -30,3 +31,10 @@ WVSTART "sbank balance"
 
 WVPASS sbank time estimatescript -s sample-job1.sh
 WVPASS sbank time estimatescript -s sample-job2.sh
+
+WVSTART "sbank cluster"
+
+WVPASSRC sbank cluster cpupernode
+WVPASSRC sbank cluster cpupernode -m
+WVPASSRC sbank cluster list
+WVPASSRC sbank cluster list -a

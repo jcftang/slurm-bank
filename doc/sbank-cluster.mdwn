@@ -18,6 +18,12 @@ sbank cluster *subcommand* [OPTION]...
 
   List all clusters in slurmdbd 
 
+* cpupernode
+
+  -m, --min
+
+  Return the number of cpus on a node, by default we take the max value.
+
 # EXAMPLES
 
 Show the default cluster from slurm.conf
