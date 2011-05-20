@@ -36,7 +36,7 @@ cmd_create()
 	[ ${FLAGS_account} = 'null' ] && die "${FLAGS_account}" "is not an account, no account specified"
 
 	debug "creating account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster}"
-	$SACCTMGR -i add account ${FLAGS_account} cluster=${FLAGS_cluster} parent=root GrpCPUMins=3600
+	$SACCTMGR -i add account ${FLAGS_account} cluster=${FLAGS_cluster} parent=root GrpCPUMins=0
 }
 
 cmd_delete()
@@ -138,7 +138,7 @@ cmd_deleteuser()
 	debug "check if user is specified"
 	[ ${FLAGS_user} = 'null' ] && die "${FLAGS_user}" "is not an user, no user specified"
 
-	debug "creating account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster}"
+	debug "delete account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster} and user ${FLAGS_user}"
 	$SACCTMGR -i delete user ${FLAGS_user} account=${FLAGS_account} cluster=${FLAGS_cluster}
 }
 

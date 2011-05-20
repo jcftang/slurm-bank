@@ -5,9 +5,9 @@
 #set -e
 
 # uuidgen a random cluster, account and user
-_cluster=test-cluster
-_account=test-account
-_user=test-user
+_cluster=tcluster
+_account=taccount
+_user=tuser
 
 sbank()
 {
@@ -61,5 +61,6 @@ WVPASS sbank cluster create -c $_cluster
 WVPASS sbank project create -c $_cluster -a $_account
 WVPASSEQ "$(sbank project list -c $_cluster | awk '{print $2}' | grep $_account)" "$_account"
 WVPASS sbank deposit -c $_cluster -a $_account -t 1000
+WVPASSEQ "$(sbank balance request -a taccount -c tcluster -t 500)" "500"
 WVPASS sbank project delete -c $_cluster -a $_account
 WVPASS sbank cluster delete -c $_cluster
