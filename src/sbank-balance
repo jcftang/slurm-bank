@@ -79,8 +79,22 @@ cmd_request()
 	debug "parse command line"
 	parse_args "$@"
 
-	[ "${FLAGS_account}" = "" ]  && die "must specify account"
 	[ "${FLAGS_time}" -le "0" ] && die "time must be greater than 0"
+
+	# if no account, look for default
+	#[ "${FLAGS_account}" = "" ]  && die "must specify account"
+	if [ -z "${FLAGS_account}" ]
+	then
+		FLAGS_account=$(sbank user account)
+
+		# if no default, then error
+		if [ -z "${FLAGS_account}" ]
+		then
+			die "no account specified, and no default account configured"
+		else
+			warn "no account specified, using default: $FLAGS_account"
+		fi
+	fi
 
 
 	if [ "${FLAGS_cluster}" = "" ]
@@ -198,6 +212,20 @@ cmd_checkscript()
 			warn "no cores-per-node specified - estimating $cpus"
 		fi
 		cpu_hours=$(sbank time estimate -N $nodes -c $cpus -t $wall_hours)
+	fi
+
+	# if no account, look for default
+	if [ -z "$acc" ]
+	then
+		acc=$(sbank user account)
+
+		# if no default, then error
+		if [ -z "$acc" ]
+		then
+			die "no account specified in the script, and no default account configured"
+		else
+			warn "no account specified in the script, using default: $acc"
+		fi
 	fi
 
 	if [ ${FLAGS_verbose} -eq ${FLAGS_TRUE} ]
