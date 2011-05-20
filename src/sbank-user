@@ -45,11 +45,15 @@ cmd_create()
 
 cmd_list()
 {
+	local opts
+	local sacctmgr_opts
+
 	# define some variables
 	debug "define some variables"
 	DEFINE_string 'account' '' 'specify a slurm account' 'a'
 	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
 	DEFINE_string 'user' '' 'specify a user' 'u'
+	DEFINE_boolean 'verbose' false 'verbose output' 'v'
 
 	FLAGS_PARENT="sbank user list"	
 
@@ -59,9 +63,24 @@ cmd_list()
 
 	[ "${FLAGS_cluster}" != "" ]  && opts="$opts cluster=${FLAGS_cluster}"
 	[ "${FLAGS_account}" != "" ]  && opts="$opts DefaultAccount=${FLAGS_account}"
-	[ "${FLAGS_user}" != "" ]  && opts="$opts names=${FLAGS_user}"
+	#[ "${FLAGS_user}" != "" ]  && opts="$opts names=${FLAGS_user}"
 
-	$SACCTMGR list users $opts
+	if [ "${FLAGS_user}" != "" ]
+	then
+		opts="$opts names=${FLAGS_user}"
+	else
+		opts="$opts names=${USER}"
+	fi
+
+	if [ ${FLAGS_verbose} -eq ${FLAGS_TRUE} ]
+        then
+                sacctmgr_opts="$sacctmgr_opts "
+		$SACCTMGR $sacctmgr_opts list users $opts
+        else
+                sacctmgr_opts="-n $sacctmgr_opts "
+		$SACCTMGR $sacctmgr_opts list users $opts | awk '{print $2}'
+        fi
+
 }
 
 

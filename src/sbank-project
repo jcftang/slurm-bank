@@ -2,7 +2,7 @@ usage()
 {
 	echo "usage: sbank project create -c CLUSTER -a ACCOUNT"
 	echo "       sbank project delete -c CLUSTER -a ACCOUNT"
-	echo "       sbank project list -c CLUSTER"
+	echo "       sbank project list -c CLUSTER -v"
 }
 
 parse_args() {
@@ -63,14 +63,15 @@ cmd_delete()
 }
 
 cmd_list() {
+	local opts
+	local SACCTMGR_EXTRA
+
 	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
+	DEFINE_boolean 'verbose' false 'verbose output' 'v'
 
 	# parse the command line
 	debug "parse command line"
 	parse_args "$@"
-
-
-	local SACCTMGR_EXTRA
 
 	FLAGS_PARENT="sbank project"
 	
@@ -78,7 +79,14 @@ cmd_list() {
 
 	[ "${FLAGS_cluster}" != "" ]  && SACCTMGR_EXTRA="cluster=${FLAGS_cluster}"
 
-	$SACCTMGR list associations format=cluster,account%30 ${SACCTMGR_EXTRA} | uniq
+	if [ ${FLAGS_verbose} -eq ${FLAGS_TRUE} ]
+	then
+		opts=
+	else
+		opts=-n
+	fi
+	$SACCTMGR $opts list associations format=cluster,account%30 ${SACCTMGR_EXTRA} | uniq
+
 }
 
 cmd_help()
