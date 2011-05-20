@@ -21,7 +21,7 @@ usage()
 	echo "    deposit    Deposit hours to an account"
 	echo "    balance    Show balance sheet of account(s)"
 	echo "    time       Time calculator"
-	echo "    cluster    List cluster(s) in slurmdbd"
+	echo "    cluster    Manage clusters in slurmdbd"
 	echo 
 	echo "Try 'sbank <subcommand> help' for details."
 }

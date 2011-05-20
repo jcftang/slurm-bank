@@ -4,6 +4,11 @@
 
 #set -e
 
+# uuidgen a random cluster, account and user
+_cluster=test-cluster
+_account=test-account
+_user=test-user
+
 sbank()
 {
     "../src/sbank" "$@"
@@ -34,7 +39,27 @@ WVPASS sbank time estimatescript -s sample-job2.sh
 
 WVSTART "sbank cluster"
 
+WVPASS sbank cluster create -c $_cluster
+WVPASS sbank cluster delete -c $_cluster
+
 WVPASSRC sbank cluster cpupernode
 WVPASSRC sbank cluster cpupernode -m
 WVPASSRC sbank cluster list
 WVPASSRC sbank cluster list -a
+
+WVSTART "sbank project"
+
+WVPASS sbank cluster create -c $_cluster
+WVPASS sbank project create -c $_cluster -a $_account
+WVPASSEQ "$(sbank project list -c $_cluster | awk '{print $2}' | grep $_account)" "$_account"
+WVPASS sbank project delete -c $_cluster -a $_account
+WVPASS sbank cluster delete -c $_cluster
+
+WVSTART "sbank deposit"
+
+WVPASS sbank cluster create -c $_cluster
+WVPASS sbank project create -c $_cluster -a $_account
+WVPASSEQ "$(sbank project list -c $_cluster | awk '{print $2}' | grep $_account)" "$_account"
+WVPASS sbank deposit -c $_cluster -a $_account -t 1000
+WVPASS sbank project delete -c $_cluster -a $_account
+WVPASS sbank cluster delete -c $_cluster
