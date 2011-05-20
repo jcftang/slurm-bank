@@ -159,7 +159,7 @@ cmd_estimate()
 	debug "cores=${FLAGS_cores} "
 	debug "time=${FLAGS_time} "
 
-	if [ -n "${FLAGS_nodes}" ] && [ -n "${FLAGS_ntasks}" ];
+	if [ -z "${FLAGS_nodes}" ] && [ -z "${FLAGS_ntasks}" ];
 	then
 		die "Please specify either --nodes or --ntasks"
 	fi
