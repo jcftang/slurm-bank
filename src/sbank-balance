@@ -69,6 +69,7 @@ cmd_request()
 	DEFINE_string 'account' '' 'specify a slurm account' 'a'
 	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
 	DEFINE_integer 'time' '0' 'specify time in hours' 't'
+	DEFINE_boolean 'verbose' false 'verbose output, including current balance, requested hours and expected balance' 'v'
 
 	FLAGS_PARENT="sbank balance request"
 
@@ -95,12 +96,26 @@ cmd_request()
 
 	debug "${balance_post} hours remaining in balance after the request"
 
-	if [ "${balance_post}" -gt "0" ]
+
+	if [ ${FLAGS_verbose} -eq ${FLAGS_TRUE} ]
 	then
-		echo ${balance_post}
+		printf "%-20s = %'10d\n" "Current balance" $((${balance_initial} / 60))
+		printf "%-20s = %'10d\n" "Requested hours" ${FLAGS_time}
+		if [ "${balance_post}" -gt "0" ]
+		then
+			printf "%-20s = %'10d\n" "Expected balance" ${balance_post}
+		else
+			printf "%-20s = %'10d  <= warning: job won't run sucessfully\n" "Expected balance" ${balance_post}
+		fi
 	else
-		warn "possible error"
-		echo ${balance_post}
+
+		if [ "${balance_post}" -gt "0" ]
+		then
+			echo ${balance_post}
+		else
+			warn "possible error"
+			echo ${balance_post}
+		fi
 	fi
 }
 
