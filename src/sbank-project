@@ -112,8 +112,36 @@ cmd_adduser()
 	[ ${FLAGS_user} = 'null' ] && die "${FLAGS_user}" "is not an user, no user specified"
 
 	debug "creating account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster}"
-	$SACCTMGR -i create association user=${FLAGS_user} account=${FLAGS_account} cluster=${FLAGS_cluster} 
+	$SACCTMGR -i add user ${FLAGS_user} account=${FLAGS_account} cluster=${FLAGS_cluster}
 }
+
+cmd_deleteuser()
+{
+	# define some variables
+	debug "define some variables"
+	DEFINE_string 'account' 'null' 'specify a slurm account' 'a'
+	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
+	DEFINE_string 'user' 'null' 'specify a user' 'u'
+
+	FLAGS_PARENT="sbank project adduser"
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	debug "check if cluster is specified"
+	[ ${FLAGS_cluster} = 'null' ] && die "${FLAGS_cluster}" "is not an cluster, no cluster specified"
+
+	debug "check if account is specified"
+	[ ${FLAGS_account} = 'null' ] && die "${FLAGS_account}" "is not an account, no account specified"
+
+	debug "check if user is specified"
+	[ ${FLAGS_user} = 'null' ] && die "${FLAGS_user}" "is not an user, no user specified"
+
+	debug "creating account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster}"
+	$SACCTMGR -i delete user ${FLAGS_user} account=${FLAGS_account} cluster=${FLAGS_cluster}
+}
+
 
 cmd_help()
 {
