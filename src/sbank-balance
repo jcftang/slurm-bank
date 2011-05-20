@@ -192,9 +192,10 @@ cmd_checkscript()
 		cpu_hours=$(sbank time estimate -n $tasks -t $wall_hours)
 	elif [ -n "$nodes" ]
 	then
-		# FIXME - also, what to do about -c ????? you don't have to specify it in an sbatch script
-		# maybe call sinfo with the partition from the script, and get the number of cores from a node
-		# in that partition???
+		if [ -z "$cpus" ]
+		then
+			cpus=$(sbank cluster cpupernode)
+		fi
 		cpu_hours=$(sbank time estimate -N $nodes -c $cpus -t $wall_hours)
 	fi
 
