@@ -23,6 +23,11 @@ slurm commands. One of the problems with banking is being consistent,
 the sbank wrapper scripts try to provide a workflow to provide a GOLD
 like banking system with slurm.
 
+You can do everything that these wrapper scripts are doing with plain
+slurm commands! We stress that these scripts are just fixing the workflows
+in managing accounts and users as well as providing some helper tools
+to let users manage their own resources.
+
 ## Deciding on a policy
 
 * Figure out how many CPU hours are available on the cluster.

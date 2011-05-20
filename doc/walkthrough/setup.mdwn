@@ -22,5 +22,9 @@ Users will need to learn how to use accounts (nothing new here).
 
 sacctmgr and sshare is required and must be working.
 
+If you do not already have a cluster registered and configured in slurm,
+
+	$ sbank cluster create mycluster
+
 [slurm]: https://computing.llnl.gov/linux/slurm/
 [slurmdbd]: https://computing.llnl.gov/linux/slurm/accounting.html
