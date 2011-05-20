@@ -195,6 +195,7 @@ cmd_checkscript()
 		if [ -z "$cpus" ]
 		then
 			cpus=$(sbank cluster cpupernode)
+			warn "no cores-per-node specified - estimating $cpus"
 		fi
 		cpu_hours=$(sbank time estimate -N $nodes -c $cpus -t $wall_hours)
 	fi

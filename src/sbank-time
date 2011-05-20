@@ -179,6 +179,7 @@ cmd_estimate()
 		if [ "${FLAGS_cores}" -le "0" ]
 		then
 			FLAGS_cores=$(sbank cluster cpupernode)
+			warn "no cores-per-node specified - estimating $cpus"
 		fi
 		printf "$(( ${FLAGS_nodes} * ${FLAGS_cores} * ${FLAGS_time} ))\n"
 	fi
@@ -249,6 +250,7 @@ cmd_estimatescript()
 		if [ -z "$cpus" ]
 		then
 			cpus=$(sbank cluster cpupernode)
+			warn "no cores-per-node specified - estimating $cpus"
 		fi
 		cpu_hours=$(sbank time estimate -N $nodes -c $cpus -t $wall_hours)
 	fi
