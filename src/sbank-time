@@ -24,7 +24,7 @@ usage()
         echo "       sbank time estimate [flags] args"
         echo "        -N specify total number of node, conflicts with ntasks"
         echo "        -n specify total number of ntasks, conflicts with nodes"
-        echo "        -c specify total number of cores per node, required for nodes"
+        echo "        -c specify total number of cores per node"
         echo "        -t specify total time in hours"
 
 }
@@ -142,7 +142,7 @@ cmd_estimate()
 	debug "define some variables"
 	DEFINE_integer 'ntasks' '' 'specify a total number of tasks, conflicts with nodes' 'n'
 	DEFINE_integer 'nodes' '' 'specify a total number of nodes, conflicts with ntasks' 'N'
-	DEFINE_integer 'cores' '0' 'specify a total number of cores per node, required for nodes' 'c'
+	DEFINE_integer 'cores' '0' 'specify a total number of cores per node' 'c'
 	DEFINE_integer 'time' '0' 'specify a total hours (Walltime)' 't'
 
 	FLAGS_PARENT="sbank time estimate"
@@ -172,7 +172,10 @@ cmd_estimate()
 		printf "$(( ${FLAGS_ntasks} * ${FLAGS_time} ))\n"
 	else
 		[ "${FLAGS_nodes}" -le "0" ] && die "nodes must be greater than 0"
-		[ "${FLAGS_cores}" -le "0" ] && die "cores must be greater than 0"
+		if [ "${FLAGS_cores}" -le "0" ]
+		then
+			FLAGS_cores=$(sbank cluster cpupernode)
+		fi
 		printf "$(( ${FLAGS_nodes} * ${FLAGS_cores} * ${FLAGS_time} ))\n"
 	fi
 }
