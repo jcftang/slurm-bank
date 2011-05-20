@@ -13,10 +13,12 @@ usage()
 	echo "        -a specify account"
 	echo "        -c specify cluster (defaults to the local cluster)"
 	echo "        -t specify total time in hours"
+	echo "        -v verbose output, including current balance, requested hours and expected balance"
 	echo
 	echo "       sbank balance checkscript [flags] args"
 	echo "        -s specify sbatch script name"
 	echo "        -c specify cluster (defaults to the local cluster)"
+	echo "        -v verbose output, including current balance, requested hours and expected balance"
 
 }
 
@@ -135,6 +137,7 @@ cmd_checkscript()
 	debug "define some variables"
 	DEFINE_string 'scriptname' '' 'specify a slurm job script' 's'
 	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
+	DEFINE_boolean 'verbose' false 'verbose output, including current balance, requested hours and expected balance' 'v'
 
 	FLAGS_PARENT="sbank balance checkscript"
 
@@ -195,7 +198,12 @@ cmd_checkscript()
 		cpu_hours=$(sbank time estimate -N $nodes -c $cpus -t $wall_hours)
 	fi
 
-	sbank balance request -a $acc -c ${FLAGS_cluster} -t $cpu_hours
+	if [ ${FLAGS_verbose} -eq ${FLAGS_TRUE} ]
+	then
+		sbank balance request -a $acc -c ${FLAGS_cluster} -t $cpu_hours -v
+	else
+		sbank balance request -a $acc -c ${FLAGS_cluster} -t $cpu_hours
+	fi
 }
 
 cmd_help()
