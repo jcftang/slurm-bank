@@ -10,17 +10,21 @@ usage()
 	echo "        -A display all accounts (defaults to all accounts of the current user; implies '-u')"
 	echo
 	echo "       sbank balance request [flags] args"
-        echo "        -a specify account"
-        echo "        -c specify cluster"
-        echo "        -t specify total time in hours"
+	echo "        -a specify account"
+	echo "        -c specify cluster"
+	echo "        -t specify total time in hours"
+	echo
+	echo "       sbank balance checkscript [flags] args"
+	echo "        -s specify sbatch script name"
+	echo "        -c specify cluster (defaults to the local cluster)"
 
 
 }
 
 parse_args() {
-        # parse options
-        FLAGS "$@" || exit $?
-        eval set -- "${FLAGS_ARGV}"
+	# parse options
+	FLAGS "$@" || exit $?
+	eval set -- "${FLAGS_ARGV}"
 }
 
 cmd_default()
@@ -73,14 +77,20 @@ cmd_request()
 	debug "parse command line"
 	parse_args "$@"
 
-	[ "${FLAGS_cluster}" = "" ]  && die "must specify cluster"
 	[ "${FLAGS_account}" = "" ]  && die "must specify account"
 	[ "${FLAGS_time}" -le "0" ] && die "time must be greater than 0"
 
+
+	if [ "${FLAGS_cluster}" = "" ]
+	then
+		FLAGS_cluster=$(sbank cluster)
+		debug "using local cluster: ${FLAGS_cluster}"
+	fi
+
 	# the balance account - this could be re-worked in a more clever way and check for exitcodes
-        balance_initial=`$SACCTMGR -np list associations cluster=${FLAGS_cluster} format=account,GrpCPUMins account=${FLAGS_account} | head -1 | awk -F'|' '{print $2}'`
-        debug "${balance_initial} mins is the balance of ${FLAGS_account} on ${FLAGS_cluster}"
-        debug "$(( ${balance_initial} / 60 )) hours is in the balance of ${FLAGS_account} on ${FLAGS_cluster}"
+	balance_initial=`$SACCTMGR -np list associations cluster=${FLAGS_cluster} format=account,GrpCPUMins account=${FLAGS_account} | head -1 | awk -F'|' '{print $2}'`
+	debug "${balance_initial} mins is the balance of ${FLAGS_account} on ${FLAGS_cluster}"
+	debug "$(( ${balance_initial} / 60 )) hours is in the balance of ${FLAGS_account} on ${FLAGS_cluster}"
 
 	balance_post=$(( (${balance_initial} / 60) - ${FLAGS_time} ))
 
@@ -95,7 +105,7 @@ cmd_request()
 	fi
 }
 
-cmd_requestscript()
+cmd_checkscript()
 {
 	local walltime
 	local wall_hours
@@ -111,18 +121,23 @@ cmd_requestscript()
 	DEFINE_string 'scriptname' '' 'specify a slurm job script' 's'
 	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
 
-	FLAGS_PARENT="sbank balance requestscript"
+	FLAGS_PARENT="sbank balance checkscript"
 
 	# parse the command line
 	debug "parse command line"
 	parse_args "$@"
 
-	[ "${FLAGS_cluster}" = "" ]  && die "must specify cluster"
 	[ "${FLAGS_scriptname}" = "" ]  && die "must specify job script name"
 
 	[ ! -f "${FLAGS_scriptname}" ]  && die "no such file: ${FLAGS_scriptname}"
 	[ ! -r "${FLAGS_scriptname}" ]  && die "unable to read: ${FLAGS_scriptname}"
 
+
+	if [ "${FLAGS_cluster}" = "" ]
+	then
+		FLAGS_cluster=$(sbank cluster)
+		debug "using local cluster: ${FLAGS_cluster}"
+	fi
 
 	# use the filename at the end to avoid starting a subshell and losing the variables
 	while read line
@@ -143,8 +158,6 @@ cmd_requestscript()
 					acc=$arg ;;
 			esac
 		fi
-
-
 
 	done < "${FLAGS_scriptname}"
 
