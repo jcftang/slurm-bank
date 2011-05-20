@@ -29,7 +29,7 @@ sanity_check()
 	# note - when this is packaged e.g. as an rpm, the installation package
 	# should take care of this as a Requirement
 	debug "SACCTMGR_BIN = $SACCTMGR_BIN"
-	if [ ! -x "${SACCTMGR_BIN}" ]
+	if [ ! -x $(which ${SACCTMGR_BIN}) ]
 	then
 		die "unable to find sacctmgr. Is slurm installed? Exiting.."
 	fi
