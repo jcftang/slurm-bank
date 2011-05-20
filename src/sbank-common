@@ -25,11 +25,14 @@ debug()
 
 sanity_check()
 {
+	local ret
 	# check for sacctmgr
 	# note - when this is packaged e.g. as an rpm, the installation package
 	# should take care of this as a Requirement
 	debug "SACCTMGR_BIN = $SACCTMGR_BIN"
-	if [ ! -x $(which ${SACCTMGR_BIN}) ]
+	which ${SACCTMGR_BIN} > /dev/null 2>&1
+	ret=$?
+	if [ ${ret} != "0" ]
 	then
 		die "unable to find sacctmgr. Is slurm installed? Exiting.."
 	fi
