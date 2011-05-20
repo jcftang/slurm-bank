@@ -122,28 +122,24 @@ be the case).
   needed then print a number of hours that is in the balance before and
   after the job has run. Maybe add this in the form of *sbank balance
   request --nodes N --cores C --time hours --account ACCOUNT*
-* the balance request commands - it would be nice if they could use 'sbank
-  cluster' to find the local cluster, if -c is not specified
+* the balance request commands - use 'sbank cluster' to find the local
+  cluster, if -c is not specified
 * similarly, it would be nice to add a command to 'sbank user' to list the
   current user's default account on the cluster. I noticed that people might
   leave out the account name in their job script, and so slurm will just
   use their default one.
-* for 'sbank balance request', I'd prefer it it printed out something like the
-  following, instead of just the expected balance:
+* for 'sbank balance request', the verbose flag prints out the following:
 
     Current balance     = nnn
     Requested CPU hours = nnn
     Expected balance    = nnn
 
-  I think that would be more explicit, rather than just printing the final
-  expected balance.
 * I'd like 'user list' to maybe default to the current user, on the local
   cluster, and print their default account ? Not sure if the current behaviour
   of showing all users is the best. It could be specified with '-a' or something
-* I was wondering about having some kind of a sanity check in 'sbank' for
-  seeing if commands like 'sacctmgr' are actually there? I know the spec
-  file should take care of it when it's an rpm, so I don't know if this is
-  needed or not..
+* sbank starts with a basic sanity checking script, seeing if commands like
+  'sacctmgr' are actually there? If it's packaged as an rpm, the dependencies
+  will catch this, but it's no harm to have it.
 
 # Tested on
 
