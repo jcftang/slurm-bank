@@ -152,24 +152,20 @@ cmd_requestscript()
 	[ -z "$tasks" -a -z "$nodes" ] && die "at least one of tasks (-n) or nodes (-N) must be set in the script"
 
 
-	# FIXME - best way to call another sbank command?
-	wall_hours=$(./sbank time calc -t $walltime)
+	wall_hours=$(sbank time calc -t $walltime)
 
 	if [ -n "$tasks" ]
 	then
-		# FIXME - best way to call another sbank command?
-		cpu_hours=$(./sbank time estimate -n $tasks -t $wall_hours)
+		cpu_hours=$(sbank time estimate -n $tasks -t $wall_hours)
 	elif [ -N "$tasks" ]
 	then
-		# FIXME - best way to call another sbank command?
 		# FIXME - also, what to do about -c ????? you don't have to specify it in an sbatch script
 		# maybe call sinfo with the partition from the script, and get the number of cores from a node
 		# in that partition???
-		cpu_hours=$(./sbank time estimate -N $tasks -t $wall_hours)
+		cpu_hours=$(sbank time estimate -N $tasks -t $wall_hours)
 	fi
 
-	# FIXME - best way to call another sbank command?
-	./sbank balance request -a $acc -c ${FLAGS_cluster} -t $cpu_hours
+	sbank balance request -a $acc -c ${FLAGS_cluster} -t $cpu_hours
 }
 
 cmd_help()

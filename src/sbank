@@ -8,6 +8,7 @@ export SLURMBANK_DIR=$(dirname "$0")
 SACCTMGR_BIN=sacctmgr
 SACCTMGR_OPT=
 SACCTMGR="$SACCTMGR_BIN $SACCTMGR_OPT "
+SCONTROL_BIN=scontrol
 
 usage() 
 {
