@@ -110,6 +110,7 @@ cmd_checkscript()
 	local wall_hours
 	local cpu_hours
 	local tasks
+	local cpus
 	local nodes
 	local acc
 	local arg
@@ -151,6 +152,8 @@ cmd_checkscript()
 				       walltime=$arg ;;
 				n)
 				       tasks=$arg ;;
+				c)
+				       cpus=$arg ;;
 				N)
 				       nodes=$arg ;;
 				U)
@@ -169,12 +172,12 @@ cmd_checkscript()
 	if [ -n "$tasks" ]
 	then
 		cpu_hours=$(sbank time estimate -n $tasks -t $wall_hours)
-	elif [ -N "$tasks" ]
+	elif [ -n "$nodes" ]
 	then
 		# FIXME - also, what to do about -c ????? you don't have to specify it in an sbatch script
 		# maybe call sinfo with the partition from the script, and get the number of cores from a node
 		# in that partition???
-		cpu_hours=$(sbank time estimate -N $tasks -t $wall_hours)
+		cpu_hours=$(sbank time estimate -N $nodes -c $cpus -t $wall_hours)
 	fi
 
 	sbank balance request -a $acc -c ${FLAGS_cluster} -t $cpu_hours
