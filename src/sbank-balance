@@ -83,7 +83,7 @@ cmd_request()
 
 	if [ "${FLAGS_cluster}" = "" ]
 	then
-		FLAGS_cluster=$(sbank cluster)
+		FLAGS_cluster=$(sbank cluster list)
 		debug "using local cluster: ${FLAGS_cluster}"
 	fi
 
@@ -150,7 +150,7 @@ cmd_checkscript()
 
 	if [ "${FLAGS_cluster}" = "" ]
 	then
-		FLAGS_cluster=$(sbank cluster)
+		FLAGS_cluster=$(sbank cluster list)
 		debug "using local cluster: ${FLAGS_cluster}"
 	fi
 
