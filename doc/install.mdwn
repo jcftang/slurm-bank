@@ -1,0 +1,20 @@
+To install slurm-bank
+
+## Requirements
+
+A working SLURM installation with perl and bash, we assume that
+slurmdbd is setup and functioning correctly.
+
+## Installing on a RHEL5x or clone
+
+If you have a release tarball,
+
+	$ rpmbuild -ta slurm-bank-1.0.tar.gz
+
+Once the RPM's are created you can simply install the RPM's
+
+## Installing on a generic Linux system
+
+	$ tar zxvf slurm-bank-1.0.tar.gz
+	$ cd slurm-bank-1.0
+	$ make install

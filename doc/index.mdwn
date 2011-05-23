@@ -1,3 +1,12 @@
+[[!sidebar content="""
+
+[[!img tchpc_icon128x128.png link=no]]
+
+* [[install]]
+* [[contact]]
+
+"""]]
+
 ## About
 
 SLURM Bank, a collection of wrapper scripts
