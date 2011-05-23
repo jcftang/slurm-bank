@@ -39,6 +39,12 @@ sbank cluster *subcommand* [OPTION]...
 
   Delete a cluster in slurmdbd
 
+* cpuhrs
+
+  -c, --cluster
+
+  get an estimate of the total cpu hours available (talks to sinfo)
+
 # EXAMPLES
 
 Show the default cluster from slurm.conf

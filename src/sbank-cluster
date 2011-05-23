@@ -7,6 +7,7 @@ usage()
 	echo "       sbank cluster cpupernode -m -c CLUSTER"
 	echo "       sbank cluster create -c CLUSTER"
 	echo "       sbank cluster delete -c CLUSTER"
+	echo "       sbank cluster cpuhrs -c CLUSTER"
 }
 
 parse_args() {
@@ -106,6 +107,29 @@ cmd_cpupernode() {
 	# should probably test to see if this is an integer number or not
 	echo $cpus
 }
+
+cmd_cpuhrs() {
+	# define some variables
+	debug "define some variables"
+        DEFINE_string 'cluster' '' 'specify a cluster' 'c'
+
+	FLAGS_PARENT="sbank cluster cpuhrs"
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	debug "check if cluster is specified"
+        if [ "${FLAGS_cluster}" != "" ]
+	then
+		FLAGS_cluster="-M ${FLAGS_cluster}"
+	else
+		FLAGS_cluster="-M $(sbank cluster list)"
+	fi
+
+	sbank-common-cpu_hrs.pl -t hours ${FLAGS_cluster}
+}
+
 
 cmd_help()
 {
