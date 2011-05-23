@@ -93,6 +93,11 @@ export-docs: docs
 			| git commit-tree $$(git write-tree --prefix=html) \
 				-p refs/heads/html)
 
+# don't have ikiwiki but still want to be able to install the docs.
+import-docs: clean
+	mkdir -p html
+	git archive origin/html | (cd html; tar -xvf -)
+
 push-docs: export-docs
 	git push origin html
 
