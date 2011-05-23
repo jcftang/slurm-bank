@@ -22,7 +22,7 @@ build: docs
 docs:
 	$(IKIWIKI) doc html -v --wikiname slurm-bank --plugin=goodstuff \
 		--no-usedirs --disable-plugin=openid --plugin=sidebar \
-		--underlaydir=/dev/null --disable-plugin=shortcut \
+		--disable-plugin=shortcut \
 		--disable-plugin=smiley \
 		--plugin=comments --set comments_pagespec="*" \
 		--exclude='news/.*'
