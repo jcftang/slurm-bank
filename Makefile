@@ -65,6 +65,7 @@ clean:
 
 dist:
 	git archive --format tar --prefix=$$(cat VERSION)/ HEAD | gzip > $$(cat VERSION).tar.gz
+	git archive --format tar --prefix=$$(cat VERSION)-html/ html | gzip > $$(cat VERSION)-html.tar.gz
 
 dist-withdocs: docs
 	git archive --format tar --prefix=$$(cat VERSION)/ HEAD | tar xv -
