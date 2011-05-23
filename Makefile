@@ -61,8 +61,6 @@ clean:
 	for man in $(MANS); do \
                 rm -f $$man.1; \
         done
-
-distclean: clean
 	rm -rf html doc/.ikiwiki
 
 dist:
