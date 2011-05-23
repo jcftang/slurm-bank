@@ -62,4 +62,12 @@ clean:
 dist:
 	git archive --format tar --prefix=$$(cat VERSION)/ HEAD | gzip > $$(cat VERSION).tar.gz
 
+dist-withdocs: docs
+	git archive --format tar --prefix=$$(cat VERSION)/ HEAD | tar xv -
+	if [ -d html ]; then \
+		rsync -a --delete html/ $$(cat VERSION)/html/; \
+	fi
+	tar czvf $$(cat VERSION).tar.gz $$(cat VERSION)/
+	echo rm -rf $$(cat VERSION)
+
 .PHONY: docs
