@@ -1,6 +1,6 @@
 PREFIX=/usr
 BINDIR=$(DESTDIR)$(PREFIX)/bin
-MANS=sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster
+MANS=sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster sbank-submit
 BINS=${MANS} sbank-balance.pl
 
 # If ikiwiki is available, build static html docs suitable for being
