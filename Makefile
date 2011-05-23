@@ -7,6 +7,7 @@ BINS=${MANS} sbank-balance.pl sbank-common-cpu_hrs.pl
 # shipped in the software package.
 ifeq ($(shell which ikiwiki),)
 IKIWIKI=@echo "** ikiwiki not found, skipping building docs" >&2; true
+NO_IKIWIKI=1
 else
 IKIWIKI=ikiwiki
 endif
@@ -25,6 +26,9 @@ docs:
 		--disable-plugin=smiley \
 		--plugin=comments --set comments_pagespec="*" \
 		--exclude='news/.*'
+ifdef NO_IKIWIKI
+	$(MAKE) import-docs
+endif
 
 install: build
 	install -d $(DESTDIR)$(PREFIX)/bin
