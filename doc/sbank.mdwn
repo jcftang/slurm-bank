@@ -35,7 +35,8 @@ end users.
 
 * cluster
 
-  List current cluster or all clusters in slurmdbd
+  List current cluster or all clusters in slurmdbd, also capable
+  of adding or removing clusters.
 
 # SEE ALSO
 
