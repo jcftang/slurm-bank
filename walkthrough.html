@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>walkthrough</title>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="./index.html">slurm-bank</a>/ 
+
+</span>
+<span class="title">
+walkthrough
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<p>A walkthrough of the basic features of sbank.</p>
+
+<div class="toc">
+	<ol>
+		<li class="L2"><a href="#index1h2">Setup slurm and slurmdbd</a>
+		</li>
+		<li class="L2"><a href="#index2h2">creating projects</a>
+		</li>
+		<li class="L2"><a href="#index3h2">deposit hours to an account</a>
+		</li>
+		<li class="L2"><a href="#index4h2">checking account balances</a>
+		</li>
+		<li class="L2"><a href="#index5h2">estimating time for a job</a>
+		</li>
+		<li class="L2"><a href="#index6h2">checking if enough hours are available</a>
+		</li>
+		<li class="L2"><a href="#index7h2">submitting jobs with sbank-submit</a>
+		</li>
+	</ol>
+</div>
+
+<h2><a name="index1h2"></a><a href="./walkthrough/setup.html">Setup slurm and slurmdbd</a></h2>
+<p>The first thing to do is to setup <a href="https://computing.llnl.gov/linux/slurm/">slurm</a> and <a href="https://computing.llnl.gov/linux/slurm/accounting.html">slurmdbd</a>. This
+documentation assumes the user knows basic slurm administration.</p>
+
+<p>Slurmdbd must be configured and working, account enforcing is enabled
+in <em>slurm.conf</em></p>
+
+<pre><code>AccountingStorageEnforce=limits
+</code></pre>
+
+<p>The following parameters must also be set, we do not want a decay or
+reset of the usage that is recorded in slurmdbd.</p>
+
+<pre><code>PriorityDecayHalfLife=0
+PriorityUsageResetPeriod=NONE
+</code></pre>
+
+<p>What is also required is a pretty good estimate of the total available
+cpu hours that you have on your cluster that you can allocate to
+accounts.</p>
+
+<p><a href="./sbank-cluster.html">sbank-cluster</a> can provide a rough estimate of what's available.</p>
+
+<pre><code>&#036; sbank cluster cpuhrs
+</code></pre>
+
+<p>Users will need to learn how to use accounts (nothing new here).</p>
+
+<p>sacctmgr and sshare is required and must be working.</p>
+
+<p>If you do not already have a cluster registered and configured in slurm,</p>
+
+<pre><code>&#036; sbank cluster create mycluster
+</code></pre>
+
+<h2><a name="index2h2"></a><a href="./walkthrough/creating_projects.html">creating projects</a></h2>
+<p>To create projects in your slurmdbd for a given cluster you can do
+something like the following with the <a href="./sbank-project.html">sbank-project</a> command</p>
+
+<pre><code>&#036; sbank project create -c mycluster -a myaccount
+</code></pre>
+
+<p>If you make a mess of things you can delete it by doing</p>
+
+<pre><code>&#036; sbank project delete -c mycluster -a myaccount
+</code></pre>
+
+<p>Once you have created some accounts you may want to associate users with
+the account</p>
+
+<pre><code>&#036; sbank project adduser -c mycluster -a myaccount -u someuser
+</code></pre>
+
+<p>This will create a user and associate 'someuser' with 'myaccount',
+you can also remove users from accounts.</p>
+
+<pre><code>&#036; sbank project deleteuser -c mycluster -a myaccount -u someuser
+</code></pre>
+
+<h2><a name="index3h2"></a><a href="./walkthrough/deposit_hours_to_an_account.html">deposit hours to an account</a></h2>
+<p>To add or remove hours to the deposit account we can use the
+<a href="./sbank-deposit.html">sbank-deposit</a> command.</p>
+
+<p>For example to add 1000 hours to 'myaccount' we can do this</p>
+
+<pre><code>&#036; sbank deposit -c mycluster -a myaccount -t 1000
+</code></pre>
+
+<p>To remove 500 hours from 'myaccount'</p>
+
+<pre><code>&#036; sbank deposit -c mycluster -a myaccount -t -500
+</code></pre>
+
+<h2><a name="index4h2"></a><a href="./walkthrough/checking_account_balances.html">checking account balances</a></h2>
+<p>To check your balances you would simply do:</p>
+
+<pre><code>&#036; sbank balance statement
+User             Usage |          Account       Usage | Account Limit   Available (CPU hrs)
+---------- ----------- + ---------------- ----------- + ------------- -----------
+paddy               24 |           MSCHPC          62 |       315,360     315,298
+paddy               13 |            TCHPC          30 |       315,360     315,330
+</code></pre>
+
+<p>To see the unformatted balance in a single account:</p>
+
+<pre><code>&#036; sbank balance statement -a tchpc
+315330
+</code></pre>
+
+<p>To se everyone in a given account, in this example the TCHPC account:</p>
+
+<pre><code>&#036; sbank balance statement -a tchpc -A
+User             Usage |          Account       Usage | Account Limit   Available (CPU hrs)
+---------- ----------- + ---------------- ----------- + ------------- -----------
+darach               0 |            TCHPC          30 |       315,360     315,330
+dfrost               0 |            TCHPC          30 |       315,360     315,330
+jose                 0 |            TCHPC          30 |       315,360     315,330
+jtang               17 |            TCHPC          30 |       315,360     315,330
+kbradley             0 |            TCHPC          30 |       315,360     315,330
+neil                 0 |            TCHPC          30 |       315,360     315,330
+paddy *             13 |            TCHPC          30 |       315,360     315,330
+</code></pre>
+
+<p>To see the balances of all accounts in the cluster:</p>
+
+<pre><code>&#036; sbank balance statement -A 
+User             Usage |          Account       Usage | Account Limit   Available (CPU hrs)
+---------- ----------- + ---------------- ----------- + ------------- -----------
+
+root                 0 |             ROOT           0 |             0           0
+
+adamssl              0 |           MSCHPC          62 |       315,360     315,298
+bogdanok             0 |           MSCHPC          62 |       315,360     315,298
+dmcguire             0 |           MSCHPC          62 |       315,360     315,298
+fghaffar             0 |           MSCHPC          62 |       315,360     315,298
+jose                38 |           MSCHPC          62 |       315,360     315,298
+kellyb8              0 |           MSCHPC          62 |       315,360     315,298
+mjp                  0 |           MSCHPC          62 |       315,360     315,298
+murphj33             0 |           MSCHPC          62 |       315,360     315,298
+oboylese             0 |           MSCHPC          62 |       315,360     315,298
+paddy *             24 |           MSCHPC          62 |       315,360     315,298
+ruddlec              0 |           MSCHPC          62 |       315,360     315,298
+thomasro             0 |           MSCHPC          62 |       315,360     315,298
+valentj              0 |           MSCHPC          62 |       315,360     315,298
+
+darach               0 |            TCHPC          30 |       315,360     315,330
+dfrost               0 |            TCHPC          30 |       315,360     315,330
+jose                 0 |            TCHPC          30 |       315,360     315,330
+jtang               17 |            TCHPC          30 |       315,360     315,330
+kbradley             0 |            TCHPC          30 |       315,360     315,330
+neil                 0 |            TCHPC          30 |       315,360     315,330
+paddy *             13 |            TCHPC          30 |       315,360     315,330
+</code></pre>
+
+<h2><a name="index5h2"></a><a href="./walkthrough/estimating_time_for_a_job.html">estimating time for a job</a></h2>
+<p>There will be times when you will need to figure out how many CPU hours
+you need to see if it exceeds the available hours in your account balance.</p>
+
+<p>This can be done with using the <a href="./sbank-time.html">sbank-time</a> estimate command.</p>
+
+<p>Assuming that you wish to run a 64 node job with 2 cores per node,
+that's 128 cores for 72hrs of wall time</p>
+
+<pre><code>&#036; sbank time estimate  -N 64 -c 2 -t 72
+9216
+</code></pre>
+
+<p>Or you you want to run 256 tasks for 48hrs</p>
+
+<pre><code>&#036; sbank time estimate  -n 256 -t 48
+12288
+</code></pre>
+
+<p>You can also use <a href="./sbank-time.html">sbank-time</a>'s helper function 'estimatescript'
+to check the job script that you have </p>
+
+<pre><code>&#036; sbank time estimatescript -s sample-job1.sh
+3072
+</code></pre>
+
+<p>Where the contents of <em>sample-job1.sh</em></p>
+
+<pre><code>#!/bin/bash
+
+#SBATCH -n 32
+#SBATCH -t 4-00:00:00
+
+echo "HELLO WORLD"
+</code></pre>
+
+<h2><a name="index6h2"></a><a href="./walkthrough/checking_if_enough_hours_are_available.html">checking if enough hours are available</a></h2>
+<p>Once you have an estimate of how much time you require you might want
+to check if you really have enough hours to run your job</p>
+
+<p><a href="./sbank-balance.html">sbank-balance</a> request can give you an idea if you have time or not,
+what the <a href="./sbank-balance.html">sbank-balance</a> request command returns is the number of
+available hours after a request has been made. It does not do anything
+apart from print a number. If it returns a negative number then you do
+not have enough hours to run.</p>
+
+<pre><code>&#036; sbank balance request -c chuck -a tchpc -t 100
+315260
+</code></pre>
+
+<p>Or else if you want to script things up to be efficient/lazy you can
+use some of the helper scripts such as <a href="./sbank-time.html">sbank-time</a>.</p>
+
+<pre><code>&#036; sbank balance request --cluster chuck --account tchpc \
+    --time &#036;( sbank time estimate -n 32 -t \
+    &#036;( sbank time calc -t 4-00:00:00 ))
+</code></pre>
+
+<p>You can also feed <a href="./sbank-balance.html">sbank-balance</a> a job script to see if the script's
+request can be completed or not</p>
+
+<pre><code>&#036; sbank balance checkscript -s sample-job1.sh  -t myaccount
+312288
+</code></pre>
+
+<p>The above command returns the remaining balance of your specified account
+on the current cluster. If a negative value is returned, then your job
+will most likely not complete if it is submitted.</p>
+
+<h2><a name="index7h2"></a><a href="./walkthrough/submitting_jobs_with_sbank-submit.html">submitting jobs with sbank-submit</a></h2>
+<p>There exists a wrapper for submitting jobs to slurm which wraps up the
+<a href="./sbank-balance.html">sbank-balance</a> statement and checkscript commands before running
+sbatch.</p>
+
+<p>The primary advantage of this wrapper script is that for un-experienced
+users, they only need to know that <a href="./sbank-submit.html">sbank-submit</a> will tell them at
+submission time whether their jobs are likely to complete or not.</p>
+
+<pre><code>sbank submit -s sample-job1.sh 
+log: Getting balance for jtang
+User             Usage |          Account       Usage | Account Limit   Available (CPU hrs)
+---------- ----------- + ---------------- ----------- + ------------- -----------
+jtang               20 |            TCHPC          32 |       315,360     315,328
+log: Checking script before submitting
+warn: no account specified in the script, using default: tchpc
+Current balance      =    315,328
+Requested hours      =      3,072
+Expected balance     =    312,256
+log: sbatch'ing the script
+</code></pre>
+
+
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="./index.html">index</a>
+
+
+</div>
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Mon 23 May 15:13:52 2011</span>
+<!-- Created <span class="date">Mon 23 May 15:13:52 2011</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

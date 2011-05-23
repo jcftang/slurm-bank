@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>sbank-balance</title>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="./index.html">slurm-bank</a>/ 
+
+</span>
+<span class="title">
+sbank-balance
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<h1>NAME</h1>
+
+<p>sbank balance - show slurm balance</p>
+
+<h1>SYNOPSIS</h1>
+
+<p>sbank balance <em>subcommand</em> [OPTION]...</p>
+
+<h1>DESCRIPTION</h1>
+
+<p>Show the balance of used and available hours to the user for a given
+account. This is just a wrapper to the sbalance command, and is provided
+to give the user/admin a consistent interface. If no options are given,
+then sbank-balance will show the balance of the user who ran the script.</p>
+
+<ul>
+<li><p>statement - shows balance sheet statement for user.</p>
+
+<p>-h</p>
+
+<p>show help message</p>
+
+<p>-c</p>
+
+<p>display per cluster 'clustername' (defaults to the local cluster)</p>
+
+<p>-a</p>
+
+<p>display unformatted balance of account 'accountname' (defaults to
+all accounts of the current user)</p>
+
+<p>-A</p>
+
+<p>display all accounts (defaults to all accounts of the
+current user)</p></li>
+<li><p>request - request a number hours from an account and returns a number
+of hours remaining in the account.</p>
+
+<p>-h</p>
+
+<p>show help message</p>
+
+<p>-c, --cluster</p>
+
+<p>Specify the slurm cluster</p>
+
+<p>-a, --account</p>
+
+<p>Specify the slurm account</p>
+
+<p>-t, --time</p>
+
+<p>Specify the amount of hours to deposit, can be negative in value
+if you wish to deduct hours from the account. This value must be an
+integer value.</p></li>
+</ul>
+
+<h1>EXAMPLES</h1>
+
+<p>Show your own balance</p>
+
+<pre><code>sbank balance statement
+</code></pre>
+
+<p>Show the unformatted balance of an account</p>
+
+<pre><code>sbank balance statement -a account_name
+</code></pre>
+
+<p>Show the balance of all accounts in the given cluster</p>
+
+<pre><code>sbank balance statement -A -c mycluster
+</code></pre>
+
+<p>Request 'hours' from an account to see if there are enough hours available
+to run a job.</p>
+
+<pre><code>sbank request -c mycluster -a account0001 -t 1000
+</code></pre>
+
+<h1>SEE ALSO</h1>
+
+<ul>
+<li><a href="./sbank.html">sbank</a>(1)</li>
+<li><a href="./sbank-deposit.html">sbank-deposit</a>(1)</li>
+</ul>
+
+<h1>AUTHOR</h1>
+
+<p>Jimmy Tang <a href="mailto:jtang@tchpc.tcd.ie">&#106;&#116;&#97;n&#x67;&#64;&#x74;&#99;&#104;&#112;&#x63;&#x2E;&#116;&#99;&#x64;&#x2E;&#105;&#x65;</a></p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="./index.html">index</a>
+
+<a href="./sbank.html">sbank</a>
+
+<a href="./sbank-cluster.html">sbank-cluster</a>
+
+<a href="./sbank-deposit.html">sbank-deposit</a>
+
+<a href="./sbank-submit.html">sbank-submit</a>
+
+<a href="./sbank-time.html">sbank-time</a>
+
+<a href="./walkthrough/checking_if_enough_hours_are_available.html">walkthrough/checking if enough hours are available</a>
+
+<a href="./walkthrough/submitting_jobs_with_sbank-submit.html">walkthrough/submitting jobs with sbank-submit</a>
+
+
+</div>
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Mon 23 May 15:13:52 2011</span>
+<!-- Created <span class="date">Mon 23 May 15:13:52 2011</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

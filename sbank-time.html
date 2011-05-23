@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>sbank-time</title>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="./index.html">slurm-bank</a>/ 
+
+</span>
+<span class="title">
+sbank-time
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<h1>NAME</h1>
+
+<p>sbank time - time calculator</p>
+
+<h1>SYNOPSIS</h1>
+
+<p>sbank time <em>subcommand</em> [OPTION]...</p>
+
+<h1>DESCRIPTION</h1>
+
+<p>Collection of shell scripts for estimating amount of time for a given
+set of nodes, ntasks, cores and time and converting a slurm time string
+to hours.</p>
+
+<p>TIME can be one of the following formats (integer values only):</p>
+
+<pre><code>days-hours:minutes:seconds
+days-hours:minutes
+days-hours
+hours:minutes:seconds
+minutes:seconds
+minutes
+</code></pre>
+
+<ul>
+<li><p>calc - convert slurm time string to hours</p>
+
+<p>-h</p>
+
+<p>show help message</p>
+
+<p>-t TIME</p>
+
+<p>Specify time to convert</p></li>
+<li><p>estimate - estimate the number of hours for a given number of tasks,
+nodes, cores and wall time hours.</p>
+
+<p>-h</p>
+
+<p>show help message</p>
+
+<p>-N, --nodes</p>
+
+<p>Specify the number nodes, this option conflicts with ntasks, and
+requires that the number of cores per node must be specified.</p>
+
+<p>-n, --ntasks</p>
+
+<p>Specify the number of tasks, this option conflicts with nodes and does
+not require that</p>
+
+<p>-c, --cores</p>
+
+<p>Specify the number of cores per node, this option is required for
+nodes and has no effect for ntasks.</p>
+
+<p>-t, --time</p>
+
+<p>Specify the time in walltime in the units of hours, it must be an
+integer value and non-negative.</p></li>
+<li><p>estimatescript - estimate the number of CPU hours by parsing a sbatch
+script for time and core/node values</p>
+
+<p>-h</p>
+
+<p>show help message</p>
+
+<p>-s, --scriptname</p>
+
+<p>Specify the sbatch script name. It must exist, and be readable.</p>
+
+<p>-v, --verbose</p>
+
+<p>Specify verbose output</p></li>
+</ul>
+
+<h1>EXAMPLES</h1>
+
+<p>Convert the slurm time '4-00:00:00' to hours</p>
+
+<pre><code>sbank time calc -t 4-00:00:00
+</code></pre>
+
+<p>Estimate how many hours needed for 4 nodes each with 8 cores for 24hrs
+of wall time</p>
+
+<pre><code>sbank time estimate -N 4 -c 8 -t 24
+</code></pre>
+
+<p>Estimate how many hours needed for 32 tasks for 4 days</p>
+
+<pre><code>sbank time estimate -n 32 -t 96
+</code></pre>
+
+<p>Chaining the two commands together</p>
+
+<pre><code>sbank time estimate -n 32 -t &#036;(sbank time calc -t 4-00:00:00)
+</code></pre>
+
+<p>Check the estimated CPU hours from a script</p>
+
+<pre><code>sbank time estimatescript -s ~/job.sh
+</code></pre>
+
+<h1>SEE ALSO</h1>
+
+<ul>
+<li><a href="./sbank.html">sbank</a>(1)</li>
+<li><a href="./sbank-balance.html">sbank-balance</a>(1)</li>
+<li><a href="./sbank-deposit.html">sbank-deposit</a>(1)</li>
+</ul>
+
+<h1>AUTHOR</h1>
+
+<p>Paddy Doyle <a href="mailto:paddy@tchpc.tcd.ie">&#x70;&#x61;&#100;&#x64;&#121;&#64;&#x74;&#99;&#x68;&#112;c&#x2E;&#x74;&#99;&#x64;&#x2E;&#x69;&#x65;</a>
+Jimmy Tang <a href="mailto:jtang@tchpc.tcd.ie">&#106;&#116;a&#110;g&#64;&#x74;&#x63;&#104;&#x70;&#99;&#46;&#116;&#99;&#100;&#x2E;&#x69;e</a></p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="./index.html">index</a>
+
+<a href="./sbank.html">sbank</a>
+
+<a href="./sbank-cluster.html">sbank-cluster</a>
+
+<a href="./sbank-submit.html">sbank-submit</a>
+
+<a href="./walkthrough/checking_if_enough_hours_are_available.html">walkthrough/checking if enough hours are available</a>
+
+<a href="./walkthrough/estimating_time_for_a_job.html">walkthrough/estimating time for a job</a>
+
+
+</div>
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Mon 23 May 15:13:52 2011</span>
+<!-- Created <span class="date">Mon 23 May 15:13:52 2011</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Setup slurm and slurmdbd</title>
+
+<link rel="stylesheet" href="../style.css" type="text/css" />
+
+<link rel="stylesheet" href="../local.css" type="text/css" />
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="../index.html">slurm-bank</a>/ 
+
+<a href="../walkthrough.html">walkthrough</a>/ 
+
+</span>
+<span class="title">
+Setup slurm and slurmdbd
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<p>The first thing to do is to setup <a href="https://computing.llnl.gov/linux/slurm/">slurm</a> and <a href="https://computing.llnl.gov/linux/slurm/accounting.html">slurmdbd</a>. This
+documentation assumes the user knows basic slurm administration.</p>
+
+<p>Slurmdbd must be configured and working, account enforcing is enabled
+in <em>slurm.conf</em></p>
+
+<pre><code>AccountingStorageEnforce=limits
+</code></pre>
+
+<p>The following parameters must also be set, we do not want a decay or
+reset of the usage that is recorded in slurmdbd.</p>
+
+<pre><code>PriorityDecayHalfLife=0
+PriorityUsageResetPeriod=NONE
+</code></pre>
+
+<p>What is also required is a pretty good estimate of the total available
+cpu hours that you have on your cluster that you can allocate to
+accounts.</p>
+
+<p><a href="../sbank-cluster.html">sbank-cluster</a> can provide a rough estimate of what's available.</p>
+
+<pre><code>&#036; sbank cluster cpuhrs
+</code></pre>
+
+<p>Users will need to learn how to use accounts (nothing new here).</p>
+
+<p>sacctmgr and sshare is required and must be working.</p>
+
+<p>If you do not already have a cluster registered and configured in slurm,</p>
+
+<pre><code>&#036; sbank cluster create mycluster
+</code></pre>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Mon 23 May 15:13:52 2011</span>
+<!-- Created <span class="date">Mon 23 May 15:13:52 2011</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

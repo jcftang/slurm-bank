@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>checking if enough hours are available</title>
+
+<link rel="stylesheet" href="../style.css" type="text/css" />
+
+<link rel="stylesheet" href="../local.css" type="text/css" />
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="../index.html">slurm-bank</a>/ 
+
+<a href="../walkthrough.html">walkthrough</a>/ 
+
+</span>
+<span class="title">
+checking if enough hours are available
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<p>Once you have an estimate of how much time you require you might want
+to check if you really have enough hours to run your job</p>
+
+<p><a href="../sbank-balance.html">sbank-balance</a> request can give you an idea if you have time or not,
+what the <a href="../sbank-balance.html">sbank-balance</a> request command returns is the number of
+available hours after a request has been made. It does not do anything
+apart from print a number. If it returns a negative number then you do
+not have enough hours to run.</p>
+
+<pre><code>&#036; sbank balance request -c chuck -a tchpc -t 100
+315260
+</code></pre>
+
+<p>Or else if you want to script things up to be efficient/lazy you can
+use some of the helper scripts such as <a href="../sbank-time.html">sbank-time</a>.</p>
+
+<pre><code>&#036; sbank balance request --cluster chuck --account tchpc \
+    --time &#036;( sbank time estimate -n 32 -t \
+    &#036;( sbank time calc -t 4-00:00:00 ))
+</code></pre>
+
+<p>You can also feed <a href="../sbank-balance.html">sbank-balance</a> a job script to see if the script's
+request can be completed or not</p>
+
+<pre><code>&#036; sbank balance checkscript -s sample-job1.sh  -t myaccount
+312288
+</code></pre>
+
+<p>The above command returns the remaining balance of your specified account
+on the current cluster. If a negative value is returned, then your job
+will most likely not complete if it is submitted.</p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Mon 23 May 15:13:52 2011</span>
+<!-- Created <span class="date">Mon 23 May 15:13:52 2011</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

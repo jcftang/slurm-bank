@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>design</title>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="./index.html">slurm-bank</a>/ 
+
+</span>
+<span class="title">
+design
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<h1>DESIGN</h1>
+
+<p>Based on discussions from </p>
+
+<ul>
+<li><a href="http://groups.google.com/group/slurm-devel/browse_frm/thread/1c8805fb274c108f#">http://groups.google.com/group/slurm-devel/browse_frm/thread/1c8805fb274c108f#</a></li>
+<li><a href="http://groups.google.com/group/slurm-devel/browse_thread/thread/b06f3985cc7504b2?tvc=2">http://groups.google.com/group/slurm-devel/browse_thread/thread/b06f3985cc7504b2?tvc=2</a></li>
+</ul>
+
+<h1>Requirements</h1>
+
+<p>This documentation assumes the user knows basic slurm administration.</p>
+
+<p>Slurmdbd must be configured and working, account enforcing is enabled
+in <em>slurm.conf</em></p>
+
+<pre><code>AccountingStorageEnforce=limits
+</code></pre>
+
+<p>The following parameters must also be set, we do not want a decay or
+reset of the usage that is recorded in slurmdbd.</p>
+
+<pre><code>PriorityDecayHalfLife=0
+PriorityUsageResetPeriod=NONE
+</code></pre>
+
+<p>What is also required is a pretty good estimate of the total available
+cpu hours that you have on your cluster that you can allocate to
+accounts.</p>
+
+<p>Users will need to learn how to use accounts (nothing new here).</p>
+
+<p>sacctmgr and sshare is required and must be working.</p>
+
+<h1>How it works</h1>
+
+<p>Time is deposited to an account, which gets drawn from whenever a job
+is submitted to the cluster. Currently the "GrpCPUMins" is used.</p>
+
+<p>Note that there is no concept of 'Reserved' time, like Gold does. This 
+is probably a good thing - as the Gold way of doing it sometimes leads
+to Reserved time getting stuck, and never released. The Slurm way seems
+to only subtract time when the jobs are actually running.</p>
+
+<p>A consequence of this is that it will kill jobs mid-run (say if another
+user in the Account uses up all the time first) - again, probably not
+a bad thing.</p>
+
+<h2>Time period</h2>
+
+<p>The tools work with hours as the time unit (conversions are done where
+needed).</p>
+
+<h2>The slurmdbd hierachy</h2>
+
+<p>We assume this type of setup, which is the default behaviour of the
+slurmdbd. (This is our current assumption to keep things simple)</p>
+
+<ul>
+<li>root 20N hours available
+<ul>
+<li>account1 with 1N hours</li>
+<li>account2 with 1N hours</li>
+<li>account3 with 2N hours</li>
+<li>account4 with 2N hours</li>
+</ul></li>
+</ul>
+
+<p>There is effectively no hierachy at all, we could do something like this...</p>
+
+<ul>
+<li>root with 20U of time
+<ul>
+<li>CLASS-A with 1U time
+<ul>
+<li>account1</li>
+<li>account2</li>
+</ul></li>
+<li>CLASS-B with 0.5U time
+<ul>
+<li>account3</li>
+</ul></li>
+<li>CLASS-C with 0.25U time
+<ul>
+<li>account4</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>We would have to add some checks or script up the <a href="./sbank-project.html">sbank-project</a>
+wrapper to work in a pre-defined way to allow for the different
+workflows.</p>
+
+<h2>Note</h2>
+
+<p>It <em>seems</em> that the slurmctld must be restarted sometimes - for new
+Accounts or Account updates. This needs to be checked more (it may not
+be the case).</p>
+
+<h1>Missing components</h1>
+
+<ul>
+<li>Helper script to add/remove hours from a given account (short of
+manually doing it by hand and doing the sums). (This is somewhat
+done as <a href="./sbank-deposit.html">sbank-deposit</a>)</li>
+<li>And to add/remove users from an Account. (see below with gchproject
+idea).</li>
+<li>Ability to <em>end</em> accounts at a given date, could associate accounts
+with overlapping reservations. We tried this but we can't set a
+<em>maint</em> reservation that is honoured by slurm. So this is a no go
+for now. One idea is to do it with an external database and some
+helper scripts (done via crontab or something similar).
+<ul>
+<li>Note that setting GrpCPUMins to 0 can be used to do this - to put
+an end on the account.  </li>
+<li>One idea is to do this offline with an external database and a
+handful of scripts.</li>
+</ul></li>
+<li>This was mainly conceived as a Gold (bank) replacement, if we ditch maui,
+what other functionality will users miss? Have a 'showq' and 'checkjob'
+wrapper?</li>
+<li>some additional commands/wrapper scripts to mimic GOLD
+<ul>
+<li>wrapper script for creating accounts (gmkproject like command),
+default behaviour should create accounts associated with a default
+root account and allow the user to define a parent account if
+necessary. Need to define how projects should be created deleted,
+do you want a structure/hierachy in the accounting db?
+<a href="./sbank-project.html">sbank-project</a></li>
+<li>wrapper script for adding/deleting users from (gchproject like
+command) <a href="./sbank-user.html">sbank-user</a> or <a href="./sbank-project.html">sbank-project</a></li>
+<li>wrapper script for making users (gmkuser), do we need to create
+users in slurmdbd before associating users with
+projects/accounts. <a href="./sbank-user.html">sbank-user</a></li>
+</ul></li>
+</ul>
+
+<h1>TODO for the script</h1>
+
+<ul>
+<li>Re-write using Slurm-Perl API</li>
+<li>A bunch of basic tests</li>
+</ul>
+
+<h1>Ideas</h1>
+
+<ul>
+<li>Feedback for user, e.g. on submission estimate how many hours are
+needed then print a number of hours that is in the balance before and
+after the job has run. Maybe add this in the form of <em>sbank balance
+request --nodes N --cores C --time hours --account ACCOUNT</em></li>
+<li>the balance request commands - use 'sbank cluster' to find the local
+cluster, if -c is not specified</li>
+<li>similarly, it would be nice to add a command to 'sbank user' to list the
+current user's default account on the cluster. I noticed that people might
+leave out the account name in their job script, and so slurm will just
+use their default one.</li>
+<li><p>for 'sbank balance request', the verbose flag prints out the following:</p>
+
+<p>Current balance     = nnn
+Requested CPU hours = nnn
+Expected balance    = nnn</p></li>
+<li><p>I'd like 'user list' to maybe default to the current user, on the local
+cluster, and print their default account ? Not sure if the current behaviour
+of showing all users is the best. It could be specified with '-a' or something</p></li>
+<li><p>sbank starts with a basic sanity checking script, seeing if commands like
+'sacctmgr' are actually there? If it's packaged as an rpm, the dependencies
+will catch this, but it's no harm to have it.</p></li>
+<li><p><a href="./sbank-submit.html">sbank-submit</a> to wrap up submitting jobs to a cluster, this could
+be used to hide quite a few commands from the user. Or else we could
+place some of the scripts/sbank commands into the epilog/prologue.</p></li>
+</ul>
+
+<h1>Tested on</h1>
+
+<ul>
+<li>SLURM 2.2.0</li>
+<li>SL5x (and system version of perl/sh)</li>
+</ul>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="./index.html">index</a>
+
+
+</div>
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Mon 23 May 15:13:52 2011</span>
+<!-- Created <span class="date">Mon 23 May 15:13:52 2011</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

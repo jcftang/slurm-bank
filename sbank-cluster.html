@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>sbank-cluster</title>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="./index.html">slurm-bank</a>/ 
+
+</span>
+<span class="title">
+sbank-cluster
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<h1>NAME</h1>
+
+<p>sbank cluster - manages clusters in slurm</p>
+
+<h1>SYNOPSIS</h1>
+
+<p>sbank cluster <em>subcommand</em> [OPTION]...</p>
+
+<h1>DESCRIPTION</h1>
+
+<ul>
+<li><p>list</p>
+
+<p>-h</p>
+
+<p>show help message</p>
+
+<p>-a, --all</p>
+
+<p>List all clusters in slurmdbd </p></li>
+<li><p>cpupernode</p>
+
+<p>-m, --min</p>
+
+<p>-c, --cluster</p>
+
+<p>Return the number of cpus on a node, by default we take the max value. Optionally
+take a cluster name.</p></li>
+<li><p>create</p>
+
+<p>-c, --cluster</p>
+
+<p>Create a cluster in slurmdbd</p></li>
+<li><p>delete</p>
+
+<p>-c, --cluster</p>
+
+<p>Delete a cluster in slurmdbd</p></li>
+<li><p>cpuhrs</p>
+
+<p>-c, --cluster</p>
+
+<p>get an estimate of the total cpu hours available (talks to sinfo)</p></li>
+</ul>
+
+<h1>EXAMPLES</h1>
+
+<p>Show the default cluster from slurm.conf</p>
+
+<pre><code>sbank cluster list
+</code></pre>
+
+<p>Show all clusters from slurmdbd</p>
+
+<pre><code>sbank cluster list -a
+</code></pre>
+
+<p>Passing on the cluster name to another application</p>
+
+<pre><code>sbank balance request --cluster &#036;(sbank cluster list) \
+    --account tchpc --time &#036;( sbank time estimate -n 32 -t \
+    &#036;( sbank time calc -t 4-00:00:00 ))
+</code></pre>
+
+<p>Show the maximum cpus on a node in the local cluster</p>
+
+<pre><code>sbank cluster cpupernode
+</code></pre>
+
+<h1>SEE ALSO</h1>
+
+<ul>
+<li><a href="./sbank.html">sbank</a>(1)</li>
+<li><a href="./sbank-balance.html">sbank-balance</a>(1)</li>
+<li><a href="./sbank-deposit.html">sbank-deposit</a>(1)</li>
+<li><a href="./sbank-time.html">sbank-time</a>(1)</li>
+</ul>
+
+<h1>AUTHOR</h1>
+
+<p>Paddy Doyle <a href="mailto:paddy@tchpc.tcd.ie">&#x70;&#x61;&#100;&#100;y&#64;&#116;&#99;&#x68;&#x70;&#x63;.&#116;&#99;&#100;&#46;&#x69;&#x65;</a>
+Jimmy Tang <a href="mailto:jtang@tchpc.tcd.ie">&#x6A;&#x74;&#x61;&#x6E;&#103;&#64;&#116;&#99;&#104;&#x70;&#99;&#x2E;&#x74;&#x63;&#100;&#46;&#105;&#101;</a></p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="./index.html">index</a>
+
+<a href="./sbank.html">sbank</a>
+
+<a href="./sbank-submit.html">sbank-submit</a>
+
+<a href="./walkthrough/setup.html">walkthrough/setup</a>
+
+
+</div>
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Mon 23 May 15:13:52 2011</span>
+<!-- Created <span class="date">Mon 23 May 15:13:52 2011</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

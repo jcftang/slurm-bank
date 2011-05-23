@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>sbank-project</title>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="./index.html">slurm-bank</a>/ 
+
+</span>
+<span class="title">
+sbank-project
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<h1>NAME</h1>
+
+<p>sbank-project - Create, delete or list a slurm account</p>
+
+<h1>SYNOPSIS</h1>
+
+<p>sbank project <em>subcommand</em> [OPTION]...</p>
+
+<h1>DESCRIPTION</h1>
+
+<p>slurm bank administrative tool (wraps sacctmgr) for systematically
+creating, delete and listing accounts. The scripts use a similar
+terminology to GOLD's project.</p>
+
+<p>EXPERIMENTAL - creating and deleting accounts are experimental.</p>
+
+<ul>
+<li><p>-h</p>
+
+<p>show help message</p></li>
+<li><p>-d</p>
+
+<p>show debug messages</p></li>
+<li><p>-a, --account</p>
+
+<p>Specify the slurm account</p></li>
+<li><p>-c, --cluster</p>
+
+<p>Specify the slurm cluster</p></li>
+<li><p>list</p>
+
+<p>List projects/accounts in slurmdbd</p></li>
+<li><p>create - Create a project account</p>
+
+<p>-c, --cluster</p>
+
+<p>Specify the slurm cluster</p>
+
+<p>-a, --account</p>
+
+<p>Specify the slurm account</p></li>
+<li><p>delete - Delete a project account</p>
+
+<p>-c, --cluster</p>
+
+<p>Specify the slurm cluster</p>
+
+<p>-a, --account</p>
+
+<p>Specify the slurm account</p></li>
+<li><p>adduser - Add a user to a project</p>
+
+<p>-u, --user</p>
+
+<p>Specify the username</p>
+
+<p>-c, --cluster</p>
+
+<p>Specify the slurm cluster</p>
+
+<p>-a, --account</p>
+
+<p>Specify the slurm account</p></li>
+<li><p>deleteuser - Delete a user from a project</p>
+
+<p>-u, --user</p>
+
+<p>Specify the username</p>
+
+<p>-c, --cluster</p>
+
+<p>Specify the slurm cluster</p>
+
+<p>-a, --account</p>
+
+<p>Specify the slurm account</p></li>
+</ul>
+
+<h1>EXAMPLES</h1>
+
+<p>To list all the projects/accounts in 'mycluster'</p>
+
+<p>sbank project list -c mycluster</p>
+
+<h1>SEE ALSO</h1>
+
+<ul>
+<li><span class="createlink">sbalance</span>(1)</li>
+<li><a href="./sbank.html">sbank</a>(1)</li>
+<li><a href="./sbank-deposit.html">sbank-deposit</a>(1)</li>
+</ul>
+
+<h1>AUTHOR</h1>
+
+<p>Jimmy Tang <a href="mailto:jtang@tchpc.tcd.ie">&#x6A;&#116;&#x61;&#x6E;&#x67;&#64;&#116;&#x63;&#x68;&#112;&#99;&#x2E;&#x74;&#x63;&#x64;&#x2E;&#x69;e</a></p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="./design.html">design</a>
+
+<a href="./index.html">index</a>
+
+<a href="./sbank.html">sbank</a>
+
+<a href="./sbank-deposit.html">sbank-deposit</a>
+
+<a href="./sbank-submit.html">sbank-submit</a>
+
+<a href="./walkthrough/creating_projects.html">walkthrough/creating projects</a>
+
+
+</div>
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Mon 23 May 15:13:52 2011</span>
+<!-- Created <span class="date">Mon 23 May 15:13:52 2011</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

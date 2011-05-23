@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>creating projects</title>
+
+<link rel="stylesheet" href="../style.css" type="text/css" />
+
+<link rel="stylesheet" href="../local.css" type="text/css" />
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="../index.html">slurm-bank</a>/ 
+
+<a href="../walkthrough.html">walkthrough</a>/ 
+
+</span>
+<span class="title">
+creating projects
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<p>To create projects in your slurmdbd for a given cluster you can do
+something like the following with the <a href="../sbank-project.html">sbank-project</a> command</p>
+
+<pre><code>&#036; sbank project create -c mycluster -a myaccount
+</code></pre>
+
+<p>If you make a mess of things you can delete it by doing</p>
+
+<pre><code>&#036; sbank project delete -c mycluster -a myaccount
+</code></pre>
+
+<p>Once you have created some accounts you may want to associate users with
+the account</p>
+
+<pre><code>&#036; sbank project adduser -c mycluster -a myaccount -u someuser
+</code></pre>
+
+<p>This will create a user and associate 'someuser' with 'myaccount',
+you can also remove users from accounts.</p>
+
+<pre><code>&#036; sbank project deleteuser -c mycluster -a myaccount -u someuser
+</code></pre>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Mon 23 May 15:13:52 2011</span>
+<!-- Created <span class="date">Mon 23 May 15:13:52 2011</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

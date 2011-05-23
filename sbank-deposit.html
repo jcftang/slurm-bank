@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>sbank-deposit</title>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="./index.html">slurm-bank</a>/ 
+
+</span>
+<span class="title">
+sbank-deposit
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<h1>NAME</h1>
+
+<p>sbank-deposit - desposit hours to a slurm account</p>
+
+<h1>SYNOPSIS</h1>
+
+<p>sbank deposit [OPTION]...</p>
+
+<h1>DESCRIPTION</h1>
+
+<p>slurm bank administrative tool (wraps sacctmgr) for depositing hours to
+a given slurm account. The hours can be positive or negative <em>integer</em>
+values. All this command does is increase the 'GrpCPUMins' limit, it
+does not affect the actual used hours.</p>
+
+<ul>
+<li><p>-h</p>
+
+<p>show help message</p></li>
+<li><p>-d</p>
+
+<p>show debug messages</p></li>
+<li><p>-a, --account</p>
+
+<p>Specify the slurm account</p></li>
+<li><p>-c, --cluster</p>
+
+<p>Specify the slurm cluster</p></li>
+<li><p>-t, --time</p>
+
+<p>Specify the amount of hours to deposit, can be negative in value
+if you wish to deduct hours from the account. This value must be an
+integer value.</p></li>
+</ul>
+
+<h1>EXAMPLES</h1>
+
+<p>Deposit '1000000' hours to account 'account-00049' on the cluster
+'mycluster'</p>
+
+<pre><code>sbank deposit -c 'mycluster' -a account-00049 -t 1000000
+</code></pre>
+
+<p>Remove '1000' hours from an account 'account-0001' on the cluster
+'mycluster'</p>
+
+<pre><code>sbank deposit -c 'mycluster' -a account-0001 -t -1000
+</code></pre>
+
+<h1>SEE ALSO</h1>
+
+<ul>
+<li><a href="./sbank.html">sbank</a>(1)</li>
+<li><a href="./sbank-balance.html">sbank-balance</a>(1)</li>
+<li><a href="./sbank-project.html">sbank-project</a>(1)</li>
+</ul>
+
+<h1>AUTHOR</h1>
+
+<p>Jimmy Tang <a href="mailto:jtang@tchpc.tcd.ie">&#106;&#x74;&#x61;&#x6E;&#x67;&#64;&#116;&#x63;&#104;&#x70;&#99;&#x2E;t&#99;&#x64;&#x2E;&#x69;&#101;</a></p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="./design.html">design</a>
+
+<a href="./index.html">index</a>
+
+<a href="./sbank.html">sbank</a>
+
+<a href="./sbank-balance.html">sbank-balance</a>
+
+<a href="./sbank-cluster.html">sbank-cluster</a>
+
+<a href="./sbank-project.html">sbank-project</a>
+
+<a href="./sbank-submit.html">sbank-submit</a>
+
+<a href="./sbank-time.html">sbank-time</a>
+
+<a href="./sbank-user.html">sbank-user</a>
+
+<a href="./walkthrough/deposit_hours_to_an_account.html">walkthrough/deposit hours to an account</a>
+
+
+</div>
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Mon 23 May 15:13:52 2011</span>
+<!-- Created <span class="date">Mon 23 May 15:13:52 2011</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

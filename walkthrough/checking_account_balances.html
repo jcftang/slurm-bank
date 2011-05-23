@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>checking account balances</title>
+
+<link rel="stylesheet" href="../style.css" type="text/css" />
+
+<link rel="stylesheet" href="../local.css" type="text/css" />
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="../index.html">slurm-bank</a>/ 
+
+<a href="../walkthrough.html">walkthrough</a>/ 
+
+</span>
+<span class="title">
+checking account balances
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<p>To check your balances you would simply do:</p>
+
+<pre><code>&#036; sbank balance statement
+User             Usage |          Account       Usage | Account Limit   Available (CPU hrs)
+---------- ----------- + ---------------- ----------- + ------------- -----------
+paddy               24 |           MSCHPC          62 |       315,360     315,298
+paddy               13 |            TCHPC          30 |       315,360     315,330
+</code></pre>
+
+<p>To see the unformatted balance in a single account:</p>
+
+<pre><code>&#036; sbank balance statement -a tchpc
+315330
+</code></pre>
+
+<p>To se everyone in a given account, in this example the TCHPC account:</p>
+
+<pre><code>&#036; sbank balance statement -a tchpc -A
+User             Usage |          Account       Usage | Account Limit   Available (CPU hrs)
+---------- ----------- + ---------------- ----------- + ------------- -----------
+darach               0 |            TCHPC          30 |       315,360     315,330
+dfrost               0 |            TCHPC          30 |       315,360     315,330
+jose                 0 |            TCHPC          30 |       315,360     315,330
+jtang               17 |            TCHPC          30 |       315,360     315,330
+kbradley             0 |            TCHPC          30 |       315,360     315,330
+neil                 0 |            TCHPC          30 |       315,360     315,330
+paddy *             13 |            TCHPC          30 |       315,360     315,330
+</code></pre>
+
+<p>To see the balances of all accounts in the cluster:</p>
+
+<pre><code>&#036; sbank balance statement -A 
+User             Usage |          Account       Usage | Account Limit   Available (CPU hrs)
+---------- ----------- + ---------------- ----------- + ------------- -----------
+
+root                 0 |             ROOT           0 |             0           0
+
+adamssl              0 |           MSCHPC          62 |       315,360     315,298
+bogdanok             0 |           MSCHPC          62 |       315,360     315,298
+dmcguire             0 |           MSCHPC          62 |       315,360     315,298
+fghaffar             0 |           MSCHPC          62 |       315,360     315,298
+jose                38 |           MSCHPC          62 |       315,360     315,298
+kellyb8              0 |           MSCHPC          62 |       315,360     315,298
+mjp                  0 |           MSCHPC          62 |       315,360     315,298
+murphj33             0 |           MSCHPC          62 |       315,360     315,298
+oboylese             0 |           MSCHPC          62 |       315,360     315,298
+paddy *             24 |           MSCHPC          62 |       315,360     315,298
+ruddlec              0 |           MSCHPC          62 |       315,360     315,298
+thomasro             0 |           MSCHPC          62 |       315,360     315,298
+valentj              0 |           MSCHPC          62 |       315,360     315,298
+
+darach               0 |            TCHPC          30 |       315,360     315,330
+dfrost               0 |            TCHPC          30 |       315,360     315,330
+jose                 0 |            TCHPC          30 |       315,360     315,330
+jtang               17 |            TCHPC          30 |       315,360     315,330
+kbradley             0 |            TCHPC          30 |       315,360     315,330
+neil                 0 |            TCHPC          30 |       315,360     315,330
+paddy *             13 |            TCHPC          30 |       315,360     315,330
+</code></pre>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Mon 23 May 15:13:52 2011</span>
+<!-- Created <span class="date">Mon 23 May 15:13:52 2011</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>
