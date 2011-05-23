@@ -4,7 +4,7 @@ usage()
 {
 	echo "usage: sbank cluster"
 	echo "       sbank cluster list -a"
-	echo "       sbank cluster cpupernode -m"
+	echo "       sbank cluster cpupernode -m -c CLUSTER"
 	echo "       sbank cluster create -c CLUSTER"
 	echo "       sbank cluster delete -c CLUSTER"
 }
@@ -82,6 +82,7 @@ cmd_cpupernode() {
 	# define some variables
 	debug "define some variables"
 	DEFINE_boolean 'min' false 'return lowest value of cpu per node' 'm'
+        DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
 
 	FLAGS_PARENT="sbank cluster cpupernode"
 
@@ -89,13 +90,19 @@ cmd_cpupernode() {
 	debug "parse command line"
 	parse_args "$@"
 
+	debug "check if cluster is specified"
+        if [ ${FLAGS_cluster} != 'null' ]
+	then
+		FLAGS_cluster="-M${FLAGS_cluster}"
+	fi
+
 	if [ ${FLAGS_min} -eq ${FLAGS_TRUE} ];
 	then
 		opts="-n"
 	else
 		opts="-nr"
 	fi
-	cpus=$( $SINFO_BIN -h --format "%c %P"  | sort $opts | head -1 | awk '{print $1}' )
+	cpus=$( $SINFO_BIN -h --format "%c %P" "${FLAGS_cluster}" | grep -v ^CLUSTER | sort $opts | head -1 | awk '{print $1}' )
 	# should probably test to see if this is an integer number or not
 	echo $cpus
 }

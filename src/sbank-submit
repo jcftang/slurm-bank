@@ -35,7 +35,7 @@ cmd_submit()
 	log "Getting balance for ${USER}"
 	sbank balance statement
 	log "Checking script before submitting"
-	sbank balance checkscript -s ${FLAGS_scriptname}
+	sbank balance checkscript -s ${FLAGS_scriptname} -v
 	log "sbatch'ing the script"
 	sbatch ${FLAGS_scriptname}
 }
