@@ -18,6 +18,10 @@ What is also required is a pretty good estimate of the total available
 cpu hours that you have on your cluster that you can allocate to
 accounts.
 
+[[sbank-cluster]] can provide a rough estimate of what's available.
+
+    $ sbank cluster cpuhrs
+
 Users will need to learn how to use accounts (nothing new here).
 
 sacctmgr and sshare is required and must be working.
