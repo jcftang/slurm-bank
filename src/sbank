@@ -22,6 +22,7 @@ usage()
 	echo "    balance    Show balance sheet of account(s)"
 	echo "    time       Time calculator"
 	echo "    cluster    Manage clusters in slurmdbd"
+	echo "    submit     Wrapper to submit jobs"
 	echo 
 	echo "Try 'sbank <subcommand> help' for details."
 }

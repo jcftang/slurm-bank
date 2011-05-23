@@ -3,7 +3,7 @@ _sbank()
 	local cur;
 	COMPREPLY=();
 	cur=${COMP_WORDS[COMP_CWORD]};
-	COMPREPLY=( $( compgen -W 'balance deposit project user time' -- $cur ) );
+	COMPREPLY=( $( compgen -W 'balance deposit project user time submit cluster' -- $cur ) );
 }
 
 complete -F _sbank sbank

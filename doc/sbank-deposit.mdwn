@@ -10,7 +10,8 @@ sbank deposit [OPTION]...
 
 slurm bank administrative tool (wraps sacctmgr) for depositing hours to
 a given slurm account. The hours can be positive or negative *integer*
-values.
+values. All this command does is increase the 'GrpCPUMins' limit, it
+does not affect the actual used hours.
 
 * -h
 
