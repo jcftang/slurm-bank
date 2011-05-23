@@ -57,6 +57,7 @@ slurm-bank.
 ### Experimental scripts
 
 * [[sbank-user]]
+* [[sbank-submit]]
 
 ### Proposed scripts
 

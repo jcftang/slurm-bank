@@ -141,6 +141,10 @@ be the case).
   'sacctmgr' are actually there? If it's packaged as an rpm, the dependencies
   will catch this, but it's no harm to have it.
 
+* [[sbank-submit]] to wrap up submitting jobs to a cluster, this could
+  be used to hide quite a few commands from the user. Or else we could
+  place some of the scripts/sbank commands into the epilog/prologue.
+
 # Tested on
 
 * SLURM 2.2.0

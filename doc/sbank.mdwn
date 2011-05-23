@@ -43,6 +43,7 @@ end users.
 * [[sbank-cluster]](1)
 * [[sbank-deposit]](1)
 * [[sbank-project]](1)
+* [[sbank-submit]](1)
 * [[sbank-time]](1)
 * [[sbank-user]](1)
 
