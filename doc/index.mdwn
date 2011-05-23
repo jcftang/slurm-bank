@@ -16,12 +16,13 @@ slurm.
 
 ## Design
 
-The [[design]] document. So far we have discovered that slurm already
-has much of the needed functionality required for "banking". Much of
-the [[sbank]] commands are just wrapper scripts to already existing
-slurm commands. One of the problems with banking is being consistent,
-the sbank wrapper scripts try to provide a workflow to provide a GOLD
-like banking system with slurm.
+The [[design]] document contains ideas (todo and done). So far we
+have discovered that slurm already has much of the needed functionality
+required for "banking". Much of the [[sbank]] commands are just
+wrapper scripts to already existing slurm commands. One of the
+problems with banking is being consistent, the sbank wrapper scripts
+try to provide a workflow to provide a GOLD like banking system
+with slurm.
 
 You can do everything that these wrapper scripts are doing with plain
 slurm commands! We stress that these scripts are just fixing the workflows
@@ -53,10 +54,10 @@ slurm-bank.
 * [[sbank-deposit]]
 * [[sbank-project]]
 * [[sbank-time]]
+* [[sbank-user]]
 
 ### Experimental scripts
 
-* [[sbank-user]]
 * [[sbank-submit]]
 
 ### Proposed scripts

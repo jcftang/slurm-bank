@@ -81,11 +81,6 @@ be the case).
 
 # Missing components
 
-* Helper script to add/remove hours from a given account (short of
-  manually doing it by hand and doing the sums). (This is somewhat
-  done as [[sbank-deposit]])
-* And to add/remove users from an Account. (see below with gchproject
-  idea).
 * Ability to *end* accounts at a given date, could associate accounts
   with overlapping reservations. We tried this but we can't set a
   *maint* reservation that is honoured by slurm. So this is a no go
@@ -98,6 +93,14 @@ be the case).
 * This was mainly conceived as a Gold (bank) replacement, if we ditch maui,
   what other functionality will users miss? Have a 'showq' and 'checkjob'
   wrapper?
+
+## Done 
+
+* Helper script to add/remove hours from a given account (short of
+  manually doing it by hand and doing the sums). (This is somewhat
+  done as [[sbank-deposit]])
+* And to add/remove users from an Account. (see below with gchproject
+  idea). [[sbank-project]]
 * some additional commands/wrapper scripts to mimic GOLD
  * wrapper script for creating accounts (gmkproject like command),
    default behaviour should create accounts associated with a default
@@ -106,28 +109,34 @@ be the case).
    do you want a structure/hierachy in the accounting db?
    [[sbank-project]]
  * wrapper script for adding/deleting users from (gchproject like
-   command) [[sbank-user]] or [[sbank-project]]
+   command) [[sbank-user]] or [[sbank-project]] 
  * wrapper script for making users (gmkuser), do we need to create
    users in slurmdbd before associating users with
    projects/accounts. [[sbank-user]]
 
-# TODO for the script
+# TODO for the script(s)
 
-* Re-write using Slurm-Perl API
-* A bunch of basic tests
+* Re-write using Slurm-Perl API (or in C).
+* A bunch of basic tests (partially done), need to be more systematic.
 
 # Ideas
+
+* [[sbank-submit]] to wrap up submitting jobs to a cluster, this could
+  be used to hide quite a few commands from the user. Or else we could
+  place some of the scripts/sbank commands into the epilog/prologue.
+
+## Implemented Ideas
 
 * Feedback for user, e.g. on submission estimate how many hours are
   needed then print a number of hours that is in the balance before and
   after the job has run. Maybe add this in the form of *sbank balance
-  request --nodes N --cores C --time hours --account ACCOUNT*
+  request --nodes N --cores C --time hours --account ACCOUNT* [[sbank-balance]]
 * the balance request commands - use 'sbank cluster' to find the local
-  cluster, if -c is not specified
+  cluster, if -c is not specified [[sbank-cluster]]
 * similarly, it would be nice to add a command to 'sbank user' to list the
   current user's default account on the cluster. I noticed that people might
   leave out the account name in their job script, and so slurm will just
-  use their default one.
+  use their default one. [[sbank-user]]
 * for 'sbank balance request', the verbose flag prints out the following:
 
     Current balance     = nnn
@@ -136,16 +145,12 @@ be the case).
 
 * I'd like 'user list' to maybe default to the current user, on the local
   cluster, and print their default account ? Not sure if the current behaviour
-  of showing all users is the best. It could be specified with '-a' or something
+  of showing all users is the best. It could be specified with '-a' or something [[sbank-user]]
 * sbank starts with a basic sanity checking script, seeing if commands like
   'sacctmgr' are actually there? If it's packaged as an rpm, the dependencies
-  will catch this, but it's no harm to have it.
-
-* [[sbank-submit]] to wrap up submitting jobs to a cluster, this could
-  be used to hide quite a few commands from the user. Or else we could
-  place some of the scripts/sbank commands into the epilog/prologue.
+  will catch this, but it's no harm to have it. [[sbank-common]]
 
 # Tested on
 
 * SLURM 2.2.0
-* SL5x (and system version of perl/sh)
+* SL5x (and system version of perl/bash)
