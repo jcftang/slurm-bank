@@ -127,7 +127,10 @@ cmd_cpuhrs() {
 		FLAGS_cluster="-M $(sbank cluster list)"
 	fi
 
-	sbank-common-cpu_hrs.pl -t hours ${FLAGS_cluster}
+	for i in year month week day
+	do
+		sbank-common-cpu_hrs.pl -t hours -i $i ${FLAGS_cluster}
+	done
 }
 
 
