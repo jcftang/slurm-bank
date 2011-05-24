@@ -3,6 +3,7 @@
 [[!img tchpc_icon128x128.png link=no]]
 
 * [[install]]
+* [[walkthrough]]
 * [[design]]
 * [[contact]]
 
@@ -10,7 +11,8 @@
 
 ## About
 
-SLURM Bank, a collection of wrapper scripts
+SLURM Bank, a collection of wrapper scripts to give slurm GOLD like
+capabilities for managing resources.
 
 ## Motivation
 
