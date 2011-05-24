@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>linkingrules</title>
+
+<link rel="stylesheet" href="../../style.css" type="text/css" />
+
+<link rel="stylesheet" href="../../local.css" type="text/css" />
+
+
+
+
+<meta name="robots" content="noindex, follow" />
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="../../index.html">slurm-bank</a>/ 
+
+<a href="../../ikiwiki.html">ikiwiki</a>/ 
+
+<a href="../subpage.html">subpage</a>/ 
+
+</span>
+<span class="title">
+linkingrules
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<p>To link to or from a <a href="../subpage.html">SubPage</a>, you can normally use a regular
+<a href="../wikilink.html">WikiLink</a> that does not contain the name of the parent directory of
+the <a href="../subpage.html">SubPage</a>. Ikiwiki descends the directory hierarchy looking for a
+page that matches your link.</p>
+
+<p>For example, if FooBar/SubPage links to "OtherPage", ikiwiki will first 
+prefer pointing the link to FooBar/SubPage/OtherPage if it exists, next
+to FooBar/OtherPage and finally to OtherPage in the root of the wiki.</p>
+
+<p>Note that this means that if a link on FooBar/SomePage to "OtherPage"
+currently links to OtherPage, in the root of the wiki, and FooBar/OtherPage
+is created, the link will <em>change</em> to point to FooBar/OtherPage. On the
+other hand, a link from BazBar to "OtherPage" would be unchanged by this
+creation of a <a href="../subpage.html">SubPage</a> of FooBar.</p>
+
+<p>You can also specify a link that contains a directory name, like
+"FooBar/OtherPage" to more exactly specify what page to link to. This is
+the only way to link to an unrelated <a href="../subpage.html">SubPage</a>.</p>
+
+<p>You can use this to, for example, to link from BazBar to "FooBar/SubPage",
+or from BazBar/SubPage to "FooBar/SubPage".</p>
+
+<p>You can also use "/" at the start of a link, to specify exactly which page
+to link to, when there are multiple pages with similar names and the link
+goes to the wrong page by default. For example, linking from
+"FooBar/SubPage" to  "/OtherPage" will link to the "OtherPage" in the root
+of the wiki, even if there is a "FooBar/OtherPage".</p>
+
+<p>Also, if the wiki is configured with a userdir, you can link to pages
+within the userdir without specifying a path to them. This is to allow for
+easy linking to a user's page in the userdir, to sign a comment. These
+links are checked for last of all.</p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="../subpage.html">subpage</a>
+
+<a href="../wikilink.html">wikilink</a>
+
+
+</div>
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Sat  4 Oct 15:11:08 2008</span>
+<!-- Created <span class="date">Sat  4 Oct 15:11:08 2008</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

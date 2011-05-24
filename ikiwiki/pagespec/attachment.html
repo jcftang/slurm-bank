@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>attachment</title>
+
+<link rel="stylesheet" href="../../style.css" type="text/css" />
+
+<link rel="stylesheet" href="../../local.css" type="text/css" />
+
+
+
+
+<meta name="robots" content="noindex, follow" />
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="../../index.html">slurm-bank</a>/ 
+
+<a href="../../ikiwiki.html">ikiwiki</a>/ 
+
+<a href="../pagespec.html">pagespec</a>/ 
+
+</span>
+<span class="title">
+attachment
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<p>This wiki has attachments <strong>enabled</strong>.</p>
+
+<p>If attachments are enabled, the wiki admin can control what types of
+attachments will be accepted, via the <code>allowed_attachments</code>
+configuration setting.</p>
+
+<p>For example, to limit most users to uploading small images, and nothing else,
+while allowing larger mp3 files to be uploaded by joey into a specific
+directory, and check all attachments for viruses, something like this could be
+used:</p>
+
+<pre><code>virusfree() and ((user(joey) and podcast/*.mp3 and mimetype(audio/mpeg) and maxsize(15mb)) or (mimetype(image/*) and maxsize(50kb)))
+</code></pre>
+
+<p>The regular <a href="../pagespec.html">PageSpec</a> syntax is expanded with the following
+additional tests:</p>
+
+<ul>
+<li><p>"<code>maxsize(size)</code>" - tests whether the attachment is no larger than the
+specified size. The size defaults to being in bytes, but "kb", "mb", "gb"
+etc can be used to specify the units.</p></li>
+<li><p>"<code>minsize(size)</code>" - tests whether the attachment is no smaller than the
+specified size.</p></li>
+<li><p>"<code>ispage()</code>" - tests whether the attachment will be treated by ikiwiki as a
+wiki page. (Ie, if it has an extension of ".mdwn", or of any other enabled
+page format).</p>
+
+<p>So, if you don't want to allow wiki pages to be uploaded as attachments,
+use <code>!ispage()</code> ; if you only want to allow wiki pages to be uploaded
+as attachments, use <code>ispage()</code>.</p></li>
+<li><p>"<code>mimetype(foo/bar)</code>" - checks the MIME type of the attachment. You can
+include a glob in the type, for example <code>mimetype(image/*)</code>.</p></li>
+<li><p>"<code>virusfree()</code>" - checks the attachment with an antiviral program.</p></li>
+</ul>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Fri 23 Apr 22:36:07 2010</span>
+<!-- Created <span class="date">Fri 23 Apr 22:36:07 2010</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

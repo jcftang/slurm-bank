@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>pagespec</title>
+
+<link rel="stylesheet" href="../style.css" type="text/css" />
+
+<link rel="stylesheet" href="../local.css" type="text/css" />
+
+
+
+
+<meta name="robots" content="noindex, follow" />
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="../index.html">slurm-bank</a>/ 
+
+<a href="../ikiwiki.html">ikiwiki</a>/ 
+
+</span>
+<span class="title">
+pagespec
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<p>To select a set of pages, such as pages that are locked, pages
+whose commit emails you want subscribe to, or pages to combine into a
+blog, the wiki uses a PageSpec. This is an expression that matches
+a set of pages.</p>
+
+<p>The simplest PageSpec is a simple list of pages. For example, this matches
+any of the three listed pages:</p>
+
+<pre><code>foo or bar or baz
+</code></pre>
+
+<p>More often you will want to match any pages that have a particular thing in
+their name. You can do this using a glob pattern. "<code>*</code>" stands for any part
+of a page name, and "<code>?</code>" for any single letter of a page name. So this
+matches all pages about music, and any <a href="./subpage.html">SubPage</a>s of the SandBox, but does
+not match the SandBox itself:</p>
+
+<pre><code>*music* or SandBox/*
+</code></pre>
+
+<p>You can also prefix an item with "<code>!</code>" to skip pages that match it. So to
+match all pages except for Discussion pages and the SandBox:</p>
+
+<pre><code>* and !SandBox and !*/Discussion
+</code></pre>
+
+<p>Some more elaborate limits can be added to what matches using these functions:</p>
+
+<ul>
+<li>"<code>glob(someglob)</code>" - matches pages and other files that match the given glob.
+Just writing the glob by itself is actually a shorthand for this function.</li>
+<li>"<code>page(glob)</code>" - like <code>glob()</code>, but only matches pages, not other files</li>
+<li>"<code>link(page)</code>" - matches only pages that link to a given page (or glob)</li>
+<li>"<code>tagged(tag)</code>" - matches pages that are tagged or link to the given tag (or
+tags matched by a glob)</li>
+<li>"<code>backlink(page)</code>" - matches only pages that a given page links to</li>
+<li>"<code>creation_month(month)</code>" - matches only files created on the given month
+number</li>
+<li>"<code>creation_day(mday)</code>" - or day of the month</li>
+<li>"<code>creation_year(year)</code>" - or year</li>
+<li>"<code>created_after(page)</code>" - matches only files created after the given page
+was created</li>
+<li>"<code>created_before(page)</code>" - matches only files created before the given page
+was created</li>
+<li>"<code>internal(glob)</code>" - like <code>glob()</code>, but matches even internal-use 
+pages that globs do not usually match.</li>
+<li>"<code>title(glob)</code>", "<code>author(glob)</code>", "<code>authorurl(glob)</code>",
+"<code>license(glob)</code>", "<code>copyright(glob)</code>", "<code>guid(glob)</code>" 
+<ul>
+<li>match pages that have the given metadata, matching the specified glob.</li>
+</ul></li>
+<li>"<code>user(username)</code>" - tests whether a modification is being made by a
+user with the specified username. If openid is enabled, an openid can also
+be put here. Glob patterns can be used in the username. For example, 
+to match all openid users, use <code>user(*://*)</code></li>
+<li>"<code>admin()</code>" - tests whether a modification is being made by one of the
+wiki admins.</li>
+<li>"<code>ip(address)</code>" - tests whether a modification is being made from the
+specified IP address.</li>
+<li>"<code>comment(glob)</code>" - matches comments to a page matching the glob.</li>
+<li>"<code>comment_pending(glob)</code>" - matches unmoderated, pending comments.</li>
+<li>"<code>postcomment(glob)</code>" - matches only when comments are being 
+posted to a page matching the specified glob</li>
+</ul>
+
+<p>For example, to match all pages in a blog that link to the page about music
+and were written in 2005:</p>
+
+<pre><code>blog/* and link(music) and creation_year(2005)
+</code></pre>
+
+<p>Note the use of "and" in the above example, that means that only pages that
+match each of the three expressions match the whole. Use "and" when you
+want to combine expression like that; "or" when it's enough for a page to
+match one expression. Note that it doesn't make sense to say "index and
+SandBox", since no page can match both expressions.</p>
+
+<p>More complex expressions can also be created, by using parentheses for
+grouping. For example, to match pages in a blog that are tagged with either
+of two tags, use:</p>
+
+<pre><code>blog/* and (tagged(foo) or tagged(bar))
+</code></pre>
+
+<p>Note that page names in PageSpecs are matched against the absolute
+filenames of the pages in the wiki, so a pagespec "foo" used on page
+"a/b" will not match a page named "a/foo" or "a/b/foo". To match
+relative to the directory of the page containing the pagespec, you can
+use "./". For example, "./foo" on page "a/b" matches page "a/foo".</p>
+
+<p>To indicate the name of the page the PageSpec is used in, you can
+use a single dot. For example, <code>link(.)</code> matches all the pages
+linking to the page containing the PageSpec.</p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="../ikiwiki.html">ikiwiki</a>
+
+<a href="./pagespec/attachment.html">pagespec/attachment</a>
+
+<a href="./pagespec/po.html">pagespec/po</a>
+
+<a href="./pagespec/sorting.html">pagespec/sorting</a>
+
+
+</div>
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Wed 20 Oct 23:53:50 2010</span>
+<!-- Created <span class="date">Wed 20 Oct 23:53:50 2010</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

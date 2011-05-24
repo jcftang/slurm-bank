@@ -149,11 +149,6 @@ be the case).</p>
 <h1>Missing components</h1>
 
 <ul>
-<li>Helper script to add/remove hours from a given account (short of
-manually doing it by hand and doing the sums). (This is somewhat
-done as <a href="./sbank-deposit.html">sbank-deposit</a>)</li>
-<li>And to add/remove users from an Account. (see below with gchproject
-idea).</li>
 <li>Ability to <em>end</em> accounts at a given date, could associate accounts
 with overlapping reservations. We tried this but we can't set a
 <em>maint</em> reservation that is honoured by slurm. So this is a no go
@@ -168,6 +163,16 @@ handful of scripts.</li>
 <li>This was mainly conceived as a Gold (bank) replacement, if we ditch maui,
 what other functionality will users miss? Have a 'showq' and 'checkjob'
 wrapper?</li>
+</ul>
+
+<h2>Done</h2>
+
+<ul>
+<li>Helper script to add/remove hours from a given account (short of
+manually doing it by hand and doing the sums). (This is somewhat
+done as <a href="./sbank-deposit.html">sbank-deposit</a>)</li>
+<li>And to add/remove users from an Account. (see below with gchproject
+idea). <a href="./sbank-project.html">sbank-project</a></li>
 <li>some additional commands/wrapper scripts to mimic GOLD
 <ul>
 <li>wrapper script for creating accounts (gmkproject like command),
@@ -177,33 +182,41 @@ necessary. Need to define how projects should be created deleted,
 do you want a structure/hierachy in the accounting db?
 <a href="./sbank-project.html">sbank-project</a></li>
 <li>wrapper script for adding/deleting users from (gchproject like
-command) <a href="./sbank-user.html">sbank-user</a> or <a href="./sbank-project.html">sbank-project</a></li>
+command) <a href="./sbank-user.html">sbank-user</a> or <a href="./sbank-project.html">sbank-project</a> </li>
 <li>wrapper script for making users (gmkuser), do we need to create
 users in slurmdbd before associating users with
 projects/accounts. <a href="./sbank-user.html">sbank-user</a></li>
 </ul></li>
 </ul>
 
-<h1>TODO for the script</h1>
+<h1>TODO for the script(s)</h1>
 
 <ul>
-<li>Re-write using Slurm-Perl API</li>
-<li>A bunch of basic tests</li>
+<li>Re-write using Slurm-Perl API (or in C).</li>
+<li>A bunch of basic tests (partially done), need to be more systematic.</li>
 </ul>
 
 <h1>Ideas</h1>
 
 <ul>
+<li><a href="./sbank-submit.html">sbank-submit</a> to wrap up submitting jobs to a cluster, this could
+be used to hide quite a few commands from the user. Or else we could
+place some of the scripts/sbank commands into the epilog/prologue.</li>
+</ul>
+
+<h2>Implemented Ideas</h2>
+
+<ul>
 <li>Feedback for user, e.g. on submission estimate how many hours are
 needed then print a number of hours that is in the balance before and
 after the job has run. Maybe add this in the form of <em>sbank balance
-request --nodes N --cores C --time hours --account ACCOUNT</em></li>
+request --nodes N --cores C --time hours --account ACCOUNT</em> <a href="./sbank-balance.html">sbank-balance</a></li>
 <li>the balance request commands - use 'sbank cluster' to find the local
-cluster, if -c is not specified</li>
+cluster, if -c is not specified <a href="./sbank-cluster.html">sbank-cluster</a></li>
 <li>similarly, it would be nice to add a command to 'sbank user' to list the
 current user's default account on the cluster. I noticed that people might
 leave out the account name in their job script, and so slurm will just
-use their default one.</li>
+use their default one. <a href="./sbank-user.html">sbank-user</a></li>
 <li><p>for 'sbank balance request', the verbose flag prints out the following:</p>
 
 <p>Current balance     = nnn
@@ -211,20 +224,17 @@ Requested CPU hours = nnn
 Expected balance    = nnn</p></li>
 <li><p>I'd like 'user list' to maybe default to the current user, on the local
 cluster, and print their default account ? Not sure if the current behaviour
-of showing all users is the best. It could be specified with '-a' or something</p></li>
-<li><p>sbank starts with a basic sanity checking script, seeing if commands like
+of showing all users is the best. It could be specified with '-a' or something <a href="./sbank-user.html">sbank-user</a></p></li>
+<li>sbank starts with a basic sanity checking script, seeing if commands like
 'sacctmgr' are actually there? If it's packaged as an rpm, the dependencies
-will catch this, but it's no harm to have it.</p></li>
-<li><p><a href="./sbank-submit.html">sbank-submit</a> to wrap up submitting jobs to a cluster, this could
-be used to hide quite a few commands from the user. Or else we could
-place some of the scripts/sbank commands into the epilog/prologue.</p></li>
+will catch this, but it's no harm to have it. <span class="createlink">sbank-common</span></li>
 </ul>
 
 <h1>Tested on</h1>
 
 <ul>
 <li>SLURM 2.2.0</li>
-<li>SL5x (and system version of perl/sh)</li>
+<li>SL5x (and system version of perl/bash)</li>
 </ul>
 
 </div>
@@ -265,8 +275,8 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Mon 23 May 15:13:52 2011</span>
-<!-- Created <span class="date">Mon 23 May 15:13:52 2011</span> -->
+Last edited <span class="date">Mon 23 May 19:14:05 2011</span>
+<!-- Created <span class="date">Mon 23 May 19:14:05 2011</span> -->
 </div>
 
 </div>

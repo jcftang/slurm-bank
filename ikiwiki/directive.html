@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>directive</title>
+
+<link rel="stylesheet" href="../style.css" type="text/css" />
+
+<link rel="stylesheet" href="../local.css" type="text/css" />
+
+
+
+
+<meta name="robots" content="noindex, follow" />
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="../index.html">slurm-bank</a>/ 
+
+<a href="../ikiwiki.html">ikiwiki</a>/ 
+
+</span>
+<span class="title">
+directive
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<p>Directives are similar to a <a href="./wikilink.html">WikiLink</a> in form, except they
+begin with <code>!</code> and may contain parameters. The general form is:</p>
+
+<pre><code>[[!directive  param="value" param="value"]]
+</code></pre>
+
+<p>This gets expanded before the rest of the page is processed, and can be used
+to transform the page in various ways.</p>
+
+<p>The quotes around values can be omitted if the value is a simple word.
+Also, some directives may use parameters without values, for example:</p>
+
+<pre><code>[[!tag  foo]]
+</code></pre>
+
+<p>A directive does not need to all be on one line, it can be
+wrapped to multiple lines if you like:</p>
+
+<pre><code>[[!directive  foo="baldersnatch"
+bar="supercalifragilisticexpialidocious" baz=11]]
+</code></pre>
+
+<p>Also, multiple lines of <em>quoted</em> text can be used for a value.
+To allow quote marks inside the quoted text, delimit the block
+of text with triple-quotes:</p>
+
+<pre><code>[[!directive  text="""
+1. "foo"
+2. "bar"
+3. "baz"
+"""]]
+</code></pre>
+
+<p>ikiwiki also has an older syntax for directives, which requires a space in
+directives to distinguish them from <a href="./wikilink.html">wikilinks</a>. This
+syntax has several disadvantages: it requires a space after directives with
+no parameters (such as <code>[[pagecount ]]</code>), and it prohibits spaces in
+<a href="./wikilink.html">wikilinks</a>.  ikiwiki now provides the <code>!</code>-prefixed
+syntax shown above as default.  However, ikiwiki still supports wikis using
+the older syntax, if the <code>prefix_directives</code> option is disabled.</p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="./formatting.html">formatting</a>
+
+<a href="../ikiwiki.html">ikiwiki</a>
+
+<a href="./markdown.html">markdown</a>
+
+<a href="./pagespec/sorting.html">pagespec/sorting</a>
+
+<a href="../shortcuts.html">shortcuts</a>
+
+
+</div>
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Tue 23 Dec 21:29:31 2008</span>
+<!-- Created <span class="date">Tue 23 Dec 21:29:31 2008</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>
