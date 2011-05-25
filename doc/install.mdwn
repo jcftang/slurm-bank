@@ -5,6 +5,8 @@ To install slurm-bank
 A working SLURM installation with perl and bash, we assume that
 slurmdbd is setup and functioning correctly.
 
+[[!inline pages="walkthrough/setup" template=bare]]
+
 ## Installing on a RHEL5x or clone
 
 If you have a release tarball,
