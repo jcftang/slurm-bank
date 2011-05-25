@@ -11,7 +11,7 @@ To see the unformatted balance in a single account:
 	$ sbank balance statement -a tchpc
 	315330
 
-To se everyone in a given account, in this example the TCHPC account:
+To see everyone in a given account, in this example the TCHPC account:
 
 	$ sbank balance statement -a tchpc -A
 	User             Usage |          Account       Usage | Account Limit   Available (CPU hrs)

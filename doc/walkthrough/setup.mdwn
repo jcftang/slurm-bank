@@ -24,7 +24,7 @@ accounts.
 
 Users will need to learn how to use accounts (nothing new here).
 
-sacctmgr and sshare is required and must be working.
+sbatch, sinfo, sacctmgr and sshare is required and must be working.
 
 If you do not already have a cluster registered and configured in slurm,
 

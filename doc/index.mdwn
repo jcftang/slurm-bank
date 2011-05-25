@@ -41,6 +41,18 @@ slurm commands! We stress that these scripts are just fixing the workflows
 in managing accounts and users as well as providing some helper tools
 to let users manage their own resources.
 
+### Needed components
+
+This is now available with slurm-bank
+
+* A predefined and consistent way of adding/removing projects and
+  users to said projects.
+* A way of adding/removing hours from a project (account).
+* A way of telling users how much time they have left and how much
+  time they have used.
+* A way of letting users know if they can complete a job or not
+  (easily).
+
 ## Deciding on a policy
 
 * Figure out how many CPU hours are available on the cluster.
