@@ -90,6 +90,13 @@ be the case).
       an end on the account.  
     * One idea is to do this offline with an external database and a
       handful of scripts.
+    * Another idea is to use a flat text file with PROJECT_NAME,
+      START_DATE, END_DATE and STATUS columns, we could then loop
+      through this file every day and simply expire accounts as
+      needed. gnu-recutils looks like a good set of tools for
+      manipulating a flatfile based database. We could dump out a
+      recutils styled db with a perl script every night, then run our
+      own expiration script.
 * This was mainly conceived as a Gold (bank) replacement, if we ditch maui,
   what other functionality will users miss? Have a 'showq' and 'checkjob'
   wrapper?
