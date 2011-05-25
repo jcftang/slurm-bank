@@ -54,6 +54,46 @@ install
 <p>A working SLURM installation with perl and bash, we assume that
 slurmdbd is setup and functioning correctly.</p>
 
+<div  class="feedlink">
+
+
+</div>
+<p>The first thing to do is to setup <a href="https://computing.llnl.gov/linux/slurm/">slurm</a> and <a href="https://computing.llnl.gov/linux/slurm/accounting.html">slurmdbd</a>. This
+documentation assumes the user knows basic slurm administration.</p>
+
+<p>Slurmdbd must be configured and working, account enforcing is enabled
+in <em>slurm.conf</em></p>
+
+<pre><code>AccountingStorageEnforce=limits
+</code></pre>
+
+<p>The following parameters must also be set, we do not want a decay or
+reset of the usage that is recorded in slurmdbd.</p>
+
+<pre><code>PriorityDecayHalfLife=0
+PriorityUsageResetPeriod=NONE
+</code></pre>
+
+<p>What is also required is a pretty good estimate of the total available
+cpu hours that you have on your cluster that you can allocate to
+accounts.</p>
+
+<p><a href="./sbank-cluster.html">sbank-cluster</a> can provide a rough estimate of what's available.</p>
+
+<pre><code>&#036; sbank cluster cpuhrs
+</code></pre>
+
+<p>Users will need to learn how to use accounts (nothing new here).</p>
+
+<p>sbatch, sinfo, sacctmgr and sshare is required and must be working.</p>
+
+<p>If you do not already have a cluster registered and configured in slurm,</p>
+
+<pre><code>&#036; sbank cluster create mycluster
+</code></pre>
+
+
+
 <h2>Installing on a RHEL5x or clone</h2>
 
 <p>If you have a release tarball,</p>
@@ -108,7 +148,7 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Mon 23 May 19:14:05 2011</span>
+Last edited <span class="date">Wed 25 May 11:45:37 2011</span>
 <!-- Created <span class="date">Mon 23 May 19:14:05 2011</span> -->
 </div>
 
