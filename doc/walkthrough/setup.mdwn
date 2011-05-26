@@ -1,4 +1,4 @@
-[[!meta title="Setup slurm and slurmdbd"]]
+[[!meta title="Setup slurm and slurmdbd (need root access)"]]
 
 The first thing to do is to setup [slurm][] and [slurmdbd][]. This
 documentation assumes the user knows basic slurm administration.
