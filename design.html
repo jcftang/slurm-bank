@@ -224,13 +224,13 @@ status: active
 <p>Or for a machine readable form</p>
 
 <pre><code>&#036; recsel -C -R project -t project \
-    -e "enddate &lt;&lt; '2012-07-01'" projects.rec
+    -e "enddate &gt;&gt; '2012-07-01'" projects.rec
 </code></pre>
 
 <p>Return a list of projects that are 'active' after an 'enddate'</p>
 
 <pre><code>&#036; recsel -C -R project -t project \
-    -e "enddate &lt;&lt; '2012-07-01'" -e "status='active'" projects.rec
+    -e "enddate &gt;&gt; '2012-07-01'" -e "status='active'" projects.rec
 </code></pre>
 
 <p>With this list of codes we should be able to mark projects with sbank
@@ -270,9 +270,15 @@ projects/accounts. <a href="./sbank-user.html">sbank-user</a></li>
 <h2>Ideas</h2>
 
 <ul>
-<li><a href="./sbank-submit.html">sbank-submit</a> to wrap up submitting jobs to a cluster, this could
+<li><p><a href="./sbank-submit.html">sbank-submit</a> to wrap up submitting jobs to a cluster, this could
 be used to hide quite a few commands from the user. Or else we could
-place some of the scripts/sbank commands into the epilog/prologue.</li>
+place some of the scripts/sbank commands into the epilog/prologue.</p></li>
+<li><p>Reservations according to
+https://computing.llnl.gov/linux/slurm/reservations.html implies
+that users will be charged if they do not use their reservation.
+We should define that only accounts get associated with reservations,
+if possible we should figure out how to penalise users for the
+time reserved (i.e. interest rates).</p></li>
 </ul>
 
 <h3>Implemented Ideas</h3>
@@ -346,8 +352,8 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Thu 26 May 17:52:11 2011</span>
-<!-- Created <span class="date">Mon 23 May 19:14:05 2011</span> -->
+Last edited <span class="date">Thu 26 May 19:59:06 2011</span>
+<!-- Created <span class="date">Thu 26 May 19:59:06 2011</span> -->
 </div>
 
 </div>
