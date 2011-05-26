@@ -159,13 +159,13 @@ helper scripts (done via crontab or something similar).
 an end on the account.  </li>
 <li>One idea is to do this offline with an external database and a
 handful of scripts.</li>
-<li>Another idea is to use a flat text file with PROJECT<em>NAME,
+<li>Another idea is to use a flat text file with KEY, PROJECT<em>NAME,
 START</em>DATE, END_DATE and STATUS columns, we could then loop
 through this file every day and simply expire accounts as
 needed. gnu-recutils looks like a good set of tools for
 manipulating a flatfile based database. We could dump out a
 recutils styled db with a perl script every night, then run our
-own expiration script.</li>
+own expiration script. On second thought sqlite3 might be a better choice.</li>
 </ul></li>
 <li>This was mainly conceived as a Gold (bank) replacement, if we ditch maui,
 what other functionality will users miss? Have a 'showq' and 'checkjob'
@@ -282,7 +282,7 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Wed 25 May 13:48:13 2011</span>
+Last edited <span class="date">Thu 26 May 11:08:55 2011</span>
 <!-- Created <span class="date">Mon 23 May 19:14:05 2011</span> -->
 </div>
 

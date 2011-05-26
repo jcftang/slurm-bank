@@ -64,8 +64,12 @@ capabilities for managing resources.</p>
 
 <h2>Motivation</h2>
 
-<p>To replace <a href="https://computing.llnl.gov/linux/slurm/">slurm</a>, <a href="http://www.clusterresources.com/pages/products/gold/">GOLD</a> and <a href="http://www.clusterresources.com/products/maui/">maui</a> combination with just
-slurm.</p>
+<p>To replace our current Resource Management and Allocation Systems which
+comprise of three pieces of software (<a href="https://computing.llnl.gov/linux/slurm/">slurm</a>, <a href="http://www.clusterresources.com/pages/products/gold/">GOLD</a> and <a href="http://www.clusterresources.com/products/maui/">maui</a>)
+combination with just a single piece of software: Slurm.</p>
+
+<p>Having all of the banking functionality of SLURM wrapped up has benefits
+for both the systems administrators:</p>
 
 <ul>
 <li>Having just slurm without maui means there are less things to go
@@ -74,6 +78,14 @@ wrong</li>
 with just slurm</li>
 <li>GOLD is overly complicated and we don't need many of the features
 from GOLD</li>
+</ul>
+
+<p>And also benefits for end users of clusters:</p>
+
+<ul>
+<li>Less commands/systems to learn</li>
+<li>Faster job submission and turn-around</li>
+<li>Greater overall system stability</li>
 </ul>
 
 <h2>Design</h2>
@@ -85,11 +97,6 @@ wrapper scripts to already existing slurm commands. One of the
 problems with banking is being consistent, the sbank wrapper scripts
 try to provide a workflow to provide a GOLD like banking system
 with slurm.</p>
-
-<p>You can do everything that these wrapper scripts are doing with plain
-slurm commands! We stress that these scripts are just fixing the workflows
-in managing accounts and users as well as providing some helper tools
-to let users manage their own resources.</p>
 
 <h3>Needed components</h3>
 
@@ -104,6 +111,20 @@ time they have used.</li>
 <li>A way of letting users know if they can complete a job or not
 (easily).</li>
 </ul>
+
+<p>You can do everything that these wrapper scripts are doing with plain
+slurm commands! We stress that these scripts are just fixing the workflows
+in managing accounts and users as well as providing some helper tools
+to let users manage their own resources.</p>
+
+<p>The SLURM software itself is free and open-source, under a GPLv2 Licence,
+so anyone could freely and easily replicate the work undertaken here
+themselves.</p>
+
+<p>Also, note that the software itself is fully-readable scripts (no compiled
+code) and its behaviour is fully documented, it is trivial for any user
+on our systems to view the documentation and scripts, and re-implement
+it themselves.</p>
 
 <h2>Deciding on a policy</h2>
 
@@ -184,7 +205,7 @@ slurm-bank.</p>
 
 
 <div class="pagedate">
-Last edited <span class="date">Wed 25 May 11:36:00 2011</span>
+Last edited <span class="date">Thu 26 May 11:08:55 2011</span>
 <!-- Created <span class="date">Wed 25 May 11:36:00 2011</span> -->
 </div>
 
