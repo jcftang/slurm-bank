@@ -159,10 +159,10 @@ helper scripts (done via crontab or something similar).
 an end on the account.  </li>
 <li>One idea is to do this offline with an external database and a
 handful of scripts.</li>
-<li>Another idea is to use a flat text file with KEY, PROJECT<em>NAME,
-START</em>DATE, END_DATE and STATUS columns, we could then loop
+<li>Another idea is to use a flat text file with KEY, PROJECTNAME,
+STARTDATE, ENDDATE and STATUS columns, we could then loop
 through this file every day and simply expire accounts as
-needed. gnu-recutils looks like a good set of tools for
+needed. <a href="http://www.gnu.org/software/recutils/">gnu-recutils</a> looks like a good set of tools for
 manipulating a flatfile based database. We could dump out a
 recutils styled db with a perl script every night, then run our
 own expiration script. On second thought sqlite3 might be a better choice.</li>
@@ -171,6 +171,70 @@ own expiration script. On second thought sqlite3 might be a better choice.</li>
 what other functionality will users miss? Have a 'showq' and 'checkjob'
 wrapper?</li>
 </ul>
+
+<h3>recutils as a database backend</h3>
+
+<p>Possibly define this type of record</p>
+
+<pre><code>%rec: project
+%mandatory: project createdate
+%type: project line
+%type: startdate date
+%type: enddate date
+%type: createdate date
+%type: status enum active inactive
+%type: id int
+%key: id
+%auto: id createdate
+
+id: 0
+modifydate: Thu, 26 May 2011 14:46:14 +0100
+project: physics
+enddate: 2009-06-06
+status: active
+
+id: 1
+modifydate: Thu, 26 May 2011 14:49:01 +0100
+project: chemistry
+enddate: 2011-06-06
+status: inactive
+
+id: 2
+modifydate: Thu, 26 May 2011 14:49:42 +0100
+project: maths
+enddate: 2012-06-06
+status: active
+</code></pre>
+
+<p>To insert a record</p>
+
+<pre><code>&#036; recins -t project -f project -v chemistry \
+    -f enddate -v 2011-06-06 \
+    projects.rec
+&#036; recins -t project -f project -v physics \
+    -f enddate -v "2012-06-06" \
+    projects.rec
+</code></pre>
+
+<p>To select records after whose accounts are to expire</p>
+
+<pre><code>&#036; recsel -t project -e "enddate &lt;&lt; '2011-07-01'" projects.rec
+</code></pre>
+
+<p>Or for a machine readable form</p>
+
+<pre><code>&#036; recsel -C -R project -t project \
+    -e "enddate &lt;&lt; '2012-07-01'" projects.rec
+</code></pre>
+
+<p>Return a list of projects that are 'active' after an 'enddate'</p>
+
+<pre><code>&#036; recsel -C -R project -t project \
+    -e "enddate &lt;&lt; '2012-07-01'" -e "status='active'" projects.rec
+</code></pre>
+
+<p>With this list of codes we should be able to mark projects with sbank
+with no more runnable hours.</p>
 
 <h2>Done</h2>
 
@@ -282,7 +346,7 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Thu 26 May 11:08:55 2011</span>
+Last edited <span class="date">Thu 26 May 16:00:54 2011</span>
 <!-- Created <span class="date">Mon 23 May 19:14:05 2011</span> -->
 </div>
 
