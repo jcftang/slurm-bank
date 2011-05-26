@@ -19,7 +19,7 @@ end users.
 
 * user
 
-  List, create and users in a defined way.
+  List, create and delete users in a defined way.
 
 * deposit
 
