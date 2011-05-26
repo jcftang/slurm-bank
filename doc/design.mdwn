@@ -1,11 +1,11 @@
-# DESIGN
+## DESIGN
 
 Based on discussions from 
 
 * <http://groups.google.com/group/slurm-devel/browse_frm/thread/1c8805fb274c108f#>
 * <http://groups.google.com/group/slurm-devel/browse_thread/thread/b06f3985cc7504b2?tvc=2>
 
-# Requirements
+## Requirements
 
 This documentation assumes the user knows basic slurm administration.
 
@@ -28,7 +28,7 @@ Users will need to learn how to use accounts (nothing new here).
 
 sacctmgr and sshare is required and must be working.
 
-# How it works
+## How it works
 
 Time is deposited to an account, which gets drawn from whenever a job
 is submitted to the cluster. Currently the "GrpCPUMins" is used.
@@ -42,12 +42,12 @@ A consequence of this is that it will kill jobs mid-run (say if another
 user in the Account uses up all the time first) - again, probably not
 a bad thing.
 
-## Time period
+### Time period
 
 The tools work with hours as the time unit (conversions are done where
 needed).
 
-## The slurmdbd hierachy
+### The slurmdbd hierachy
 
 We assume this type of setup, which is the default behaviour of the
 slurmdbd. (This is our current assumption to keep things simple)
@@ -73,13 +73,13 @@ We would have to add some checks or script up the [[sbank-project]]
 wrapper to work in a pre-defined way to allow for the different
 workflows.
 
-## Note
+### Note
 
 It *seems* that the slurmctld must be restarted sometimes - for new
 Accounts or Account updates. This needs to be checked more (it may not
 be the case).
 
-# Missing components
+## Missing components
 
 * Ability to *end* accounts at a given date, could associate accounts
   with overlapping reservations. We tried this but we can't set a
@@ -101,7 +101,7 @@ be the case).
   what other functionality will users miss? Have a 'showq' and 'checkjob'
   wrapper?
 
-### recutils as a database backend
+#### recutils as a database backend
 
 Possibly define this type of record
 
@@ -160,7 +160,7 @@ Return a list of projects that are 'active' after an 'enddate'
 With this list of codes we should be able to mark projects with sbank
 with no more runnable hours.
 
-## Done 
+### Done
 
 * Helper script to add/remove hours from a given account (short of
   manually doing it by hand and doing the sums). (This is somewhat
@@ -180,18 +180,18 @@ with no more runnable hours.
    users in slurmdbd before associating users with
    projects/accounts. [[sbank-user]]
 
-# TODO for the script(s)
+## TODO for the script(s)
 
 * Re-write using Slurm-Perl API (or in C).
 * A bunch of basic tests (partially done), need to be more systematic.
 
-# Ideas
+## Ideas
 
 * [[sbank-submit]] to wrap up submitting jobs to a cluster, this could
   be used to hide quite a few commands from the user. Or else we could
   place some of the scripts/sbank commands into the epilog/prologue.
 
-## Implemented Ideas
+### Implemented Ideas
 
 * Feedback for user, e.g. on submission estimate how many hours are
   needed then print a number of hours that is in the balance before and
@@ -216,7 +216,7 @@ with no more runnable hours.
   'sacctmgr' are actually there? If it's packaged as an rpm, the dependencies
   will catch this, but it's no harm to have it. [[sbank-common]]
 
-# Tested on
+## Tested on
 
 * SLURM 2.2.0
 * SL5x (and system version of perl/bash)
