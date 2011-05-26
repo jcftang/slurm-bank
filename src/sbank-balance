@@ -170,7 +170,7 @@ cmd_checkscript()
 	# use the filename at the end to avoid starting a subshell and losing the variables
 	while read line
 	do
-		if [[ "${line}" =~ ^#SBATCH[[:space:]]-([[:alpha:]])[[:space:]]*(.*) ]]
+		if [[ "${line}" =~ ^#SBATCH[[:space:]]-([[:alpha:]])[[:space:]]*([^[:space:]]*) ]]
 		then
 			flag=${BASH_REMATCH[1]}
 			arg=${BASH_REMATCH[2]}
