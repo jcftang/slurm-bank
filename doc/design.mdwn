@@ -90,10 +90,10 @@ be the case).
       an end on the account.  
     * One idea is to do this offline with an external database and a
       handful of scripts.
-    * Another idea is to use a flat text file with KEY, PROJECT_NAME,
-      START_DATE, END_DATE and STATUS columns, we could then loop
+    * Another idea is to use a flat text file with KEY, PROJECTNAME,
+      STARTDATE, ENDDATE and STATUS columns, we could then loop
       through this file every day and simply expire accounts as
-      needed. gnu-recutils looks like a good set of tools for
+      needed. [gnu-recutils][] looks like a good set of tools for
       manipulating a flatfile based database. We could dump out a
       recutils styled db with a perl script every night, then run our
       own expiration script. On second thought sqlite3 might be a better choice.
@@ -220,3 +220,5 @@ with no more runnable hours.
 
 * SLURM 2.2.0
 * SL5x (and system version of perl/bash)
+
+[gnu-recutils]: http://www.gnu.org/software/recutils/
