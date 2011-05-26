@@ -24,7 +24,7 @@ cmd_deposit()
 	# define some variables
 	debug "define some variables"
 	DEFINE_string 'account' 'null' 'specify a slurm account' 'a'
-	DEFINE_string 'cluster' '$(sbank cluster list)' 'specify a cluster' 'c'
+	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
 	DEFINE_integer 'time' '0' 'specify time in hours' 't'
 
 	FLAGS_PARENT="sbank deposit"
