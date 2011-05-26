@@ -63,6 +63,12 @@ slurm-bank
 <p>SLURM Bank, a collection of wrapper scripts to give slurm GOLD like
 capabilities for managing resources.</p>
 
+<p>With the scripts we are able to provide a simple <em>banking</em> system
+where we can deposit hours to an account. Users are associated to
+these accounts from which they can use to run jobs. If users do not
+have an account or if they do not have hours in their account then
+they cannot run jobs.</p>
+
 <h2>Motivation</h2>
 
 <p>To replace our current Resource Management and Allocation Systems which
@@ -98,6 +104,16 @@ wrapper scripts to already existing slurm commands. One of the
 problems with banking is being consistent, the sbank wrapper scripts
 try to provide a workflow to provide a GOLD like banking system
 with slurm.</p>
+
+<p>SLURM bank is extremely simple and only very basic banking
+functionality is provided. That is when a user or a group of users run
+out of time in an account the jobs that are running will be
+immediately terminated. In SLURM bank we do not have reservation of
+time to ensure jobs complete, it is up to the user to figure that out,
+by doing so users will hopefully be more aware of the time that they
+have used. We also do not have the notion of crediting or overdrawing
+so if jobs fail due to system failures etc... users will not be
+refunded hours.</p>
 
 <h3>Needed components</h3>
 
@@ -192,7 +208,7 @@ slurm-bank.</p>
 
 
 <div class="pagedate">
-Last edited <span class="date">Thu 26 May 19:59:06 2011</span>
+Last edited <span class="date">Thu 26 May 21:09:33 2011</span>
 <!-- Created <span class="date">Thu 26 May 19:59:06 2011</span> -->
 </div>
 
