@@ -31,7 +31,7 @@ end users.
 
 * time
 
-  Time calculator.
+  Time calculator and estimator.
 
 * cluster
 
