@@ -16,8 +16,12 @@ capabilities for managing resources.
 
 ## Motivation
 
-To replace [slurm][], [GOLD][] and [maui][] combination with just
-slurm.
+To replace our current Resource Management and Allocation Systems which
+comprise of three pieces of software ([slurm][], [GOLD][] and [maui][])
+combination with just a single piece of software: Slurm.
+
+Having all of the banking functionality of SLURM wrapped up has benefits
+for both the systems administrators:
 
 * Having just slurm without maui means there are less things to go
   wrong
@@ -25,6 +29,12 @@ slurm.
   with just slurm
 * GOLD is overly complicated and we don't need many of the features
   from GOLD
+
+And also benefits for end users of clusters:
+
+* Less commands/systems to learn
+* Faster job submission and turn-around
+* Greater overall system stability
 
 ## Design
 
@@ -35,11 +45,6 @@ wrapper scripts to already existing slurm commands. One of the
 problems with banking is being consistent, the sbank wrapper scripts
 try to provide a workflow to provide a GOLD like banking system
 with slurm.
-
-You can do everything that these wrapper scripts are doing with plain
-slurm commands! We stress that these scripts are just fixing the workflows
-in managing accounts and users as well as providing some helper tools
-to let users manage their own resources.
 
 ### Needed components
 
@@ -52,6 +57,20 @@ This is now available with slurm-bank
   time they have used.
 * A way of letting users know if they can complete a job or not
   (easily).
+
+You can do everything that these wrapper scripts are doing with plain
+slurm commands! We stress that these scripts are just fixing the workflows
+in managing accounts and users as well as providing some helper tools
+to let users manage their own resources.
+
+The SLURM software itself is free and open-source, under a GPLv2 Licence,
+so anyone could freely and easily replicate the work undertaken here
+themselves.
+
+Also, note that the software itself is fully-readable scripts (no compiled
+code) and its behaviour is fully documented, it is trivial for any user
+on our systems to view the documentation and scripts, and re-implement
+it themselves.
 
 ## Deciding on a policy
 
