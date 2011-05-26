@@ -13,8 +13,8 @@ BuildRequires:  perl, bash, rsync
 Requires:       slurm >= 2.2.0, perl, bash  
 
 %description
-SLURM Bank, a collection of wrapper scripts for implement full resource
-allocation to replace Maui and GOLD.
+SLURM Bank, a collection of wrapper scripts for implementing full
+resource allocation to replace Maui and GOLD.
 
 %prep
 %setup -q
