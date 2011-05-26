@@ -145,7 +145,7 @@ To insert a record
 
 To select records after whose accounts are to expire
 
-	$ recsel -t project -e "enddate << '2011-07-01'" projects.rec
+	$ recsel -t project -e "enddate >> '2011-07-01'" projects.rec
 
 Or for a machine readable form
 
