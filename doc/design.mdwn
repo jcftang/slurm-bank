@@ -191,6 +191,13 @@ with no more runnable hours.
   be used to hide quite a few commands from the user. Or else we could
   place some of the scripts/sbank commands into the epilog/prologue.
 
+* Reservations according to
+  https://computing.llnl.gov/linux/slurm/reservations.html implies
+  that users will be charged if they do not use their reservation.
+  We should define that only accounts get associated with reservations,
+  if possible we should figure out how to penalise users for the
+  time reserved (i.e. interest rates).
+
 ### Implemented Ideas
 
 * Feedback for user, e.g. on submission estimate how many hours are
