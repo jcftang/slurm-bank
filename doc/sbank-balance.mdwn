@@ -81,3 +81,8 @@ to run a job.
 # AUTHOR
 
 Jimmy Tang <jtang@tchpc.tcd.ie>
+
+# COPYRIGHT
+
+Copyright  (C) 2011 Trinity Centre for High Performance Computing, Trinity Collge Dublin.
+There is NO WARRANTY, to the extent permitted by law.

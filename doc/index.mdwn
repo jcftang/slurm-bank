@@ -6,6 +6,7 @@
 * [[walkthrough]]
 * [[design]]
 * [[contact]]
+* [[copyright]]
 
 """]]
 

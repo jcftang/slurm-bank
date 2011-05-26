@@ -56,3 +56,8 @@ Remove '1000' hours from an account 'account-0001' on the cluster
 # AUTHOR
 
 Jimmy Tang <jtang@tchpc.tcd.ie>
+
+# COPYRIGHT
+
+Copyright  (C) 2011 Trinity Centre for High Performance Computing, Trinity Collge Dublin.
+There is NO WARRANTY, to the extent permitted by law.
