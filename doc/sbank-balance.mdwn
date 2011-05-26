@@ -51,7 +51,17 @@ then sbank-balance will show the balance of the user who ran the script.
   -t, --time
 
   Specify the amount of hours to request. This value must be a
-  positive integer.  integer value.
+  positive integer value.
+
+* checkscript - check the hours that a script is about to request.
+
+  -c, --cluster
+
+  Specify the slurm cluster
+
+  -s, --scriptname
+  
+  Name of script to check
 
 # EXAMPLES
 
