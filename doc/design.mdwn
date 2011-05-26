@@ -101,6 +101,65 @@ be the case).
   what other functionality will users miss? Have a 'showq' and 'checkjob'
   wrapper?
 
+### recutils as a database backend
+
+Possibly define this type of record
+
+	%rec: project
+	%mandatory: project createdate
+	%type: project line
+	%type: startdate date
+	%type: enddate date
+	%type: createdate date
+	%type: status enum active inactive
+	%type: id int
+	%key: id
+	%auto: id createdate
+
+	id: 0
+	modifydate: Thu, 26 May 2011 14:46:14 +0100
+	project: physics
+	enddate: 2009-06-06
+	status: active
+
+	id: 1
+	modifydate: Thu, 26 May 2011 14:49:01 +0100
+	project: chemistry
+	enddate: 2011-06-06
+	status: inactive
+
+	id: 2
+	modifydate: Thu, 26 May 2011 14:49:42 +0100
+	project: maths
+	enddate: 2012-06-06
+	status: active
+
+To insert a record
+
+	$ recins -t project -f project -v chemistry \
+		-f enddate -v 2011-06-06 \
+		projects.rec
+	$ recins -t project -f project -v physics \
+		-f enddate -v "2012-06-06" \
+		projects.rec
+
+To select records after whose accounts are to expire
+
+	$ recsel -t project -e "enddate << '2011-07-01'" projects.rec
+
+Or for a machine readable form
+
+	$ recsel -C -R project -t project \
+		-e "enddate << '2012-07-01'" projects.rec
+
+Return a list of projects that are 'active' after an 'enddate'
+
+	$ recsel -C -R project -t project \
+		-e "enddate << '2012-07-01'" -e "status='active'" projects.rec
+
+With this list of codes we should be able to mark projects with sbank
+with no more runnable hours.
+
 ## Done 
 
 * Helper script to add/remove hours from a given account (short of
