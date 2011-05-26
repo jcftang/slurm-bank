@@ -47,7 +47,7 @@ design
 <div id="pagebody">
 
 <div id="content">
-<h1>DESIGN</h1>
+<h2>DESIGN</h2>
 
 <p>Based on discussions from </p>
 
@@ -56,7 +56,7 @@ design
 <li><a href="http://groups.google.com/group/slurm-devel/browse_thread/thread/b06f3985cc7504b2?tvc=2">http://groups.google.com/group/slurm-devel/browse_thread/thread/b06f3985cc7504b2?tvc=2</a></li>
 </ul>
 
-<h1>Requirements</h1>
+<h2>Requirements</h2>
 
 <p>This documentation assumes the user knows basic slurm administration.</p>
 
@@ -81,7 +81,7 @@ accounts.</p>
 
 <p>sacctmgr and sshare is required and must be working.</p>
 
-<h1>How it works</h1>
+<h2>How it works</h2>
 
 <p>Time is deposited to an account, which gets drawn from whenever a job
 is submitted to the cluster. Currently the "GrpCPUMins" is used.</p>
@@ -95,12 +95,12 @@ to only subtract time when the jobs are actually running.</p>
 user in the Account uses up all the time first) - again, probably not
 a bad thing.</p>
 
-<h2>Time period</h2>
+<h3>Time period</h3>
 
 <p>The tools work with hours as the time unit (conversions are done where
 needed).</p>
 
-<h2>The slurmdbd hierachy</h2>
+<h3>The slurmdbd hierachy</h3>
 
 <p>We assume this type of setup, which is the default behaviour of the
 slurmdbd. (This is our current assumption to keep things simple)</p>
@@ -140,13 +140,13 @@ slurmdbd. (This is our current assumption to keep things simple)</p>
 wrapper to work in a pre-defined way to allow for the different
 workflows.</p>
 
-<h2>Note</h2>
+<h3>Note</h3>
 
 <p>It <em>seems</em> that the slurmctld must be restarted sometimes - for new
 Accounts or Account updates. This needs to be checked more (it may not
 be the case).</p>
 
-<h1>Missing components</h1>
+<h2>Missing components</h2>
 
 <ul>
 <li>Ability to <em>end</em> accounts at a given date, could associate accounts
@@ -172,7 +172,7 @@ what other functionality will users miss? Have a 'showq' and 'checkjob'
 wrapper?</li>
 </ul>
 
-<h3>recutils as a database backend</h3>
+<h4>recutils as a database backend</h4>
 
 <p>Possibly define this type of record</p>
 
@@ -236,7 +236,7 @@ status: active
 <p>With this list of codes we should be able to mark projects with sbank
 with no more runnable hours.</p>
 
-<h2>Done</h2>
+<h3>Done</h3>
 
 <ul>
 <li>Helper script to add/remove hours from a given account (short of
@@ -260,14 +260,14 @@ projects/accounts. <a href="./sbank-user.html">sbank-user</a></li>
 </ul></li>
 </ul>
 
-<h1>TODO for the script(s)</h1>
+<h2>TODO for the script(s)</h2>
 
 <ul>
 <li>Re-write using Slurm-Perl API (or in C).</li>
 <li>A bunch of basic tests (partially done), need to be more systematic.</li>
 </ul>
 
-<h1>Ideas</h1>
+<h2>Ideas</h2>
 
 <ul>
 <li><a href="./sbank-submit.html">sbank-submit</a> to wrap up submitting jobs to a cluster, this could
@@ -275,7 +275,7 @@ be used to hide quite a few commands from the user. Or else we could
 place some of the scripts/sbank commands into the epilog/prologue.</li>
 </ul>
 
-<h2>Implemented Ideas</h2>
+<h3>Implemented Ideas</h3>
 
 <ul>
 <li>Feedback for user, e.g. on submission estimate how many hours are
@@ -301,7 +301,7 @@ of showing all users is the best. It could be specified with '-a' or something <
 will catch this, but it's no harm to have it. <span class="createlink">sbank-common</span></li>
 </ul>
 
-<h1>Tested on</h1>
+<h2>Tested on</h2>
 
 <ul>
 <li>SLURM 2.2.0</li>
@@ -346,7 +346,7 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Thu 26 May 16:00:54 2011</span>
+Last edited <span class="date">Thu 26 May 17:52:11 2011</span>
 <!-- Created <span class="date">Mon 23 May 19:14:05 2011</span> -->
 </div>
 
