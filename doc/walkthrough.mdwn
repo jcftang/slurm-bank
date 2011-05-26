@@ -5,6 +5,7 @@ A walkthrough of the basic features of sbank.
 [[!inline feeds=no show=0 template=walkthrough pagenames="""
 	setup
 	creating_projects
+	deciding_on_a_policy
 	deposit_hours_to_an_account
 	checking_account_balances
 	estimating_time_for_a_job
