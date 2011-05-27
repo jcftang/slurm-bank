@@ -38,6 +38,10 @@ end users.
   List current cluster or all clusters in slurmdbd, also capable
   of adding or removing clusters.
 
+* version
+
+  Show version of sbank.
+
 # SEE ALSO
 
 * [[sbank-balance]](1)
