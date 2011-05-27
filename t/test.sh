@@ -21,6 +21,7 @@ WVPASS which scontrol
 WVPASS which sacctmgr
 WVPASS which sshare
 WVPASS which sinfo
+WVPASS which sbatch
 
 WVFAIL sbank
 

@@ -57,6 +57,8 @@ runtests:
 test: build
 	./wvtestrun $(MAKE) runtests	
 
+check: test
+
 clean:
 	for man in $(MANS); do \
                 rm -f $$man.1; \
