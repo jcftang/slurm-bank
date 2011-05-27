@@ -16,19 +16,19 @@ SLURM Bank, a collection of wrapper scripts to give slurm GOLD like
 capabilities for managing resources.
 
 With the scripts we are able to provide a simple *banking* system
-where we can deposit hours to an account. Users are associated to
-these accounts from which they can use to run jobs. If users do not
-have an account or if they do not have hours in their account then
-they cannot run jobs.
+where we can deposit hours to an account. Users are associated with
+these accounts which they use to run jobs. If users do not have an
+account or if they do not have hours in their account then they cannot
+run jobs.
 
 ## Motivation
 
-To replace our current Resource Management and Allocation Systems which
-comprise of three pieces of software ([slurm][], [GOLD][] and [maui][])
-combination with just a single piece of software: Slurm.
+To replace our current Resource Management and Allocation Systems
+which comprises three pieces of software ([slurm][], [GOLD][] and
+[maui][]) with just a single piece of software: Slurm.
 
-Having all of the banking functionality of SLURM wrapped up has benefits
-for both the systems administrators:
+Having all of the banking functionality of SLURM wrapped up has
+benefits for both the systems administrators:
 
 * Having just slurm without maui means there are less things to go
   wrong
@@ -45,13 +45,13 @@ And also benefits for end users of clusters:
 
 ## Design
 
-The [[design]] document contains ideas (todo and done). So far we
-have discovered that slurm already has much of the needed functionality
+The [[design]] document contains ideas (todo and done). So far we have
+discovered that slurm already has much of the needed functionality
 required for "banking". Much of the [[sbank]] commands are just
 wrapper scripts to already existing slurm commands. One of the
 problems with banking is being consistent, the sbank wrapper scripts
-try to provide a workflow to provide a GOLD like banking system
-with slurm.
+try to provide a workflow to provide a GOLD like banking system with
+slurm.
 
 SLURM bank is extremely simple and only very basic banking
 functionality is provided. That is when a user or a group of users run
@@ -67,8 +67,8 @@ refunded hours.
 
 This is now available with slurm-bank
 
-* A predefined and consistent way of adding/removing projects and
-  users to said projects.
+* A consistent way of adding/removing projects and users to said
+  projects.
 * A way of adding/removing hours from a project (account).
 * A way of telling users how much time they have left and how much
   time they have used.
@@ -76,18 +76,18 @@ This is now available with slurm-bank
   (easily).
 
 You can do everything that these wrapper scripts are doing with plain
-slurm commands! We stress that these scripts are just fixing the workflows
-in managing accounts and users as well as providing some helper tools
-to let users manage their own resources.
+slurm commands! We stress that these scripts are just fixing the
+workflows in managing accounts and users as well as providing some
+helper tools to let users manage their own resources.
 
-The SLURM software itself is free and open-source, under a GPLv2 Licence,
-so anyone could freely and easily replicate the work undertaken here
-themselves.
+The SLURM software itself is free and open-source, under a GPLv2
+Licence, so anyone could freely and easily replicate the work
+undertaken here themselves.
 
-Also, note that the software itself is fully-readable scripts (no compiled
-code) and its behaviour is fully documented, it is trivial for any user
-on our systems to view the documentation and scripts, and re-implement
-it themselves.
+Also, note that the software itself is fully-readable scripts (no
+compiled code) and its behaviour is fully documented, it is trivial
+for any user on our systems to view the documentation and scripts, and
+re-implement it themselves.
 
 ## Documentation
 
