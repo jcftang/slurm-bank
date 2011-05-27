@@ -1,2 +1,2 @@
-Copyright  (C) 2011 Trinity Centre for High Performance Computing, Trinity Collge Dublin.
+Copyright  (C) 2011 Trinity Centre for High Performance Computing, Trinity College Dublin.
 There is NO WARRANTY, to the extent permitted by law.

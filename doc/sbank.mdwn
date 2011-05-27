@@ -19,13 +19,13 @@ end users.
 
 * user
 
-  List, create and delete users in a defined way.
+  List, create and delete users
 
 * deposit
 
   Add or remove hours from an account.
 
-* balance
+* balance statement
 
   Show the balances of an account or a set of accounts.
 
@@ -58,5 +58,5 @@ Jimmy Tang <jtang@tchpc.tcd.ie>
 
 # COPYRIGHT
 
-Copyright  (C) 2011 Trinity Centre for High Performance Computing, Trinity Collge Dublin.
+Copyright  (C) 2011 Trinity Centre for High Performance Computing, Trinity College Dublin.
 There is NO WARRANTY, to the extent permitted by law.

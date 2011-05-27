@@ -1,6 +1,6 @@
 PREFIX=/usr
 BINDIR=$(DESTDIR)$(PREFIX)/bin
-MANS=sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster sbank-submit
+MANS=sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster sbank-submit sbank-version
 BINS=${MANS} sbank-balance.pl sbank-common-cpu_hrs.pl
 
 # If ikiwiki is available, build static html docs suitable for being
@@ -56,6 +56,8 @@ runtests:
 
 test: build
 	./wvtestrun $(MAKE) runtests	
+
+check: test
 
 clean:
 	for man in $(MANS); do \
