@@ -1,4 +1,7 @@
-SLURM Bank, a collection of wrapper scripts to do banking
+SLURM Bank, a collection of wrapper scripts to give slurm GOLD like
+capabilities for managing resources.
 
-SLURM Bank, a collection of wrapper scripts for implement full resource
-allocation to replace Maui and GOLD.
+With the scripts we are able to provide a simple banking system where we
+can deposit hours to an account. Users are associated to these accounts
+from which they can use to run jobs. If users do not have an account or
+if they do not have hours in their account then they cannot run jobs.
