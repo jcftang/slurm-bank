@@ -125,7 +125,7 @@ cmd_request()
 		then
 			echo ${balance_post}
 		else
-			warn "possible error"
+			warn "negative time: possible error"
 			echo ${balance_post}
 		fi
 	fi
