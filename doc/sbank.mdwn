@@ -19,13 +19,13 @@ end users.
 
 * user
 
-  List, create and delete users in a defined way.
+  List, create and delete users
 
 * deposit
 
   Add or remove hours from an account.
 
-* balance
+* balance statement
 
   Show the balances of an account or a set of accounts.
 
