@@ -70,6 +70,17 @@ use some of the helper scripts such as <a href="../sbank-time.html">sbank-time</
     &#036;( sbank time calc -t 4-00:00:00 ))
 </code></pre>
 
+<p>If you want more more details this command can be run with the -v flag</p>
+
+<pre><code>&#036; sbank balance request -v --cluster chuck --account tchpc \
+    --time &#036;( sbank time estimate -n 32 -t \
+    &#036;( sbank time calc -t 2000-00:00:00 ))
+</code></pre>
+
+<p>Current balance      =    315,326
+Requested hours      =  1,536,000
+Expected balance     = -1,220,674  &lt;= warning: job won't run sucessfully</p>
+
 <p>You can also feed <a href="../sbank-balance.html">sbank-balance</a> a job script to see if the script's
 request can be completed or not</p>
 
@@ -111,8 +122,8 @@ will most likely not complete if it is submitted.</p>
 
 
 <div class="pagedate">
-Last edited <span class="date">Fri 27 May 09:33:23 2011</span>
-<!-- Created <span class="date">Fri 27 May 09:33:23 2011</span> -->
+Last edited <span class="date">Sat 28 May 13:55:27 2011</span>
+<!-- Created <span class="date">Thu 26 May 19:59:06 2011</span> -->
 </div>
 
 </div>
