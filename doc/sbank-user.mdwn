@@ -12,7 +12,8 @@ slurm bank administrative tool (wraps sacctmgr) for systematically
 creating, delete and listing accounts. The scripts use a similar
 terminology to GOLD's project.
 
-EXPERIMENTAL - creating and deleting accounts are experimental.
+EXPERIMENTAL - creating and deleting accounts are experimental. The
+behaviour of this command isn't well defined.
 
 * -h
 

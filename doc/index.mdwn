@@ -109,11 +109,11 @@ slurm-bank.
 * [[sbank-deposit]]
 * [[sbank-project]]
 * [[sbank-time]]
-* [[sbank-user]]
 
 ### Experimental scripts
 
 * [[sbank-submit]]
+* [[sbank-user]]
 
 ### Proposed scripts
 
