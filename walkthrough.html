@@ -232,7 +232,7 @@ that's 128 cores for 72hrs of wall time</p>
 9216
 </code></pre>
 
-<p>Or you you want to run 256 tasks for 48hrs</p>
+<p>Or you want to run 256 tasks for 48hrs</p>
 
 <pre><code>&#036; sbank time estimate  -n 256 -t 48
 12288
@@ -282,11 +282,11 @@ use some of the helper scripts such as <a href="./sbank-time.html">sbank-time</a
 <pre><code>&#036; sbank balance request -v --cluster chuck --account tchpc \
     --time &#036;( sbank time estimate -n 32 -t \
     &#036;( sbank time calc -t 2000-00:00:00 ))
-</code></pre>
 
-<p>Current balance      =    315,326
+Current balance      =    315,326
 Requested hours      =  1,536,000
-Expected balance     = -1,220,674  &lt;= warning: job won't run sucessfully</p>
+Expected balance     = -1,220,674  &lt;= warning: job won't run sucessfully
+</code></pre>
 
 <p>You can also feed <a href="./sbank-balance.html">sbank-balance</a> a job script to see if the script's
 request can be completed or not</p>
