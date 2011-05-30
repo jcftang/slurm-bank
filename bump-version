@@ -26,4 +26,4 @@ echo slurm-bank-$1 > VERSION
 git add src/sbank-version
 git add VERSION
 git add slurm-bank.spec
-git commit -m "Bumped version number to $1" sbank-version
+git commit -m "Bumped version number to $1"
