@@ -10,9 +10,9 @@ If you make a mess of things you can delete it by doing
 Once you have created some accounts you may want to associate users with
 the account
 
-	$ sbank project adduser -c mycluster -a myaccount -u someuser
+	$ sbank project useradd -c mycluster -a myaccount -u someuser
 
 This will create a user and associate 'someuser' with 'myaccount',
 you can also remove users from accounts.
 
-	$ sbank project deleteuser -c mycluster -a myaccount -u someuser
+	$ sbank project userdel -c mycluster -a myaccount -u someuser

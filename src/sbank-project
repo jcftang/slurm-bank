@@ -3,8 +3,8 @@ usage()
 	echo "usage: sbank project create -c CLUSTER -a ACCOUNT"
 	echo "       sbank project delete -c CLUSTER -a ACCOUNT"
 	echo "       sbank project list -c CLUSTER -v"
-        echo "       sbank project adduser -c CLUSTER -a ACCOUNT -u USER"
-        echo "       sbank project deleteuser -c CLUSTER -a ACCOUNT -u USER"
+        echo "       sbank project useradd -c CLUSTER -a ACCOUNT -u USER"
+        echo "       sbank project userdel -c CLUSTER -a ACCOUNT -u USER"
 	echo "       sbank project expire -c CLUSTER -a ACCOUNT"
 }
 
@@ -91,7 +91,7 @@ cmd_list() {
 	$SACCTMGR $opts list associations format=cluster%30,account%30 ${SACCTMGR_EXTRA} | uniq
 }
 
-cmd_adduser()
+cmd_useradd()
 {
 	# define some variables
 	debug "define some variables"
@@ -99,7 +99,7 @@ cmd_adduser()
 	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
 	DEFINE_string 'user' 'null' 'specify a user' 'u'
 
-	FLAGS_PARENT="sbank project adduser"
+	FLAGS_PARENT="sbank project useradd"
 
 	# parse the command line
 	debug "parse command line"
@@ -118,7 +118,7 @@ cmd_adduser()
 	$SACCTMGR -i add user ${FLAGS_user} account=${FLAGS_account} cluster=${FLAGS_cluster}
 }
 
-cmd_deleteuser()
+cmd_userdel()
 {
 	# define some variables
 	debug "define some variables"
@@ -126,7 +126,7 @@ cmd_deleteuser()
 	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
 	DEFINE_string 'user' 'null' 'specify a user' 'u'
 
-	FLAGS_PARENT="sbank project deleteuser"
+	FLAGS_PARENT="sbank project userdel"
 
 	# parse the command line
 	debug "parse command line"

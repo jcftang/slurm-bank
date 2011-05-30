@@ -54,7 +54,7 @@ EXPERIMENTAL - creating and deleting accounts are experimental.
 
   Specify the slurm account
 
-* adduser - Add a user to a project
+* useradd - Add a user to a project
 
   -u, --user
 
@@ -68,7 +68,7 @@ EXPERIMENTAL - creating and deleting accounts are experimental.
 
   Specify the slurm account
 
-* deleteuser - Delete a user from a project
+* userdel - Delete a user from a project
 
   -u, --user
 
