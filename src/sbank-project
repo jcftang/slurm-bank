@@ -5,6 +5,7 @@ usage()
 	echo "       sbank project list -c CLUSTER -v"
         echo "       sbank project adduser -c CLUSTER -a ACCOUNT -u USER"
         echo "       sbank project deleteuser -c CLUSTER -a ACCOUNT -u USER"
+	echo "       sbank project expire -c CLUSTER -a ACCOUNT"
 }
 
 parse_args() {
@@ -144,6 +145,28 @@ cmd_deleteuser()
 	$SACCTMGR -i delete user ${FLAGS_user} account=${FLAGS_account} cluster=${FLAGS_cluster}
 }
 
+cmd_expire()
+{
+	# define some variables
+	debug "define some variables"
+	DEFINE_string 'account' 'null' 'specify a slurm account' 'a'
+	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
+
+	FLAGS_PARENT="sbank project expire"
+
+	# parse the command line
+	debug "parse command line"
+	parse_args "$@"
+
+	debug "check if cluster is specified"
+	[ ${FLAGS_cluster} = 'null' ] && die "${FLAGS_cluster}" "is not an cluster, no cluster specified"
+
+	debug "check if account is specified"
+	[ ${FLAGS_account} = 'null' ] && die "${FLAGS_account}" "is not an account, no account specified"
+
+	debug "Zero balance on account ${FLAGS_account} on cluster ${FLAGS_cluster}"
+	$SACCTMGR -i modify account account=${FLAGS_account} set GrpCPUMins=0 where cluster=${FLAGS_cluster}
+}
 
 cmd_help()
 {

@@ -82,12 +82,26 @@ EXPERIMENTAL - creating and deleting accounts are experimental.
 
   Specify the slurm account
 
+* expire - expire an account, i.e. zero the limit so no more jobs can run
+
+  -c, --cluster
+
+  Specify the slurm cluster
+
+  -a, --account
+
+  Specify the slurm account
+
 # EXAMPLES
 
 To list all the projects/accounts in 'mycluster'
 
    sbank project list -c mycluster
  
+To expire an account on a cluster
+
+   sbank project expire -c mycluster -a myaccount
+
 # SEE ALSO
 
 * [[sbalance]](1)
