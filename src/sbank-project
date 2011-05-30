@@ -126,7 +126,7 @@ cmd_deleteuser()
 	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
 	DEFINE_string 'user' 'null' 'specify a user' 'u'
 
-	FLAGS_PARENT="sbank project adduser"
+	FLAGS_PARENT="sbank project deleteuser"
 
 	# parse the command line
 	debug "parse command line"
