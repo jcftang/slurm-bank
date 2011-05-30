@@ -17,7 +17,7 @@ end users.
   List, create and delete projects in a defined way with parent=root,
   currently this is not customisable.
 
-* user
+* user (EXPERIMENTAL)
 
   List, create and delete users
 

@@ -1,5 +1,5 @@
 Name:           slurm-bank
-Version:        1.1
+Version:        slurm-bank-1.1.1
 Release:        1%{?dist}
 Summary:        SLURM Bank, a collection of wrapper scripts to do banking
 

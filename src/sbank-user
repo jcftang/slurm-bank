@@ -1,5 +1,6 @@
 usage() 
 {
+	echo "EXPERIMENTAL - use at your own risk"
 	echo "usage: sbank user create -c CLUSTER -a ACCOUNT -u USER"
 	#echo "       sbank user delete -c CLUSTER -a ACCOUNT -u USER"
 	echo "       sbank user list -c CLUSTER -a ACCOUNT -u USER"

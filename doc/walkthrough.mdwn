@@ -11,4 +11,5 @@ A walkthrough of the basic features of sbank.
 	estimating_time_for_a_job
 	checking_if_enough_hours_are_available
 	submitting_jobs_with_sbank-submit
+	expiring_accounts
 """]]

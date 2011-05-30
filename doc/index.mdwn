@@ -21,6 +21,13 @@ these accounts which they use to run jobs. If users do not have an
 account or if they do not have hours in their account then they cannot
 run jobs.
 
+<table>
+<tr>
+<td width="50%" valign="top">[[!inline feeds=no template=bare pages=use_case/user]]</td>
+<td width="50%" valign="top">[[!inline feeds=no template=bare pages=use_case/admin]]</td>
+</tr>
+</table>
+
 ## Motivation
 
 To replace our current Resource Management and Allocation Systems
@@ -102,11 +109,11 @@ slurm-bank.
 * [[sbank-deposit]]
 * [[sbank-project]]
 * [[sbank-time]]
-* [[sbank-user]]
 
 ### Experimental scripts
 
 * [[sbank-submit]]
+* [[sbank-user]]
 
 ### Proposed scripts
 
