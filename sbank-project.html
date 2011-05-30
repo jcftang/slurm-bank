@@ -123,6 +123,15 @@ terminology to GOLD's project.</p>
 <p>-a, --account</p>
 
 <p>Specify the slurm account</p></li>
+<li><p>expire - expire an account, i.e. zero the limit so no more jobs can run</p>
+
+<p>-c, --cluster</p>
+
+<p>Specify the slurm cluster</p>
+
+<p>-a, --account</p>
+
+<p>Specify the slurm account</p></li>
 </ul>
 
 <h1>EXAMPLES</h1>
@@ -130,6 +139,10 @@ terminology to GOLD's project.</p>
 <p>To list all the projects/accounts in 'mycluster'</p>
 
 <p>sbank project list -c mycluster</p>
+
+<p>To expire an account on a cluster</p>
+
+<p>sbank project expire -c mycluster -a myaccount</p>
 
 <h1>SEE ALSO</h1>
 
@@ -141,7 +154,7 @@ terminology to GOLD's project.</p>
 
 <h1>AUTHOR</h1>
 
-<p>Jimmy Tang <a href="mailto:jtang@tchpc.tcd.ie">&#x6A;&#x74;&#x61;&#110;&#x67;&#64;&#116;&#99;&#104;&#x70;&#x63;&#x2E;&#x74;&#x63;&#x64;&#46;i&#x65;</a></p>
+<p>Jimmy Tang <a href="mailto:jtang@tchpc.tcd.ie">&#106;&#116;&#97;&#110;g&#64;&#x74;&#99;&#104;&#112;&#x63;.&#x74;&#x63;&#x64;.&#x69;&#x65;</a></p>
 
 <h1>COPYRIGHT</h1>
 
@@ -189,6 +202,8 @@ Links:
 
 <a href="./walkthrough/creating_projects.html">walkthrough/creating projects</a>
 
+<a href="./walkthrough/expiring_accounts.html">walkthrough/expiring accounts</a>
+
 
 </div>
 
@@ -198,7 +213,7 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Sun 29 May 13:21:54 2011</span>
+Last edited <span class="date">Mon 30 May 12:15:26 2011</span>
 <!-- Created <span class="date">Sun 29 May 13:21:54 2011</span> -->
 </div>
 

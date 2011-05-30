@@ -224,13 +224,13 @@ status: active
 <p>Or for a machine readable form</p>
 
 <pre><code>&#036; recsel -C -R project -t project \
-    -e "enddate &gt;&gt; '2012-07-01'" projects.rec
+    -e "enddate &lt;&lt; '2012-07-01'" projects.rec
 </code></pre>
 
 <p>Return a list of projects that are 'active' after an 'enddate'</p>
 
 <pre><code>&#036; recsel -C -R project -t project \
-    -e "enddate &gt;&gt; '2012-07-01'" -e "status='active'" projects.rec
+    -e "enddate &lt;&lt; '2012-07-01'" -e "status='active'" projects.rec
 </code></pre>
 
 <p>With this list of codes we should be able to mark projects with sbank
@@ -352,7 +352,7 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Sun 29 May 13:21:54 2011</span>
+Last edited <span class="date">Mon 30 May 13:24:55 2011</span>
 <!-- Created <span class="date">Sun 29 May 13:21:54 2011</span> -->
 </div>
 

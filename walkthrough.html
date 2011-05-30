@@ -67,6 +67,8 @@ walkthrough
 		</li>
 		<li class="L2"><a href="#index8h2">submitting jobs with sbank-submit</a>
 		</li>
+		<li class="L2"><a href="#index9h2">expiring accounts</a>
+		</li>
 	</ol>
 </div>
 
@@ -319,6 +321,16 @@ Expected balance     =    312,256
 log: sbatch'ing the script
 </code></pre>
 
+<h2><a name="index9h2"></a><a href="./walkthrough/expiring_accounts.html">expiring accounts</a></h2>
+<p>To expire projects the admin can either use <a href="./sbank-deposit.html">sbank-deposit</a> and remove
+all the accounts from an account or use <a href="./sbank-project.html">sbank-project</a> to expire
+an account.</p>
+
+<pre><code>&#036; sbank project expire -c mycluster -a myaccount
+</code></pre>
+
+<p>The above command simply zero's the account limit.</p>
+
 
 
 </div>
@@ -359,7 +371,7 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Sun 29 May 13:21:54 2011</span>
+Last edited <span class="date">Mon 30 May 13:24:55 2011</span>
 <!-- Created <span class="date">Sun 29 May 13:21:54 2011</span> -->
 </div>
 
