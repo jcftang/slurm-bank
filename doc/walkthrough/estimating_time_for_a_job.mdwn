@@ -9,7 +9,7 @@ that's 128 cores for 72hrs of wall time
 	$ sbank time estimate  -N 64 -c 2 -t 72
 	9216
 
-Or you you want to run 256 tasks for 48hrs
+Or you want to run 256 tasks for 48hrs
 
 	$ sbank time estimate  -n 256 -t 48
 	12288

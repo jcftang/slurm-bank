@@ -158,7 +158,8 @@ Return a list of projects that are 'active' after an 'enddate'
 		-e "enddate << '2012-07-01'" -e "status='active'" projects.rec
 
 With this list of codes we should be able to mark projects with sbank
-with no more runnable hours.
+with no more runnable hours. A tool or script to do the above probably
+should be kept seperate from the main set of scripts.
 
 ### Done
 
