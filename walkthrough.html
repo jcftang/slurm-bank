@@ -122,13 +122,13 @@ something like the following with the <a href="./sbank-project.html">sbank-proje
 <p>Once you have created some accounts you may want to associate users with
 the account</p>
 
-<pre><code>&#036; sbank project adduser -c mycluster -a myaccount -u someuser
+<pre><code>&#036; sbank project useradd -c mycluster -a myaccount -u someuser
 </code></pre>
 
 <p>This will create a user and associate 'someuser' with 'myaccount',
 you can also remove users from accounts.</p>
 
-<pre><code>&#036; sbank project deleteuser -c mycluster -a myaccount -u someuser
+<pre><code>&#036; sbank project userdel -c mycluster -a myaccount -u someuser
 </code></pre>
 
 <h2><a name="index3h2"></a><a href="./walkthrough/deciding_on_a_policy.html">deciding on a policy</a></h2>
@@ -372,7 +372,7 @@ Links:
 
 <div class="pagedate">
 Last edited <span class="date">Mon 30 May 14:21:34 2011</span>
-<!-- Created <span class="date">Sun 29 May 13:21:54 2011</span> -->
+<!-- Created <span class="date">Mon 30 May 14:21:34 2011</span> -->
 </div>
 
 </div>
