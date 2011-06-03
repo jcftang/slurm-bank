@@ -9,7 +9,7 @@ URL:            TBD
 Source0:        slurm-bank-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  perl, bash, rsync
+BuildRequires:  perl, bash, rsync, make
 Requires:       slurm >= 2.2.0, perl, bash  
 
 %description
