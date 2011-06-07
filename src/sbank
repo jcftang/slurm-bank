@@ -15,7 +15,7 @@ usage()
 {
 	echo "usage: sbank <command>"
 	echo
-	echo "Available subcommands are:"
+	echo "Available commands are:"
 	echo "    project    Manage projects and accounts"
 	echo "    user       Manage users (EXPERIMENTAL)"
 	echo "    deposit    Deposit hours to an account"
@@ -25,7 +25,7 @@ usage()
 	echo "    submit     Wrapper to submit jobs"
 	echo "    version    Show version information"
 	echo 
-	echo "Try 'sbank <subcommand> help' for details."
+	echo "Try 'sbank <command> help' for details."
 }
 
 main() 

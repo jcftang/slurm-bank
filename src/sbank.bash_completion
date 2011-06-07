@@ -1,9 +1,24 @@
 _sbank()
 {
-	local cur;
+	local cur prev opts;
 	COMPREPLY=();
-	cur=${COMP_WORDS[COMP_CWORD]};
-	COMPREPLY=( $( compgen -W 'balance deposit project user time submit cluster' -- $cur ) );
+	cur="${COMP_WORDS[COMP_CWORD]}";
+	prev="${COMP_WORDS[COMP_CWORD-1]}";
+
+	# generic list of commands
+	opts="balance deposit project user time submit cluster";
+
+
+	case "$prev" in
+		balance)
+			local subopts="statement request checkscript";
+			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
+			;;
+		*)
+		;;
+	esac
+
+	COMPREPLY=( $( compgen -W "$opts" -- $cur ) );
 }
 
 complete -F _sbank sbank
