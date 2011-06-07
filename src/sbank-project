@@ -1,6 +1,7 @@
 usage() 
 {
-	echo "usage: sbank project create -c CLUSTER -a ACCOUNT"
+	echo "usage:"
+	echo "       sbank project create -c CLUSTER -a ACCOUNT"
 	echo "       sbank project delete -c CLUSTER -a ACCOUNT"
 	echo "       sbank project list -c CLUSTER -v"
         echo "       sbank project useradd -c CLUSTER -a ACCOUNT -u USER"
