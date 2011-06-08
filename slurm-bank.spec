@@ -1,6 +1,6 @@
 Name:           slurm-bank
 Version:        1.1.1.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        SLURM Bank, a collection of wrapper scripts to do banking
 
 Group:          System
@@ -47,6 +47,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/bash_completion.d
 
 %changelog
+* Wed Jun 08 2011 Jimmy Tang <jtang@tchpc.tcd.ie> - 1.1.1.2-2
+Include bash completion when installing
+
 * Wed May 18 2011 Jimmy Tang <jtang@tchpc.tcd.ie> - 1.0-1
 Initial creation of spec file
 
