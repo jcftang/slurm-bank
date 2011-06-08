@@ -68,7 +68,8 @@ time to ensure jobs complete, it is up to the user to figure that out,
 by doing so users will hopefully be more aware of the time that they
 have used. We also do not have the notion of crediting or overdrawing
 so if jobs fail due to system failures etc... users will not be
-refunded hours.
+automatically refunded hours. This issue will be left up to the users
+and admins to resolve.
 
 ### Needed components
 

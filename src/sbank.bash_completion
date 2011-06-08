@@ -1,9 +1,36 @@
 _sbank()
 {
-	local cur;
+	local cur prev opts base;
+	cur="${COMP_WORDS[COMP_CWORD]}";
+	prev="${COMP_WORDS[COMP_CWORD-1]}";
+
 	COMPREPLY=();
-	cur=${COMP_WORDS[COMP_CWORD]};
-	COMPREPLY=( $( compgen -W 'balance deposit project user time submit cluster' -- $cur ) );
+
+	# generic list of commands
+	opts="balance deposit project user time submit cluster";
+
+	case "${prev}" in
+		balance)
+			local subopts="statement request checkscript";
+			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
+			return 0
+			;;
+		project)
+			local subopts=$(sbank project | grep -v usage | awk '{print $3}')
+			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
+			return 0
+			;;
+		user)
+			local subopts=$(sbank user | grep -v usage | awk '{print $3}')
+			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
+			return 0
+			;;
+	esac
+
+	if [ $COMP_CWORD -eq 1 ]; then
+		COMPREPLY=( $( compgen -W "${opts}" -- ${cur} ) );
+	fi
+	return 0
 }
 
-complete -F _sbank sbank
+complete -F _sbank sbank  2>/dev/null || complete -o default -o nospace -F _sbank sbank

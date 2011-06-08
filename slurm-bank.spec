@@ -1,6 +1,6 @@
 Name:           slurm-bank
-Version:        1.1.1.1
-Release:        1%{?dist}
+Version:        1.1.1.2
+Release:        2%{?dist}
 Summary:        SLURM Bank, a collection of wrapper scripts to do banking
 
 Group:          System
@@ -9,7 +9,7 @@ URL:            TBD
 Source0:        slurm-bank-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  perl, bash, rsync
+BuildRequires:  perl, bash, rsync, make
 Requires:       slurm >= 2.2.0, perl, bash  
 
 %description
@@ -32,6 +32,9 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d
+install -m 644 src/sbank.bash_completion $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d/sbank
+
 %clean
 rm -rf %{buildroot}
 
@@ -41,8 +44,12 @@ rm -rf %{buildroot}
 %doc doc/* AUTHORS README
 %{_bindir}/*
 %{_mandir}/*
+%{_sysconfdir}/bash_completion.d
 
 %changelog
+* Wed Jun 08 2011 Jimmy Tang <jtang@tchpc.tcd.ie> - 1.1.1.2-2
+Include bash completion when installing
+
 * Wed May 18 2011 Jimmy Tang <jtang@tchpc.tcd.ie> - 1.0-1
 Initial creation of spec file
 
