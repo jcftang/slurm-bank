@@ -32,6 +32,9 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d
+install -m 644 src/sbank.bash_completion $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d/sbank
+
 %clean
 rm -rf %{buildroot}
 
@@ -41,6 +44,7 @@ rm -rf %{buildroot}
 %doc doc/* AUTHORS README
 %{_bindir}/*
 %{_mandir}/*
+%{_sysconfdir}/bash_completion.d
 
 %changelog
 * Wed May 18 2011 Jimmy Tang <jtang@tchpc.tcd.ie> - 1.0-1
