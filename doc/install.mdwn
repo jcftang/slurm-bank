@@ -21,6 +21,12 @@ Once the RPM's are created you can simply install the RPM's
 	$ cd slurm-bank-1.0
 	$ make install
 
+To install the html documentation,
+
+	$ make install-docs
+
+The html documentation requires ikiwiki to be installed.
+
 ## Documentation
 
 Once the package is installed users and admins can do following to get

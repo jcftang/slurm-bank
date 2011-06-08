@@ -1,3 +1,5 @@
+# Pass --without docs to rpmbuild if you don't want the documentation
+
 Name:           slurm-bank
 Version:        1.1.1.2
 Release:        2%{?dist}
@@ -12,6 +14,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl, bash, rsync, make
 Requires:       slurm >= 2.2.0, perl, bash  
 
+%define path_settings HTMLDIR=%{_docdir}/%{name}-%{version}/html
+
 %description
 SLURM Bank, a collection of wrapper scripts for implementing full
 resource allocation to replace Maui and GOLD.
@@ -25,12 +29,17 @@ if they do not have hours in their account then they cannot run jobs.
 %setup -q
 
 %build
-make %{?_smp_mflags}
+make %{?_smp_mflags} CFLAGS="$RPM_OPT_FLAGS" \
+	%{path_settings} \
+	all %{!?_without_docs: docs}
 
 
 %install
 rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+make DESTDIR=%{buildroot} \
+	%{path_settings} \
+	install %{!?_without_docs: install-docs}
+(find $RPM_BUILD_ROOT -type f | sed -e s@^$RPM_BUILD_ROOT@@) > bin-man-doc-files
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d
 install -m 644 src/sbank.bash_completion $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d/sbank
@@ -39,11 +48,10 @@ install -m 644 src/sbank.bash_completion $RPM_BUILD_ROOT%{_sysconfdir}/bash_comp
 rm -rf %{buildroot}
 
 
-%files
+%files -f bin-man-doc-files
 %defattr(-,root,root,-)
 %doc doc/* AUTHORS README
-%{_bindir}/*
-%{_mandir}/*
+%{!?_without_docs: html/*}
 %{_sysconfdir}/bash_completion.d
 
 %changelog
