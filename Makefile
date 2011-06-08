@@ -1,6 +1,6 @@
 PREFIX=/usr
 BINDIR=$(DESTDIR)$(PREFIX)/bin
-HTMLDIR=$(DESTDIR)$(PREFIX)/share/doc/slurm-bank/html
+HTMLDIR?=$(PREFIX)/share/doc/slurm-bank/html
 MANS=sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster sbank-submit sbank-version
 BINS=${MANS} sbank-balance.pl sbank-common-cpu_hrs.pl
 VERSION=$(shell cat VERSION)
@@ -49,9 +49,9 @@ install: build
 	done
 
 install-docs: docs
-	install -d $(HTMLDIR)/
+	install -d $(DESTDIR)$(HTMLDIR)/
 	if [ -d html ]; then \
-                rsync -a --delete html/ $(HTMLDIR)/; \
+                rsync -a --delete html/ $(DESTDIR)$(HTMLDIR)/; \
         fi
 
 runtests:

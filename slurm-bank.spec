@@ -39,7 +39,7 @@ rm -rf %{buildroot}
 make DESTDIR=%{buildroot} \
 	%{path_settings} \
 	install %{!?_without_docs: install-docs}
-(find $RPM_BUILD_ROOT -type f | sed -e s@^$RPM_BUILD_ROOT@@) > bin-man-doc-files
+(find $RPM_BUILD_ROOT%{_bindir} -type f | sed -e s@^$RPM_BUILD_ROOT@@) > bin-man-doc-files
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d
 install -m 644 src/sbank.bash_completion $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d/sbank
@@ -50,9 +50,14 @@ rm -rf %{buildroot}
 
 %files -f bin-man-doc-files
 %defattr(-,root,root,-)
-%doc doc/* AUTHORS README
-%{!?_without_docs: html/*}
+%doc AUTHORS README
+%{_mandir}/*
 %{_sysconfdir}/bash_completion.d
+%if %{!?_without_docs:1}0
+%doc html/*
+%else
+%doc doc/*
+%endif
 
 %changelog
 * Wed Jun 08 2011 Jimmy Tang <jtang@tchpc.tcd.ie> - 1.1.1.2-2
