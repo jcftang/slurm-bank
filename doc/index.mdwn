@@ -3,6 +3,7 @@
 [[!img tchpc_icon128x128.png link=no]]
 
 * [[install]]
+* [[bugs]]
 * [[walkthrough]]
 * [[design]]
 * [[contact]]
