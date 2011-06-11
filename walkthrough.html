@@ -51,28 +51,50 @@ walkthrough
 
 <div class="toc">
 	<ol>
-		<li class="L2"><a href="#index1h2">Setup slurm and slurmdbd (need root access)</a>
+		<li class="L2"><a href="#index1h2">Installing slurm bank</a>
 		</li>
-		<li class="L2"><a href="#index2h2">creating projects</a>
+		<li class="L2"><a href="#index2h2">Requirements</a>
 		</li>
-		<li class="L2"><a href="#index3h2">deciding on a policy</a>
+		<li class="L2"><a href="#index3h2">Installing on a RHEL5x or clone</a>
 		</li>
-		<li class="L2"><a href="#index4h2">deposit hours to an account</a>
+		<li class="L2"><a href="#index4h2">Installing on a generic Linux system</a>
 		</li>
-		<li class="L2"><a href="#index5h2">checking account balances</a>
+		<li class="L2"><a href="#index5h2">Documentation / inline help / man pages</a>
 		</li>
-		<li class="L2"><a href="#index6h2">estimating time for a job</a>
+		<li class="L2"><a href="#index6h2">Setup slurm and slurmdbd (need root access)</a>
 		</li>
-		<li class="L2"><a href="#index7h2">checking if enough hours are available</a>
+		<li class="L2"><a href="#index7h2">creating projects</a>
 		</li>
-		<li class="L2"><a href="#index8h2">submitting jobs with sbank-submit</a>
+		<li class="L2"><a href="#index8h2">deciding on a policy</a>
 		</li>
-		<li class="L2"><a href="#index9h2">expiring accounts</a>
+		<li class="L2"><a href="#index9h2">deposit hours to an account</a>
+		</li>
+		<li class="L2"><a href="#index10h2">checking account balances</a>
+		</li>
+		<li class="L2"><a href="#index11h2">estimating time for a job</a>
+		</li>
+		<li class="L2"><a href="#index12h2">checking if enough hours are available</a>
+		</li>
+		<li class="L2"><a href="#index13h2">submitting jobs with sbank-submit</a>
+		</li>
+		<li class="L2"><a href="#index14h2">expiring accounts</a>
 		</li>
 	</ol>
 </div>
 
-<h2><a name="index1h2"></a><a href="./walkthrough/setup.html">Setup slurm and slurmdbd (need root access)</a></h2>
+<h2><a name="index1h2"></a><a href="./install.html">Installing slurm bank</a></h2>
+<p>To install slurm-bank</p>
+
+<h2><a name="index2h2"></a>Requirements</h2>
+
+<p>A working SLURM installation with perl and bash, we assume that
+slurmdbd is setup and functioning correctly.</p>
+
+<div class="feedlink">
+
+
+</div>
+
 <p>The first thing to do is to setup <a href="https://computing.llnl.gov/linux/slurm/">slurm</a> and <a href="https://computing.llnl.gov/linux/slurm/accounting.html">slurmdbd</a>. This
 documentation assumes the user knows basic slurm administration.</p>
 
@@ -107,7 +129,83 @@ accounts.</p>
 <pre><code>&#036; sbank cluster create mycluster
 </code></pre>
 
-<h2><a name="index2h2"></a><a href="./walkthrough/creating_projects.html">creating projects</a></h2>
+<h2><a name="index3h2"></a>Installing on a RHEL5x or clone</h2>
+
+<p>If you have a release tarball, and have ikiwiki installed</p>
+
+<pre><code>&#036; rpmbuild -ta slurm-bank-1.0.tar.gz
+</code></pre>
+
+<p>or else if you do not have ikiwiki you can do</p>
+
+<pre><code>&#036; rpmbuild -ta --without docs slurm-bank-1.0.tar.gz
+</code></pre>
+
+<p>Once the RPM's are created you can simply install the RPM's</p>
+
+<h2><a name="index4h2"></a>Installing on a generic Linux system</h2>
+
+<pre><code>&#036; tar zxvf slurm-bank-1.0.tar.gz
+&#036; cd slurm-bank-1.0
+&#036; make install
+</code></pre>
+
+<p>To install the html documentation,</p>
+
+<pre><code>&#036; make install-docs
+</code></pre>
+
+<p>The html documentation requires ikiwiki to be installed.</p>
+
+<h2><a name="index5h2"></a>Documentation / inline help / man pages</h2>
+
+<p>Once the package is installed users and admins can do following to get
+inline help</p>
+
+<pre><code>&#036; man sbank
+</code></pre>
+
+<p>or</p>
+
+<pre><code>&#036; sbank help
+</code></pre>
+
+<h2><a name="index6h2"></a><a href="./walkthrough/setup.html">Setup slurm and slurmdbd (need root access)</a></h2>
+<p>The first thing to do is to setup <a href="https://computing.llnl.gov/linux/slurm/">slurm</a> and <a href="https://computing.llnl.gov/linux/slurm/accounting.html">slurmdbd</a>. This
+documentation assumes the user knows basic slurm administration.</p>
+
+<p>Slurmdbd must be configured and working, account enforcing is enabled
+in <em>slurm.conf</em></p>
+
+<pre><code>AccountingStorageEnforce=limits
+</code></pre>
+
+<p>The following parameters must also be set, we do not want a decay or
+reset of the usage that is recorded in slurmdbd.</p>
+
+<pre><code>PriorityDecayHalfLife=0
+PriorityUsageResetPeriod=NONE
+</code></pre>
+
+<p>What is also required is a pretty good estimate of the total available
+cpu hours that you have on your cluster that you can allocate to
+accounts.</p>
+
+<p><a href="./sbank-cluster.html">sbank-cluster</a> can provide a rough estimate of what's available.</p>
+
+<pre><code>&#036; sbank cluster cpuhrs
+</code></pre>
+
+<p>Users will need to learn how to use accounts (nothing new here).</p>
+
+<p>sbatch, sinfo, sacctmgr and sshare is required and must be working.</p>
+
+<p>If you do not already have a cluster registered and configured in slurm,</p>
+
+<pre><code>&#036; sbank cluster create mycluster
+</code></pre>
+
+<h2><a name="index7h2"></a><a href="./walkthrough/creating_projects.html">creating projects</a></h2>
 <p>To create projects in your slurmdbd for a given cluster you can do
 something like the following with the <a href="./sbank-project.html">sbank-project</a> command</p>
 
@@ -131,7 +229,7 @@ you can also remove users from accounts.</p>
 <pre><code>&#036; sbank project userdel -c mycluster -a myaccount -u someuser
 </code></pre>
 
-<h2><a name="index3h2"></a><a href="./walkthrough/deciding_on_a_policy.html">deciding on a policy</a></h2>
+<h2><a name="index8h2"></a><a href="./walkthrough/deciding_on_a_policy.html">deciding on a policy</a></h2>
 <ul>
 <li>Figure out how many CPU hours are available on the cluster.</li>
 <li>Decide on how many projects to support and how many hours to allocate
@@ -144,7 +242,7 @@ of projects.</li>
 <li>Go to start.</li>
 </ul>
 
-<h2><a name="index4h2"></a><a href="./walkthrough/deposit_hours_to_an_account.html">deposit hours to an account</a></h2>
+<h2><a name="index9h2"></a><a href="./walkthrough/deposit_hours_to_an_account.html">deposit hours to an account</a></h2>
 <p>To add or remove hours to the deposit account we can use the
 <a href="./sbank-deposit.html">sbank-deposit</a> command.</p>
 
@@ -158,7 +256,7 @@ of projects.</li>
 <pre><code>&#036; sbank deposit -c mycluster -a myaccount -t -500
 </code></pre>
 
-<h2><a name="index5h2"></a><a href="./walkthrough/checking_account_balances.html">checking account balances</a></h2>
+<h2><a name="index10h2"></a><a href="./walkthrough/checking_account_balances.html">checking account balances</a></h2>
 <p>To check your balances you would simply do:</p>
 
 <pre><code>&#036; sbank balance statement
@@ -219,7 +317,7 @@ neil                 0 |            TCHPC          30 |       315,360     315,33
 paddy *             13 |            TCHPC          30 |       315,360     315,330
 </code></pre>
 
-<h2><a name="index6h2"></a><a href="./walkthrough/estimating_time_for_a_job.html">estimating time for a job</a></h2>
+<h2><a name="index11h2"></a><a href="./walkthrough/estimating_time_for_a_job.html">estimating time for a job</a></h2>
 <p>There will be times when you will need to figure out how many CPU hours
 you need to see if it exceeds the available hours in your account balance.</p>
 
@@ -255,7 +353,7 @@ to check the job script that you have </p>
 echo "HELLO WORLD"
 </code></pre>
 
-<h2><a name="index7h2"></a><a href="./walkthrough/checking_if_enough_hours_are_available.html">checking if enough hours are available</a></h2>
+<h2><a name="index12h2"></a><a href="./walkthrough/checking_if_enough_hours_are_available.html">checking if enough hours are available</a></h2>
 <p>Once you have an estimate of how much time you require you might want
 to check if you really have enough hours to run your job</p>
 
@@ -299,7 +397,7 @@ request can be completed or not</p>
 on the current cluster. If a negative value is returned, then your job
 will most likely not complete if it is submitted.</p>
 
-<h2><a name="index8h2"></a><a href="./walkthrough/submitting_jobs_with_sbank-submit.html">submitting jobs with sbank-submit</a></h2>
+<h2><a name="index13h2"></a><a href="./walkthrough/submitting_jobs_with_sbank-submit.html">submitting jobs with sbank-submit</a></h2>
 <p>There exists a wrapper for submitting jobs to slurm which wraps up the
 <a href="./sbank-balance.html">sbank-balance</a> statement and checkscript commands before running
 sbatch.</p>
@@ -321,7 +419,7 @@ Expected balance     =    312,256
 log: sbatch'ing the script
 </code></pre>
 
-<h2><a name="index9h2"></a><a href="./walkthrough/expiring_accounts.html">expiring accounts</a></h2>
+<h2><a name="index14h2"></a><a href="./walkthrough/expiring_accounts.html">expiring accounts</a></h2>
 <p>To expire projects the admin can either use <a href="./sbank-deposit.html">sbank-deposit</a> and remove
 all the accounts from an account or use <a href="./sbank-project.html">sbank-project</a> to expire
 an account.</p>
@@ -371,7 +469,7 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Thu  9 Jun 01:56:06 2011</span>
+Last edited <span class="date">Sat 11 Jun 12:51:39 2011</span>
 <!-- Created <span class="date">Thu  9 Jun 01:56:06 2011</span> -->
 </div>
 
