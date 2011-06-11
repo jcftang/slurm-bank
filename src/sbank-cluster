@@ -2,7 +2,7 @@
 
 usage() 
 {
-	echo "usage: sbank cluster"
+	echo "usage:"
 	echo "       sbank cluster list -a"
 	echo "       sbank cluster cpupernode -m -c CLUSTER"
 	echo "       sbank cluster create -c CLUSTER"

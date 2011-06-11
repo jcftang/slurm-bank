@@ -2,7 +2,8 @@
 
 usage()
 {
-        echo "usage: sbank deposit -c CLUSTER -a ACCOUNT -t TIME"
+	echo "usage:"
+	echo "       sbank deposit -c CLUSTER -a ACCOUNT -t TIME"
 }
 
 parse_args() {
