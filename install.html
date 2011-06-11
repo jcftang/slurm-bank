@@ -96,9 +96,14 @@ accounts.</p>
 
 <h2>Installing on a RHEL5x or clone</h2>
 
-<p>If you have a release tarball,</p>
+<p>If you have a release tarball, and have ikiwiki installed</p>
 
 <pre><code>&#036; rpmbuild -ta slurm-bank-1.0.tar.gz
+</code></pre>
+
+<p>or else if you do not have ikiwiki you can do</p>
+
+<pre><code>&#036; rpmbuild -ta --without docs slurm-bank-1.0.tar.gz
 </code></pre>
 
 <p>Once the RPM's are created you can simply install the RPM's</p>
@@ -168,8 +173,8 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Thu  9 Jun 01:56:06 2011</span>
-<!-- Created <span class="date">Thu  9 Jun 01:56:06 2011</span> -->
+Last edited <span class="date">Sat 11 Jun 12:47:53 2011</span>
+<!-- Created <span class="date">Sat 11 Jun 12:47:53 2011</span> -->
 </div>
 
 </div>
