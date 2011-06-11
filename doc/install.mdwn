@@ -9,9 +9,13 @@ slurmdbd is setup and functioning correctly.
 
 ## Installing on a RHEL5x or clone
 
-If you have a release tarball,
+If you have a release tarball, and have ikiwiki installed
 
 	$ rpmbuild -ta slurm-bank-1.0.tar.gz
+
+or else if you do not have ikiwiki you can do
+
+	$ rpmbuild -ta --without docs slurm-bank-1.0.tar.gz
 
 Once the RPM's are created you can simply install the RPM's
 
