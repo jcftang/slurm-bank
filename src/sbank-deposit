@@ -44,14 +44,17 @@ cmd_deposit()
 	debug "$((${FLAGS_time} * 60 ))mins to be deposited"
 
 
-	# the account limit - this could be re-worked in a more clever way and check for exitcodes
-	LIMIT=`$SACCTMGR -np list associations cluster=${FLAGS_cluster} format=account,GrpCPUMins account=${FLAGS_account} | head -1 | awk -F'|' '{print $2}'` 
-	debug "${LIMIT}mins is the limit of ${FLAGS_account} on ${FLAGS_cluster}"
-	
-	# new limit is the old limit +/- a delta
-	NEW_LIMIT=$((${LIMIT} + (${FLAGS_time} * 60)))
-	debug "Updating account with the following (${FLAGS_time}hrs * 60) + ${LIMIT}mins = ${NEW_LIMIT} mins"
-	$SACCTMGR -i modify account account=${FLAGS_account} set GrpCPUMins=${NEW_LIMIT} where cluster=${FLAGS_cluster} 
+	if [ "${FLAGS_time}" -gt "0" ];
+	then
+		# the account limit - this could be re-worked in a more clever way and check for exitcodes
+		LIMIT=`$SACCTMGR -np list associations cluster=${FLAGS_cluster} format=account,GrpCPUMins account=${FLAGS_account} | head -1 | awk -F'|' '{print $2}'`
+		debug "${LIMIT}mins is the limit of ${FLAGS_account} on ${FLAGS_cluster}"
+
+		# new limit is the old limit +/- a delta
+		NEW_LIMIT=$((${LIMIT} + (${FLAGS_time} * 60)))
+		debug "Updating account with the following (${FLAGS_time}hrs * 60) + ${LIMIT}mins = ${NEW_LIMIT} mins"
+		$SACCTMGR -i modify account account=${FLAGS_account} set GrpCPUMins=${NEW_LIMIT} where cluster=${FLAGS_cluster}
+	fi
 }
 
 cmd_help()
