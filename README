@@ -1,3 +1,6 @@
+SLURM BANK
+==========
+
 SLURM Bank, a collection of wrapper scripts to give slurm GOLD like
 capabilities for managing resources.
 
@@ -5,3 +8,39 @@ With the scripts we are able to provide a simple banking system where we
 can deposit hours to an account. Users are associated to these accounts
 from which they can use to run jobs. If users do not have an account or
 if they do not have hours in their account then they cannot run jobs.
+
+Requirements (tested with)
+
+* SLURM 2.2.0
+* Scientificlinux 5.4 (bash, rsync, perl)
+
+Documentation
+=============
+
+The documentation is stored in doc/ and is generated with ikiwiki,
+that is, all the documentation is written in markdown.
+
+Administrator Notes
+===================
+
+To build an installable RPM from the tarball
+
+	rpmbuild -ta slurm-bank-1.1.1.2.tar.gz
+
+The above assumes that the appropriate compiler and rpm-build packages
+are installed on your system. You will need ikiwiki installed to generate
+the html documetation. If you do not have ikiwiki installed you can do:
+
+	rpmbuild -ta --without docs slurm-bank-1.1.1.2.tar.gz
+
+If you have a clone of the repository, there is a pre-generated set of
+html pages stored in the html branch.
+
+Doing a release
+===============
+
+* clone the git repository
+* Finalise changes
+* Run bump-version script to make some version number changes to various files
+* Tag repository
+* then run "make dist" to generate a tarball for redistribution
