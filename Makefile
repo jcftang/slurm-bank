@@ -80,6 +80,11 @@ dist-withdocs: docs
 	tar czvf $$(cat VERSION).tar.gz $$(cat VERSION)/
 	echo rm -rf $$(cat VERSION)
 
+release: dist docs
+	mkdir -p release/$$(cat VERSION)
+	cp $$(cat VERSION).tar.gz release/$$(cat VERSION)
+	cp $$(cat VERSION)-html.tar.gz release/$$(cat VERSION)
+	cp -a html release/$$(cat VERSION)
 
 # update the local 'man' and 'html' branches with pregenerated output files, for
 # people who don't have ikiwiki (and maybe to aid in google searches or something)
