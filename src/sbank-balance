@@ -3,7 +3,8 @@
 
 usage() 
 {
-	echo "usage: sbank balance statement [flags] args"
+	echo "usage:"
+	echo "       sbank balance statement [flags] args"
 	echo "        -c display per cluster 'clustername' (defaults to the local cluster)"
 	echo "        -a display unformatted balance of account 'accountname' (defaults to all accounts of the current user)"
 	echo "        -A display all accounts (defaults to all accounts of the current user)"

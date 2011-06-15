@@ -1,6 +1,7 @@
 usage()
 {
-        echo "usage: sbank submit -s SCRIPT"
+	echo "usage:"
+	echo "       sbank submit -s SCRIPT"
 }
 
 parse_args() {

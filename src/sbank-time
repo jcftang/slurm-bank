@@ -12,7 +12,8 @@ export SLURMBANK_DIR=$(dirname "$0")
 
 usage()
 {
-        echo "usage: sbank time calc -t TIME"
+	echo "usage:"
+	echo "       sbank time calc -t TIME"
         echo "    TIME can be one of the following formats (integer values only):"
 	echo "           days-hours:minutes:seconds"
 	echo "           days-hours:minutes"

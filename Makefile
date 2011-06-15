@@ -1,7 +1,9 @@
 PREFIX=/usr
 BINDIR=$(DESTDIR)$(PREFIX)/bin
+HTMLDIR?=$(PREFIX)/share/doc/slurm-bank/html
 MANS=sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster sbank-submit sbank-version
 BINS=${MANS} sbank-balance.pl sbank-common-cpu_hrs.pl
+VERSION=$(shell cat VERSION)
 
 # If ikiwiki is available, build static html docs suitable for being
 # shipped in the software package.
@@ -14,7 +16,7 @@ endif
 
 all: build
 
-build: docs
+build:
 	for man in $(MANS); do \
 		./mdwn2man $$man 1 doc/$$man.mdwn > $$man.1; \
 	done
@@ -46,9 +48,10 @@ install: build
 		install -m 0644 $$man.1 $(DESTDIR)$(PREFIX)/share/man/man1; \
 	done
 
-	install -d $(DESTDIR)$(PREFIX)/share/doc/slurm-bank
+install-docs: docs
+	install -d $(DESTDIR)$(HTMLDIR)/
 	if [ -d html ]; then \
-                rsync -a --delete html/ $(DESTDIR)$(PREFIX)/share/doc/slurm-bank/html/; \
+                rsync -a --delete html/ $(DESTDIR)$(HTMLDIR)/; \
         fi
 
 runtests:
@@ -77,6 +80,11 @@ dist-withdocs: docs
 	tar czvf $$(cat VERSION).tar.gz $$(cat VERSION)/
 	echo rm -rf $$(cat VERSION)
 
+release: dist docs
+	mkdir -p release/$$(cat VERSION)
+	cp $$(cat VERSION).tar.gz release/$$(cat VERSION)
+	cp $$(cat VERSION)-html.tar.gz release/$$(cat VERSION)
+	cp -a html release/$$(cat VERSION)
 
 # update the local 'man' and 'html' branches with pregenerated output files, for
 # people who don't have ikiwiki (and maybe to aid in google searches or something)
