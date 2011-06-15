@@ -1,4 +1,5 @@
 #!/bin/sh
+# May at somepoint want to do this `date +%Y%m%d%H%M%S` for a version
 usage() {
 	echo "usage: bump-version <version-id>"
 }
