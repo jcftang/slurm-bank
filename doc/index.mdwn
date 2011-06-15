@@ -31,7 +31,7 @@ run jobs.
 
 ## Motivation
 
-To replace our current Resource Management and Allocation Systems
+To replace our (at [TCHPC][]) current Resource Management and Allocation Systems
 which comprises three pieces of software ([slurm][], [GOLD][] and
 [maui][]) with just a single piece of software: Slurm.
 
@@ -129,3 +129,4 @@ slurm-bank.
 [slurm]: https://computing.llnl.gov/linux/slurm/
 [maui]: http://www.clusterresources.com/products/maui/
 [GOLD]: http://www.clusterresources.com/pages/products/gold/
+[TCHPC]: http://www.tchpc.tcd.ie/
