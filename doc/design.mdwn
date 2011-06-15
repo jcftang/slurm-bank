@@ -223,6 +223,7 @@ should be kept seperate from the main set of scripts.
 * sbank starts with a basic sanity checking script, seeing if commands like
   'sacctmgr' are actually there? If it's packaged as an rpm, the dependencies
   will catch this, but it's no harm to have it. [[sbank-common]]
+* Simple [[tests]] to make sure things are working
 
 ## Tested on
 

@@ -43,3 +43,13 @@ inline help
 or
 
 	$ sbank help
+
+## Tests
+
+There are some simple [[tests]] which can be run,
+
+	make test
+
+the tests need more work and documentation such that if the scripts are
+re-implemented in C/Perl or whatever language we can verify that the
+behaviour is correct.
