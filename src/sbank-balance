@@ -60,7 +60,7 @@ cmd_statement()
 	[ "${FLAGS_account}" != "" ]  && opts="$opts -a ${FLAGS_account}"
 	[ ${FLAGS_all} -eq ${FLAGS_TRUE} ] && opts="$opts -A"
 
-	sbank-balance.pl $opts
+	_sbank-balance.pl $opts
 }
 
 cmd_request()
