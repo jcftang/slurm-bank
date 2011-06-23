@@ -7,7 +7,7 @@ _sbank()
 	COMPREPLY=();
 
 	# generic list of commands
-	opts="balance deposit project user time submit cluster";
+	opts="balance deposit project user time submit cluster version";
 
 	case "${prev}" in
 		balance)
