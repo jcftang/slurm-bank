@@ -1,12 +1,12 @@
 usage() 
 {
-	echo "usage:"
-	echo "       sbank project create -c CLUSTER -a ACCOUNT"
-	echo "       sbank project delete -c CLUSTER -a ACCOUNT"
-	echo "       sbank project list -c CLUSTER -v"
-	echo "       sbank project useradd -c CLUSTER -a ACCOUNT -u USER"
-	echo "       sbank project userdel -c CLUSTER -a ACCOUNT -u USER"
-	echo "       sbank project expire -c CLUSTER -a ACCOUNT"
+	echo "usage: sbank project create -c CLUSTER -a ACCOUNT"
+	echo "   or: sbank project delete -c CLUSTER -a ACCOUNT"
+	echo "   or: sbank project list -c CLUSTER -v"
+	echo "   or: sbank project useradd -c CLUSTER -a ACCOUNT -u USER"
+	echo "   or: sbank project userdel -c CLUSTER -a ACCOUNT -u USER"
+	echo "   or: sbank project expire -c CLUSTER -a ACCOUNT"
+	echo
 }
 
 parse_args() {

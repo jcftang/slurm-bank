@@ -12,26 +12,28 @@ export SLURMBANK_DIR=$(dirname "$0")
 
 usage()
 {
-	echo "usage:"
-	echo "       sbank time calc -t TIME"
-        echo "    TIME can be one of the following formats (integer values only):"
+	echo "usage: sbank time calc -t TIME"
+	echo "   or: sbank time estimate -N NODES -n NTASKS -c CORES -t TIME"
+	echo "   or: sbank time estimatescript -s SCRIPT -v"
+	echo
+	echo "options for 'estimate'"
+	echo "        -N specify total number of node, conflicts with ntasks"
+	echo "        -n specify total number of ntasks, conflicts with nodes"
+	echo "        -c specify total number of cores per node"
+	echo "        -t specify total time in hours"
+	echo
+	echo "options for 'estimatescript'"
+	echo "        -s specify sbatch script name"
+	echo "        -v verbose output"
+	echo
+	echo "notes: TIME can be one of the following formats (integer values only):"
 	echo "           days-hours:minutes:seconds"
 	echo "           days-hours:minutes"
 	echo "           days-hours"
 	echo "           hours:minutes:seconds"
 	echo "           minutes:seconds"
 	echo "           minutes"
-	echo ""
-	echo "       sbank time estimate [flags] args"
-	echo "        -N specify total number of node, conflicts with ntasks"
-	echo "        -n specify total number of ntasks, conflicts with nodes"
-	echo "        -c specify total number of cores per node"
-	echo "        -t specify total time in hours"
-	echo ""
-	echo "       sbank time estimatescript [flags] args"
-	echo "        -s specify sbatch script name"
-	echo "        -v verbose output"
-
+	echo
 }
 
 parse_args() {
