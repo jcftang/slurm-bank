@@ -7,7 +7,7 @@ _sbank()
 	COMPREPLY=();
 
 	# generic list of commands
-	opts="balance deposit project user time submit cluster version";
+	opts=$(sbank | egrep 'usage:|or:' | awk '{print $3}');
 
 	case "${prev}" in
 		balance)

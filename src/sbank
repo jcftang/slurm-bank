@@ -13,7 +13,14 @@ SINFO_BIN=sinfo
 
 usage() 
 {
-	echo "usage: sbank <command>"
+	echo "usage: sbank project <ARGS>"
+	echo "   or: sbank user    <ARGS>"
+	echo "   or: sbank deposit <ARGS>"
+	echo "   or: sbank balance <ARGS>"
+	echo "   or: sbank time    <ARGS>"
+	echo "   or: sbank cluster <ARGS>"
+	echo "   or: sbank submit  <ARGS>"
+	echo "   or: sbank version <ARGS>"
 	echo
 	echo "Available commands are:"
 	echo "    project    Manage projects and accounts"
@@ -26,6 +33,7 @@ usage()
 	echo "    version    Show version information"
 	echo 
 	echo "Try 'sbank <command> help' for details."
+	echo
 }
 
 main() 
