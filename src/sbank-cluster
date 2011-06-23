@@ -129,7 +129,7 @@ cmd_cpuhrs() {
 
 	for i in year month week day
 	do
-		sbank-common-cpu_hrs.pl -t hours -i $i ${FLAGS_cluster}
+		_sbank-common-cpu_hrs.pl -t hours -i $i ${FLAGS_cluster}
 	done
 }
 
