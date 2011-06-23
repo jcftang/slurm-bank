@@ -13,23 +13,25 @@ a slurm account given a jobid.
 
 This command should be run on the same cluster that the job has been run on.
 
-* -h
+* job - refund hours to a given job
+
+  -h
 
   show help message
 
-* -d
+  -d
 
   show debug messages
 
-* -a, --account
+  -a, --account
 
   Specify the slurm account, this is optional if no account is specified
   then the script will go back to the slurmdbd and refund the original
   account that the account was run on.
 
-* -j, --jobid
+  -j, --jobid
 
-  The jobid to be refunded.
+   The jobid to be refunded.
 
 # EXAMPLES
 
