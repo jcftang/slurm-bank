@@ -280,6 +280,11 @@ that users will be charged if they do not use their reservation.
 We should define that only accounts get associated with reservations,
 if possible we should figure out how to penalise users for the
 time reserved (i.e. interest rates).</p></li>
+<li><p><span class="createlink">sbank-refund</span> given a job ID, go through slurmdbd logs and figure
+out the hours used, account used and refund the hours back to the
+user. sacct -j JOBID has the elapsed time in a slurm time
+string. Should the transaction logs be checked so users don't get
+multiple refunds?</p></li>
 </ul>
 
 <h3>Implemented Ideas</h3>
@@ -354,7 +359,7 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Wed 15 Jun 15:16:09 2011</span>
+Last edited <span class="date">Thu 23 Jun 13:05:25 2011</span>
 <!-- Created <span class="date">Tue 14 Jun 10:29:58 2011</span> -->
 </div>
 
