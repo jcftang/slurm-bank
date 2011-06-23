@@ -1,7 +1,9 @@
 PREFIX=/usr
 BINDIR=$(DESTDIR)$(PREFIX)/bin
 HTMLDIR?=$(PREFIX)/share/doc/slurm-bank/html
-MANS=sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster sbank-submit sbank-version sbank-refund
+MANS=sbank sbank-deposit sbank-balance sbank-project sbank-user	\
+	sbank-time sbank-cluster sbank-submit sbank-version	\
+	sbank-refund
 BINS=${MANS} sbank-balance.pl sbank-common-cpu_hrs.pl
 VERSION=$(shell cat VERSION)
 
@@ -69,8 +71,10 @@ clean:
 	rm -rf html doc/.ikiwiki
 
 dist:
-	git archive --format tar --prefix=$$(cat VERSION)/ HEAD | gzip > $$(cat VERSION).tar.gz
-	git archive --format tar --prefix=$$(cat VERSION)-html/ html | gzip > $$(cat VERSION)-html.tar.gz
+	git archive --format tar --prefix=$$(cat VERSION)/ HEAD | \
+		gzip > $$(cat VERSION).tar.gz
+	git archive --format tar --prefix=$$(cat VERSION)-html/ html | \
+		gzip > $$(cat VERSION)-html.tar.gz
 
 dist-withdocs: docs
 	git archive --format tar --prefix=$$(cat VERSION)/ HEAD | tar xv -
