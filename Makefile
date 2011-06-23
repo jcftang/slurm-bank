@@ -23,6 +23,8 @@ build:
 		./mdwn2man $$man 1 doc/$$man.mdwn > $$man.1; \
 	done
 
+html: docs
+
 docs:
 	$(IKIWIKI) doc html -v --wikiname slurm-bank --plugin=goodstuff \
 		--no-usedirs --disable-plugin=openid --plugin=sidebar \
