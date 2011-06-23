@@ -2,7 +2,7 @@ PREFIX=/usr
 BINDIR=$(DESTDIR)$(PREFIX)/bin
 HTMLDIR?=$(PREFIX)/share/doc/slurm-bank/html
 MANS=sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster sbank-submit sbank-version sbank-refund
-BINS=${MANS} sbank-balance.pl sbank-common-cpu_hrs.pl
+BINS=${MANS} _sbank-balance.pl _sbank-common-cpu_hrs.pl
 VERSION=$(shell cat VERSION)
 
 # If ikiwiki is available, build static html docs suitable for being
@@ -40,8 +40,8 @@ install: build
 	done
 	install -m 644 src/sbank-common $(DESTDIR)$(PREFIX)/bin;
 	chmod +x $(DESTDIR)$(PREFIX)/bin/sbank
-	chmod +x $(DESTDIR)$(PREFIX)/bin/sbank-balance.pl
-	chmod +x $(DESTDIR)$(PREFIX)/bin/sbank-common-cpu_hrs.pl
+	chmod +x $(DESTDIR)$(PREFIX)/bin/_sbank-balance.pl
+	chmod +x $(DESTDIR)$(PREFIX)/bin/_sbank-common-cpu_hrs.pl
 
 	install -d $(DESTDIR)$(PREFIX)/share/man/man1
 	for man in $(MANS); do \
