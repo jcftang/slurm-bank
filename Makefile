@@ -1,7 +1,7 @@
 PREFIX=/usr
 BINDIR=$(DESTDIR)$(PREFIX)/bin
 HTMLDIR?=$(PREFIX)/share/doc/slurm-bank/html
-MANS=sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster sbank-submit sbank-version
+MANS=sbank sbank-deposit sbank-balance sbank-project sbank-user sbank-time sbank-cluster sbank-submit sbank-version sbank-refund
 BINS=${MANS} sbank-balance.pl sbank-common-cpu_hrs.pl
 VERSION=$(shell cat VERSION)
 

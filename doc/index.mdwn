@@ -116,6 +116,7 @@ slurm-bank.
 
 * [[sbank-submit]]
 * [[sbank-user]]
+* [[sbank-refund]]
 
 ### Proposed scripts
 
