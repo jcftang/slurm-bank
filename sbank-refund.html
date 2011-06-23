@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>sbank-refund</title>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="./index.html">slurm-bank</a>/ 
+
+</span>
+<span class="title">
+sbank-refund
+
+</span>
+</span>
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+<div id="pagebody">
+
+<div id="content">
+<h1>NAME</h1>
+
+<p>sbank-refund - refund hours to a slurm account based on a jobid</p>
+
+<h1>SYNOPSIS</h1>
+
+<p>sbank refund [OPTION]...</p>
+
+<h1>DESCRIPTION</h1>
+
+<p>slurm bank administrative tool (wraps sacctmgr) for refund hours to
+a slurm account given a jobid.</p>
+
+<p>This command should be run on the same cluster that the job has been run on.</p>
+
+<ul>
+<li><p>-h</p>
+
+<p>show help message</p></li>
+<li><p>-d</p>
+
+<p>show debug messages</p></li>
+<li><p>-a, --account</p>
+
+<p>Specify the slurm account, this is optional if no account is specified
+then the script will go back to the slurmdbd and refund the original
+account that the account was run on.</p></li>
+<li><p>-j, --jobid</p>
+
+<p>The jobid to be refunded.</p></li>
+</ul>
+
+<h1>EXAMPLES</h1>
+
+<p>If the user Charles has had a job die due to a node failure, he supplies
+the jobid '53453' which we want to refund</p>
+
+<pre><code>sbank refund job -j 53453
+</code></pre>
+
+<p>But Charles now decides he wants to have the hours from the failed job
+to be refunded to another account (other than the one that he ran the
+original job on)</p>
+
+<pre><code>sbank refund job -j 53453 -a myotheraccount
+</code></pre>
+
+<h1>SEE ALSO</h1>
+
+<ul>
+<li><a href="./sbank.html">sbank</a>(1)</li>
+<li><a href="./sbank-deposit.html">sbank-deposit</a>(1)</li>
+<li><a href="./sbank-balance.html">sbank-balance</a>(1)</li>
+<li><a href="./sbank-project.html">sbank-project</a>(1)</li>
+</ul>
+
+<h1>AUTHOR</h1>
+
+<p>Jimmy Tang <a href="mailto:jtang@tchpc.tcd.ie">&#x6A;ta&#110;g&#64;t&#x63;&#104;&#112;&#99;&#46;&#116;&#x63;&#x64;&#46;i&#x65;</a></p>
+
+<h1>COPYRIGHT</h1>
+
+<p>Copyright  (C) 2011 Trinity Centre for High Performance Computing, Trinity College Dublin.
+There is NO WARRANTY, to the extent permitted by law.</p>
+
+</div>
+
+
+
+<div id="comments">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter">
+
+<div id="pageinfo">
+
+
+
+
+<div id="backlinks">
+Links:
+
+<a href="./design.html">design</a>
+
+<a href="./index.html">index</a>
+
+
+</div>
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Thu 23 Jun 16:42:46 2011</span>
+<!-- Created <span class="date">Thu 23 Jun 16:42:46 2011</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>
