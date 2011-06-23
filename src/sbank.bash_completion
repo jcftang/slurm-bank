@@ -7,21 +7,41 @@ _sbank()
 	COMPREPLY=();
 
 	# generic list of commands
-	opts="balance deposit project user time submit cluster";
+	opts=$(sbank | egrep 'usage:|or:' | awk '{print $3}');
 
 	case "${prev}" in
 		balance)
-			local subopts="statement request checkscript";
+			local subopts=$(sbank balance | egrep 'usage:|or:' | awk '{print $4}');
 			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
 			return 0
 			;;
 		project)
-			local subopts=$(sbank project | grep -v usage | awk '{print $3}')
+			local subopts=$(sbank project | egrep 'usage:|or:' | awk '{print $4}')
 			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
 			return 0
 			;;
 		user)
-			local subopts=$(sbank user | grep -v usage | awk '{print $3}')
+			local subopts=$(sbank user | egrep 'usage:|or:' | awk '{print $4}')
+			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
+			return 0
+			;;
+		time)
+			local subopts=$(sbank time | egrep 'usage:|or:' | awk '{print $4}')
+			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
+			return 0
+			;;
+		submit)
+			local subopts=$(sbank submit | egrep 'usage:|or:' | awk '{print $4}')
+			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
+			return 0
+			;;
+		cluster)
+			local subopts=$(sbank cluster | egrep 'usage:|or:' | awk '{print $4}')
+			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
+			return 0
+			;;
+		refund)
+			local subopts=$(sbank refund | egrep 'usage:|or:' | awk '{print $4}')
 			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
 			return 0
 			;;

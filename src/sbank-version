@@ -1,9 +1,8 @@
-SBANK_VERSION=1.1.1.3
+SBANK_VERSION=1.2
 
 usage() 
 {
-	echo "usage:"
-	echo "       sbank version"
+	echo "usage: sbank version"
 }
 
 cmd_default() 

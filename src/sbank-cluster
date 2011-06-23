@@ -2,12 +2,12 @@
 
 usage() 
 {
-	echo "usage:"
-	echo "       sbank cluster list -a"
-	echo "       sbank cluster cpupernode -m -c CLUSTER"
-	echo "       sbank cluster create -c CLUSTER"
-	echo "       sbank cluster delete -c CLUSTER"
-	echo "       sbank cluster cpuhrs -c CLUSTER"
+	echo "usage: sbank cluster list -a"
+	echo "   or: sbank cluster cpupernode -m -c CLUSTER"
+	echo "   or: sbank cluster create -c CLUSTER"
+	echo "   or: sbank cluster delete -c CLUSTER"
+	echo "   or: sbank cluster cpuhrs -c CLUSTER"
+	echo
 }
 
 parse_args() {

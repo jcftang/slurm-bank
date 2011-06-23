@@ -1,13 +1,13 @@
 # Pass --without docs to rpmbuild if you don't want the documentation
 
 Name:           slurm-bank
-Version:        1.1.1.3
+Version:        1.2
 Release:        2%{?dist}
 Summary:        SLURM Bank, a collection of wrapper scripts to do banking
 
 Group:          System
-License:        TBD
-URL:            TBD
+License:        GPLv2
+URL:            http://www.tchpc.tcd.ie/
 Source0:        slurm-bank-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 

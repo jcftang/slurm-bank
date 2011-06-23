@@ -3,22 +3,26 @@
 
 usage() 
 {
-	echo "usage:"
-	echo "       sbank balance statement [flags] args"
-	echo "        -c display per cluster 'clustername' (defaults to the local cluster)"
+	echo "usage: sbank balance statement -c CLUSTER -a ACCOUNT -A"
+	echo "   or: sbank balance request -c CLUSTER -a ACCOUNT -t TIME -v"
+	echo "   or: sbank balance checkscript -c CLUSTER -s SCRIPT -v"
+	echo 
+	echo "options for 'balance'"
 	echo "        -a display unformatted balance of account 'accountname' (defaults to all accounts of the current user)"
 	echo "        -A display all accounts (defaults to all accounts of the current user)"
 	echo
-	echo "       sbank balance request [flags] args"
+	echo "options for 'request'"
 	echo "        -a specify account"
-	echo "        -c specify cluster (defaults to the local cluster)"
 	echo "        -t specify total time in hours"
 	echo "        -v verbose output, including current balance, requested hours and expected balance"
 	echo
-	echo "       sbank balance checkscript [flags] args"
+	echo "options for 'checkscript'"
 	echo "        -s specify sbatch script name"
-	echo "        -c specify cluster (defaults to the local cluster)"
 	echo "        -v verbose output, including current balance, requested hours and expected balance"
+	echo
+	echo "common options"
+	echo "        -c specify cluster (defaults to the local cluster)"
+	echo
 
 }
 

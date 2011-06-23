@@ -1,11 +1,10 @@
 usage() 
 {
-	#echo "EXPERIMENTAL - use at your own risk"
-	echo "usage:"
-	echo "       sbank user create -c CLUSTER -a ACCOUNT -u USER"
+	echo "usage: sbank user create -c CLUSTER -a ACCOUNT -u USER"
 	#echo "       sbank user delete -c CLUSTER -a ACCOUNT -u USER"
-	echo "       sbank user list -c CLUSTER -a ACCOUNT -u USER"
-	echo "       sbank user account -c CLUSTER -u USER"
+	echo "   or: sbank user list -c CLUSTER -a ACCOUNT -u USER"
+	echo "   or: sbank user account -c CLUSTER -u USER"
+	echo
 }
 
 parse_args() {
