@@ -5,7 +5,7 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>sbank-version</title>
+<title>gource</title>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
@@ -29,7 +29,7 @@
 
 </span>
 <span class="title">
-sbank-version
+gource
 
 </span>
 </span>
@@ -47,32 +47,14 @@ sbank-version
 <div id="pagebody">
 
 <div id="content">
-<h1>NAME</h1>
+<p>If we ever want to visualise the repo</p>
 
-<p>sbank-version - sbank verion</p>
+<pre><code>gource --hide progress,filenames,dirnames,bloom -720x480 -a 0.5 -s 0.15 -i 0 \
+    --title slurm-bank -o - | ffmpeg -y -b 3000K -r 60 -f image2pipe -vcodec ppm \
+    -i - -vpre libx264-default -vcodec libx264 slurm-bank.x264.avi
+</code></pre>
 
-<h1>SYNOPSIS</h1>
-
-<p>sbank version</p>
-
-<h1>DESCRIPTION</h1>
-
-<p>Returns version of slurm-bank</p>
-
-<h1>SEE ALSO</h1>
-
-<ul>
-<li><a href="./sbank.html">sbank</a>(1)</li>
-</ul>
-
-<h1>AUTHOR</h1>
-
-<p>Jimmy Tang <a href="mailto:jtang@tchpc.tcd.ie">&#x6A;&#x74;&#x61;&#110;&#x67;&#64;&#x74;c&#104;&#x70;&#99;&#46;&#x74;&#x63;&#x64;&#46;&#105;&#x65;</a></p>
-
-<h1>COPYRIGHT</h1>
-
-<p>Copyright  (C) 2011 Trinity Centre for High Performance Computing, Trinity College Dublin.
-There is NO WARRANTY, to the extent permitted by law.</p>
+<p>shflags is actually grafted on repo from some other project.</p>
 
 </div>
 
@@ -104,8 +86,8 @@ There is NO WARRANTY, to the extent permitted by law.</p>
 
 
 <div class="pagedate">
-Last edited <span class="date">Tue 14 Jun 10:29:58 2011</span>
-<!-- Created <span class="date">Tue 14 Jun 10:29:58 2011</span> -->
+Last edited <span class="date">Thu 23 Jun 18:41:04 2011</span>
+<!-- Created <span class="date">Thu 23 Jun 18:41:04 2011</span> -->
 </div>
 
 </div>
