@@ -25,7 +25,7 @@ end users.
 
   Add or remove hours from an account.
 
-* balance statement
+* balance
 
   Show the balances of an account or a set of accounts.
 
@@ -37,6 +37,10 @@ end users.
 
   List current cluster or all clusters in slurmdbd, also capable
   of adding or removing clusters.
+
+* submit
+
+  Wrapper to submit jobs.
 
 * version
 
