@@ -40,7 +40,11 @@ _sbank()
 			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
 			return 0
 			;;
-
+		refund)
+			local subopts=$(sbank refund | egrep 'usage:|or:' | awk '{print $4}')
+			COMPREPLY=( $(compgen -W "${subopts}" -- ${cur}) )
+			return 0
+			;;
 	esac
 
 	if [ $COMP_CWORD -eq 1 ]; then
