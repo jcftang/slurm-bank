@@ -4,6 +4,7 @@ usage()
 	#echo "       sbank user delete -c CLUSTER -a ACCOUNT -u USER"
 	echo "   or: sbank user list -c CLUSTER -a ACCOUNT -u USER"
 	echo "   or: sbank user account -c CLUSTER -u USER"
+	echo
 }
 
 parse_args() {

@@ -3,6 +3,7 @@
 usage()
 {
 	echo "usage: sbank deposit -c CLUSTER -a ACCOUNT -t TIME"
+	echo
 }
 
 parse_args() {

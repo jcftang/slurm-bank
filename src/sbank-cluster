@@ -7,6 +7,7 @@ usage()
 	echo "   or: sbank cluster create -c CLUSTER"
 	echo "   or: sbank cluster delete -c CLUSTER"
 	echo "   or: sbank cluster cpuhrs -c CLUSTER"
+	echo
 }
 
 parse_args() {
