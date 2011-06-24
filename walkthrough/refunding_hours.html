@@ -5,7 +5,7 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>popup</title>
+<title>refunding hours</title>
 
 <link rel="stylesheet" href="../style.css" type="text/css" />
 
@@ -27,11 +27,11 @@
 
 <a href="../index.html">slurm-bank</a>/ 
 
-<a href="../templates.html">templates</a>/ 
+<a href="../walkthrough.html">walkthrough</a>/ 
 
 </span>
 <span class="title">
-popup
+refunding hours
 
 </span>
 </span>
@@ -49,24 +49,17 @@ popup
 <div id="pagebody">
 
 <div id="content">
-<p>
-Use this template to create a popup window that is displayed when the mouse
-is over part of the page. This template has two parameters:</p>
+<p>If a job has failed you may want to refund the hours that the job
+has used, to do this you need to know the job id.</p>
 
-<ul>
-<li>`mouseover` - This is the text or other content that triggers the
-popup.
-<li>`popup` - This should be the content of the popup window. It can be
-anything, even images or a whole little wiki page, but should not be too
-large for good usability.
-</ul>
+<pre><code>&#036; sbank refund job -j 5345
+</code></pre>
 
-<p>Note that browsers that do not support the CSS will display the popup
-inline in the page, inside square brackets.
+<p>The refund command will look up slurmdbd, look up the account and
+the elapsed time. The elapsed time will be deposited back to the
+account where it originally ran from.</p>
 
-<span class="popup">
-<span class="paren">[</span><span class="balloon"></span><span class="paren">]</span>
-</span></p>
+<p>In general this should be left as a people issue.</p>
 
 </div>
 
@@ -98,8 +91,8 @@ inline in the page, inside square brackets.
 
 
 <div class="pagedate">
-Last edited <span class="date">Wed  8 Jun 22:40:22 2011</span>
-<!-- Created <span class="date">Thu  6 May 03:47:37 2010</span> -->
+Last edited <span class="date">Fri 24 Jun 10:44:18 2011</span>
+<!-- Created <span class="date">Fri 24 Jun 10:44:18 2011</span> -->
 </div>
 
 </div>

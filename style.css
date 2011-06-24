@@ -247,6 +247,9 @@ span.color {
 .comment-subject {
 	font-weight: bold;
 }
+.comment-avatar {
+	float: right;
+}
 .comment {
 	border: 1px solid #aaa;
 	padding: 3px;

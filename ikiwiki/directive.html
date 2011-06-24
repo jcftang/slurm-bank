@@ -73,13 +73,27 @@ bar="supercalifragilisticexpialidocious" baz=11]]
 
 <p>Also, multiple lines of <em>quoted</em> text can be used for a value.
 To allow quote marks inside the quoted text, delimit the block
-of text with triple-quotes:</p>
+of text with triple-double-quotes or triple-single-quotes:</p>
 
 <pre><code>[[!directive  text="""
 1. "foo"
 2. "bar"
 3. "baz"
-"""]]
+""" othertext='''
+1. 'quux'
+2. "foo"
+''']]
+</code></pre>
+
+<p>If you want to put text with triple quotes into a parameter value, you can
+use perl-style here-doc syntax, even nesting it like this:</p>
+
+<pre><code>[[!directive  text=&lt;&lt;OUTER
+[[!otherdirective &lt;&lt;INNER
+inner text
+INNER]]
+outer text
+OUTER]]
 </code></pre>
 
 <p>ikiwiki also has an older syntax for directives, which requires a space in
@@ -136,7 +150,7 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Tue 23 Dec 21:29:31 2008</span>
+Last edited <span class="date">Wed  8 Jun 22:40:22 2011</span>
 <!-- Created <span class="date">Tue 23 Dec 21:29:31 2008</span> -->
 </div>
 

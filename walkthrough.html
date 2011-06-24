@@ -81,6 +81,8 @@ walkthrough
 		</li>
 		<li class="L2"><a href="#index15h2">expiring accounts</a>
 		</li>
+		<li class="L2"><a href="#index16h2">refunding hours</a>
+		</li>
 	</ol>
 </div>
 
@@ -442,6 +444,19 @@ an account.</p>
 
 <p>The above command simply zero's the account limit.</p>
 
+<h2><a name="index16h2"></a><a href="./walkthrough/refunding_hours.html">refunding hours</a></h2>
+<p>If a job has failed you may want to refund the hours that the job
+has used, to do this you need to know the job id.</p>
+
+<pre><code>&#036; sbank refund job -j 5345
+</code></pre>
+
+<p>The refund command will look up slurmdbd, look up the account and
+the elapsed time. The elapsed time will be deposited back to the
+account where it originally ran from.</p>
+
+<p>In general this should be left as a people issue.</p>
+
 
 
 </div>
@@ -482,7 +497,7 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Wed 15 Jun 15:16:09 2011</span>
+Last edited <span class="date">Fri 24 Jun 10:44:18 2011</span>
 <!-- Created <span class="date">Wed 15 Jun 15:16:09 2011</span> -->
 </div>
 
