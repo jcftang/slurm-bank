@@ -16,6 +16,9 @@ usage()
 	echo "   or: sbank time estimate -N NODES -n NTASKS -c CORES -t TIME"
 	echo "   or: sbank time estimatescript -s SCRIPT -v"
 	echo
+	echo "options for 'calc'"
+	echo "        -t specify time in slurm time format"
+	echo
 	echo "options for 'estimate'"
 	echo "        -N specify total number of node, conflicts with ntasks"
 	echo "        -n specify total number of ntasks, conflicts with nodes"
@@ -25,14 +28,19 @@ usage()
 	echo "options for 'estimatescript'"
 	echo "        -s specify sbatch script name"
 	echo "        -v verbose output"
+	echo "        -t specify total time in hours"
 	echo
-	echo "notes: TIME can be one of the following formats (integer values only):"
+	echo "notes: for 'sbank time calc' TIME can be one of the following"
+	echo "       formats (integer values only):"
 	echo "           days-hours:minutes:seconds"
 	echo "           days-hours:minutes"
 	echo "           days-hours"
 	echo "           hours:minutes:seconds"
 	echo "           minutes:seconds"
 	echo "           minutes"
+	echo
+	echo "notes: for 'sbank time estimate' and 'estimatescript' the value"
+	echo "       for time is in hours only"
 	echo
 }
 
