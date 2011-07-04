@@ -39,8 +39,8 @@ usage()
 	echo "           minutes:seconds"
 	echo "           minutes"
 	echo
-	echo "notes: for 'sbank time estimate' and 'estimatescript' the value"
-	echo "       for time is in hours only"
+	echo "notes: for 'estimate' and 'estimatescript' the value for time is"
+	echo "       in hours only"
 	echo
 }
 
