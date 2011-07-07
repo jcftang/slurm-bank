@@ -11,7 +11,7 @@ if they do not have hours in their account then they cannot run jobs.
 
 Requirements (tested with)
 
-* SLURM 2.2.0
+* SLURM 2.2.0, 2.2.7
 * Scientificlinux 5.4 (bash, rsync, perl)
 
 Documentation

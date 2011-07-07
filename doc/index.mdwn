@@ -51,6 +51,38 @@ And also benefits for end users of clusters:
 * Faster job submission and turn-around
 * Greater overall system stability
 
+## Experience with the migratation
+
+Moving from GOLD, Maui and SLURM to just running SLURM required us to
+gather some information.
+
+* List of Principle Investigators who own accounts/projects
+* List of projects
+* List of users
+
+We also required a set of associations
+
+* PI -> projects -> users
+
+The mapping we ended up having in the end in the slurmdbd was kept simple
+
+* projects -> users
+
+Which gave us a hierachy like this
+
+- root
+  - project1
+     - user1
+     - user2
+  - project2
+     - user1
+     - user3
+     - user4
+  - project3
+     - user3
+
+and so on...
+
 ## Design
 
 The [[design]] document contains ideas (todo and done). So far we have
