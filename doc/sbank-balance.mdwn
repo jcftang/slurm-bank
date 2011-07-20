@@ -33,6 +33,11 @@ then sbank-balance will show the balance of the user who ran the script.
   display all accounts (defaults to all accounts of the
   current user)
 
+  -u
+
+  display only the current user's balances (defaults to all users
+  in all accounts of the current user)
+
 * request - request a number hours from an account and returns a number
   of hours remaining in the account.
 
@@ -65,9 +70,13 @@ then sbank-balance will show the balance of the user who ran the script.
 
 # EXAMPLES
 
-Show your own balance
+Show your own balance, including those of other members of the account
 
 	sbank balance statement
+
+Show your own balance
+
+	sbank balance statement -u
 
 Show the unformatted balance of an account
 

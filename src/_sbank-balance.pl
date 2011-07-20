@@ -24,7 +24,7 @@ my %acc_limits = ();
 my %acc_usage = ();
 my %user_usage = ();
 my $thisuser = (getpwuid($<))[0];	# who's running the script
-my $showallusers = 0;
+my $showallusers = 1;
 my $showallaccs = 0;
 my $clustername = "";
 my $accountname = "";
@@ -40,6 +40,7 @@ sub usage() {
 	print "\t-h:\tshow this help message\n";
 	print "\t-c:\tdisplay per cluster 'clustername' (defaults to the local cluster)\n";
 	print "\t-a:\tdisplay unformatted balance of account 'accountname' (defaults to all accounts of the current user)\n";
+	print "\t-u:\tdisplay only the current user's balances (defaults to all users in all accounts of the current user)\n";
 	die   "\t-A:\tdisplay all accounts (defaults to all accounts of the current user; implies '-u')\n";
 }
 
@@ -69,7 +70,7 @@ if (defined($opts{h})) {
 }
 
 if (defined($opts{u})) {
-	$showallusers = 1;
+	$showallusers = 0;
 }
 
 if (defined($opts{c})) {
@@ -82,7 +83,6 @@ if (defined($opts{a})) {
 
 if (defined($opts{A})) {
 	$showallaccs = 1;
-	$showallusers = 1;	# implied
 }
 
 

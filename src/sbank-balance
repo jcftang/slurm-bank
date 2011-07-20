@@ -3,13 +3,14 @@
 
 usage() 
 {
-	echo "usage: sbank balance statement -c CLUSTER -a ACCOUNT -A"
+	echo "usage: sbank balance statement -c CLUSTER -a ACCOUNT -A -u"
 	echo "   or: sbank balance request -c CLUSTER -a ACCOUNT -t TIME -v"
 	echo "   or: sbank balance checkscript -c CLUSTER -s SCRIPT -v"
 	echo 
-	echo "options for 'balance'"
+	echo "options for 'statement'"
 	echo "        -a display unformatted balance of account 'accountname' (defaults to all accounts of the current user)"
 	echo "        -A display all accounts (defaults to all accounts of the current user)"
+	echo "        -u display only the current user's balances (defaults to all users in all accounts of the current user)"
 	echo
 	echo "options for 'request'"
 	echo "        -a specify account"
@@ -46,6 +47,7 @@ cmd_statement()
 	DEFINE_string 'account' '' 'specify a slurm account' 'a'
 	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
 	DEFINE_boolean 'all' false 'show all users in the account' 'A'
+	DEFINE_boolean 'useronly' false 'show only the current user' 'u'
 
 	FLAGS_PARENT="sbank balance statement"
 
@@ -59,6 +61,7 @@ cmd_statement()
 	[ "${FLAGS_cluster}" != "" ]  && opts="$opts -c ${FLAGS_cluster}"
 	[ "${FLAGS_account}" != "" ]  && opts="$opts -a ${FLAGS_account}"
 	[ ${FLAGS_all} -eq ${FLAGS_TRUE} ] && opts="$opts -A"
+	[ ${FLAGS_useronly} -eq ${FLAGS_TRUE} ] && opts="$opts -u"
 
 	_sbank-balance.pl $opts
 }
