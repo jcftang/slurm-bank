@@ -51,7 +51,7 @@ cmd_job()
 	jobtime_hours=$(sbank time calc -t $jobtime_slurm)
 	debug "elapsed time from sacct in hours $jobtime_hours"
 
-	sbank deposit -a $account -t $jobtime_hours
+	sbank deposit -a $account -t $jobtime_hours -c $(sbank cluster list)
 }
 
 cmd_help()
