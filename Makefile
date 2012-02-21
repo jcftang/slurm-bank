@@ -120,4 +120,7 @@ import-docs: clean
 push-docs: export-docs
 	git push origin html
 
+gh-pages: export-docs
+	git push origin html:gh-pages
+
 .PHONY: docs
