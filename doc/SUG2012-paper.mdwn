@@ -1,5 +1,7 @@
 # Slurm Bank
 
+[[!toc levels=3]]
+
 ## Abstract
 
 SLURM Bank is a collection of wrapper scripts to give SLURM GOLD-like
