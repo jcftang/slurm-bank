@@ -11,6 +11,40 @@ to an account. Users are associated with these accounts which they use
 to run jobs. If users do not have an account or if they do not have
 hours in their account then they cannot run jobs.
 
+## Background
+
+### FIXME Points are to be moved to slides
+
+* Brief history of TCHPC and systems/resource managers
+  - Funding agencies wanted accountability for CPU time; reporting of this
+* Were running GOLD+Maui+Torque
+* Tried GOLD+Maui+Slurm
+  - interface very unreliable, complex
+* Wanted to just use Slurm (simpler, less complex, more reliable)
+* Refs to slurm-dev mailing list threads
+
+----
+
+Trinity Centre for High Performance Computing (TCHPC) is based in
+Trinity College Dublin. TCHPC provides a number of storage and compute
+services. The _slurm-bank_ package relates to the compute services
+provided. There are a number of computing systems available to
+academics in TCD, these range from small to medium sized clusters and
+a rack of Bluegene/P.
+
+In the past Torque, Maui and GOLD was deployed to provide the
+accounting and banking features that the funding agencies required for
+justifying the funding streams and usage of the funded systems. The
+deployed system was in general not as reliable as we desired, this
+prompted the devops team to look for more suitable alternatives. Prior
+to the development of slurm-bank the solution was to deploy Slurm,
+Maui and GOLD. While this solution worked it was not as reliable or as
+transparent as desired.
+
+A number of emails were exchanged during FIXME: look up refs. and
+internally at TCHPC the devops decided to implement some of the ideas
+that was expressed by the Slurm developers.
+
 At TCHPC, we were motivated to replace the resource management and
 allocation systems which comprised of three pieces of software (slurm,
 GOLD and maui) with just a single piece of software: Slurm. Having all
@@ -33,17 +67,6 @@ And also benefits for end users of clusters:
 The package is not feature complete and there are issues with the
 current proposed implementation. Despite this, SLURM Bank has been in
 production use at TCHPC for a year with some success.
-
-
-## Background
-
-* Brief history of TCHPC and systems/resource managers
-  - Funding agencies wanted accountability for CPU time; reporting of this
-* Were running GOLD+Maui+Torque
-* Tried GOLD+Maui+Slurm
-  - interface very unreliable, complex
-* Wanted to just use Slurm (simpler, less complex, more reliable)
-* Refs to slurm-dev mailing list threads
 
 ## Design
 
