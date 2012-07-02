@@ -41,6 +41,7 @@ production use at TCHPC for a year with some success.
 * Tried GOLD+Maui+Slurm
   - interface very unreliable, complex
 * Wanted to just use Slurm (simpler, less complex, more reliable)
+* Refs to slurm-dev mailing list threads
 
 ## Design
 
