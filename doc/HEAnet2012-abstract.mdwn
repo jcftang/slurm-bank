@@ -16,12 +16,12 @@ accounts in order to pre-allocate user and project resources. `Funds'
 are deposited to accounts, and drawn down when a resource manager
 executes jobs. GOLD provides for balance and usage queries on accounts.
 
-SLURM Bank is a collection of wrapper scripts to give GOLD-like
-capabilities for managing resources to SLURM. With the SLURM Bank scripts
-we are able to provide a simple banking system where we can deposit hours
-to an account. Users are associated with these accounts which they use
-to run jobs. If users do not have an account or if they do not have
-hours in their account then they cannot run jobs.
+*SLURM Bank* is a collection of wrapper scripts written by TCHPC to give
+GOLD-like capabilities for managing resources to SLURM. With the SLURM Bank
+scripts we are able to provide a simple banking system where we can deposit
+hours to an account. Users are associated with these accounts which they use
+to run jobs. If users do not have an account or if they do not have hours
+in their account then they cannot run jobs.
 
 At TCHPC, we were motivated to replace the resource management and
 allocation systems which comprised of three pieces of software (SLURM,
