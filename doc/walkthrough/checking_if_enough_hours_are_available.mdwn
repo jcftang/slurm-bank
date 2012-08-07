@@ -7,7 +7,7 @@ available hours after a request has been made. It does not do anything
 apart from print a number. If it returns a negative number then you do
 not have enough hours to run.
 
-	$ sbank balance request -c chuck -a tchpc -t 100
+	$ sbank balance request -c chuck -a tchpc -t 100 -u
 	315260
 
 Or else if you want to script things up to be efficient/lazy you can
