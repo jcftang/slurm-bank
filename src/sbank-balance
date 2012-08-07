@@ -112,7 +112,7 @@ cmd_request()
 	balance_initial=`sbank balance statement -a ${FLAGS_account} -u`
 	debug "${balance_initial} hours is in the balance of ${FLAGS_account} on ${FLAGS_cluster}"
 
-	balance_post=$(( ${balance_initial} - ${FLAGS_time} ))
+	balance_post=$(echo '${balance_initial} - ${FLAGS_time}' | bc)
 
 	debug "${balance_post} hours remaining in balance after the request"
 
