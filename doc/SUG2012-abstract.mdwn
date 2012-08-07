@@ -1,4 +1,4 @@
-# Slurm Bank
+# SLURM Bank
 
 ## Abstract
 
@@ -10,15 +10,15 @@ to run jobs. If users do not have an account or if they do not have
 hours in their account then they cannot run jobs.
 
 At TCHPC, we were motivated to replace the resource management and
-allocation systems which comprised of three pieces of software (slurm,
-GOLD and maui) with just a single piece of software: Slurm. Having all
+allocation systems which comprised of three pieces of software (SLURM,
+GOLD and maui) with just a single piece of software: SLURM. Having all
 of the banking functionality in SLURM has benefits for both the
 systems administrators:
 
-* Having just slurm without maui means there are fewer things to go
+* Having just SLURM without maui means there are fewer things to go
   wrong
 * Overall performance for scheduling and launching jobs is much better
-  with just slurm
+  with just SLURM
 * GOLD is overly complicated and we don't need many of the features
   from GOLD
 

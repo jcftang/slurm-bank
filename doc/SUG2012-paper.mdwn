@@ -1,4 +1,6 @@
-# Slurm Bank
+# SLURM Bank
+
+[[!toc levels=3]]
 
 ## Abstract
 
@@ -9,16 +11,50 @@ to an account. Users are associated with these accounts which they use
 to run jobs. If users do not have an account or if they do not have
 hours in their account then they cannot run jobs.
 
+## Background
+
+### FIXME Points are to be moved to slides
+
+* Brief history of TCHPC and systems/resource managers
+  - Funding agencies wanted accountability for CPU time; reporting of this
+* Were running GOLD+Maui+Torque
+* Tried GOLD+Maui+SLURM
+  - interface very unreliable, complex
+* Wanted to just use SLURM (simpler, less complex, more reliable)
+* Refs to slurm-dev mailing list threads
+
+----
+
+Trinity Centre for High Performance Computing (TCHPC) is based in
+Trinity College Dublin. TCHPC provides a number of storage and compute
+services. The _slurm-bank_ package relates to the compute services
+provided. There are a number of computing systems available to
+academics in TCD, these range from small to medium sized clusters and
+a rack of Bluegene/P.
+
+In the past Torque, Maui and GOLD was deployed to provide the
+accounting and banking features that the funding agencies required for
+justifying the funding streams and usage of the funded systems. The
+deployed system was in general not as reliable as we desired, this
+prompted the devops team to look for more suitable alternatives. Prior
+to the development of slurm-bank the solution was to deploy SLURM,
+Maui and GOLD. While this solution worked it was not as reliable or as
+transparent as desired.
+
+A number of emails were exchanged during FIXME: look up refs. and
+internally at TCHPC the devops decided to implement some of the ideas
+that was expressed by the SLURM developers.
+
 At TCHPC, we were motivated to replace the resource management and
-allocation systems which comprised of three pieces of software (slurm,
-GOLD and maui) with just a single piece of software: Slurm. Having all
+allocation systems which comprised of three pieces of software (SLURM,
+GOLD and maui) with just a single piece of software: SLURM. Having all
 of the banking functionality in SLURM has benefits for both the
 systems administrators:
 
-* Having just slurm without maui means there are fewer things to go
+* Having just SLURM without maui means there are fewer things to go
   wrong
 * Overall performance for scheduling and launching jobs is much better
-  with just slurm
+  with just SLURM
 * GOLD is overly complicated and we don't need many of the features
   from GOLD
 
@@ -32,24 +68,13 @@ The package is not feature complete and there are issues with the
 current proposed implementation. Despite this, SLURM Bank has been in
 production use at TCHPC for a year with some success.
 
-
-## Background
-
-* Brief history of TCHPC and systems/resource managers
-  - Funding agencies wanted accountability for CPU time; reporting of this
-* Were running GOLD+Maui+Torque
-* Tried GOLD+Maui+Slurm
-  - interface very unreliable, complex
-* Wanted to just use Slurm (simpler, less complex, more reliable)
-* Refs to slurm-dev mailing list threads
-
 ## Design
 
-* Use existing GRPCPUMins feature in Slurm
+* Use existing GRPCPUMins feature in SLURM
 * Implemented in shell/perl scripts, mainly as a wrapper to sacctmgr
   - adopted similar command-line interface to git ("sbank balance" -> "sbank-balance")
   - users need only know one command
-* Provides a workflow for just using Slurm
+* Provides a workflow for just using SLURM
 * Turn complex GOLD into an issue of having the user talk to you
   - GOLD: pre-allocated hours; auto-refund didn't always work proplerly for failed jobs (e.g. due to system failure)
   - sbank: user asks admin for a refund
@@ -57,7 +82,7 @@ production use at TCHPC for a year with some success.
 
 ### Features
 
-* Create Slurm Associations (called ``projects'')
+* Create SLURM Associations (called ``projects'')
 * Add users to projects
 * Add/subtract hours to/from projects
 * Workflows to help users track hours
@@ -81,7 +106,7 @@ production use at TCHPC for a year with some success.
 
 ## Limitations
 
-* Slurm fairshare essentially fails if the period is too long
+* SLURM fairshare essentially fails if the period is too long
   - no reset (hard GRPCPUMins limit)
   - there is no half-life decay, so the user's small usage in the past X
     number of weeks is less important than their large usage Y months ago.
@@ -90,9 +115,9 @@ production use at TCHPC for a year with some success.
     all of those hours Y months.
     We sort-of knew that this was going to happen, but it wasn't obvious that it
     would become a big issue.
-* No support for Slurm hierarchy of Associations
-* Written as shell/perl, rather than integrated with Slurm source
-* Disconnect between project expiry and Slurm/Sbank Associations
+* No support for SLURM hierarchy of Associations
+* Written as shell/perl, rather than integrated with SLURM source
+* Disconnect between project expiry and SLURM/Sbank Associations
   - recutils
   - would need crontab or similar to query and expire Assocations
 * Many small jobs: has the potential to query sacctmgr many times and create a bottleneck
@@ -117,7 +142,7 @@ production use at TCHPC for a year with some success.
 * We're considering stopping with the whole 'fixed hours' concept of sbank, and
   going to a per-quarter reporting with cut-off system.
 
-  - So we use Slurm's fairshare system as intended!
+  - So we use SLURM's fairshare system as intended!
   - Everyone's usage gets reset every 3 months (and so it levels off new and
     existing users).
   - Half-life decay works again, so my usage in the last week is more important
@@ -126,5 +151,5 @@ production use at TCHPC for a year with some success.
   - Compare that to the off-line web application form database, and if someone has
     gone over their allocation, that project code is turned off. So someone can
     gain some extra, ``unauthorised'' hours, but not for long.
-* Upgrade to current Slurm
+* Upgrade to current SLURM
 
