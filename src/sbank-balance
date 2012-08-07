@@ -133,7 +133,7 @@ cmd_request()
 		then
 			echo ${balance_post}
 		else
-			warn "negative time: possible error"
+			warn "The project does not have enough time to complete your request"
 			echo ${balance_post}
 		fi
 	fi
