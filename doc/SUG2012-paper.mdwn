@@ -32,18 +32,17 @@ provided. There are a number of computing systems available to
 academics in TCD, these range from small to medium sized clusters and
 a rack of Bluegene/P.
 
-In the past Torque, Maui and GOLD was deployed to provide the
-accounting and banking features that the funding agencies required for
-justifying the funding streams and usage of the funded systems. The
-deployed system was in general not as reliable as we desired, this
-prompted the devops team to look for more suitable alternatives. Prior
-to the development of slurm-bank the solution was to deploy SLURM,
-Maui and GOLD. While this solution worked it was not as reliable or as
-transparent as desired.
+In the past Torque, Maui and GOLD were deployed to provide the accounting and
+banking features that were required by the funding agencies for justifying
+the funding streams and usage of the funded systems. The deployed system was
+in general not as reliable as we desired. This prompted the devops team to
+look for more suitable alternatives. Prior to the development of slurm-bank
+the solution was to deploy SLURM, Maui and GOLD. While this solution worked
+it was not as reliable or as transparent as desired.
 
 A number of emails were exchanged during FIXME: look up refs. and
 internally at TCHPC the devops decided to implement some of the ideas
-that was expressed by the SLURM developers.
+that were expressed by the SLURM developers.
 
 At TCHPC, we were motivated to replace the resource management and
 allocation systems which comprised of three pieces of software (SLURM,
@@ -101,7 +100,7 @@ production use at TCHPC for a year with some success.
 
 ## Deployed on
 
-* SLURM 2.2.x
+* SLURM 2.2.x and 2.4.x
 * SL5x (and system version of perl/bash)
 
 ## Limitations
@@ -152,4 +151,5 @@ production use at TCHPC for a year with some success.
     gone over their allocation, that project code is turned off. So someone can
     gain some extra, ``unauthorised'' hours, but not for long.
 * Upgrade to current SLURM
+  - Done (2.4.x) without issue.
 
