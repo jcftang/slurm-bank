@@ -71,9 +71,11 @@ production use at TCHPC for a year with some success.
 
 * Use existing GrpCPUMins feature in SLURM
   - allocated through SLURM Associations
+* Usage of spent CPU hours/minutes obtained via sshare
   - user usage per association is available from the SlurmDBD
   - hard GrpCPUMins limits (PriorityDecayHalfLife=0, PriorityUsageResetPeriod=NONE)
   - requires PriorityType=priority/multifactor
+  - but no half-life decay to reduce impact of usage over time
 * Implemented in shell/perl scripts, mainly as a wrapper to sacctmgr and sshare
   - adopted similar command-line interface to git ("sbank balance" -> "sbank-balance")
   - users need only know one command
