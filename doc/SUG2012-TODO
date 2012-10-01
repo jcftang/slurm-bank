@@ -1,0 +1,88 @@
+# NOTES
+
+architecture
+	explicitly list all of the sacctmgr/sshare commands
+	explicitly list all of the sacctmgr/sshare db field dependencies
+		expected output formats (raw?)
+	note about the shflags thingy
+
+walkthroughs
+
+future
+	obtain sshare info through sreport instead??? counter the lack
+	of half-life (required for priorities)
+
+reporting
+	wrap sreport
+
+
+
+
+# Slides
+- Intro/Abstract
+- Historical background
+  - torque/maui/gold etc
+- goals
+  - simpler for user/admin
+- design
+  - slurm.conf requirements
+  - slurmdbd deps
+  - sinfo / sacctmgr / sshare deps
+  - flat hierarchy of Associations
+- implementation
+  - shell / perl
+  - shFlags
+  - single command "sbank" similar to "git" (self-documenting)
+- features
+  - admin creates slurm associations
+  - admin adds users, add/refund hours
+  - tools for users to check balance, query, estimate, submit
+- admin walk-through
+  - install
+  - setup
+  - creating_projects
+  - deciding_on_a_policy
+  - deposit_hours_to_an_account
+  - expiring_accounts
+  - refunding_hours
+
+- user walk-through
+  - checking_account_balances
+  - estimating_time_for_a_job
+  - checking_if_enough_hours_are_available
+  - submitting_jobs_with_sbank-submit
+
+- misc commands
+  - print cpu hours per cluster per year
+  - print min/max num cpus per node
+  - convert SLURM time to hours
+
+- limitations
+  - fairshare, half-life (sshare)
+  - no hierarchy of Associations
+  - written in shell / perl, instead of integrated with SLURM source
+  - many small jobs: has the potential to query sacctmgr many times and create a bottleneck
+  - no lifetime/expiry of Associations
+- our experiences
+  - sbank balance statement written to slurm.out file by Epilog, not always noticed
+  - local policy: create a new Association/Project when hours run out
+  - heavy users vs light users
+
+- off-line PHP/MySQL Projects Database
+  - abstracts, PIs, funding streams etc
+  - users apply for hours; submit project expiry
+  - outside of slurm-bank, but would be nice
+- future work
+  - considering moving away from fixed hours, and use off-line database together
+    with sreport to monitor usage per quarter, and close associations if over limit
+    - can use half-life again
+  - investigate if sreport can give raw usage, instead of sshare
+    - sreport -t hours cluster AccountUtilizationByUser user=paddy start=2000-01-01
+      - this includes deleted associations as well
+    - can use half-life again
+  - re-implement in C, or all in Perl using SLURM-Perl API
+  - add Association expiry to slurmdbd
+- conclusion
+  - currently deployed on SL5.x, SLURM 2.2, 2.3, 2.4
+  - generally works well, aside from priority/fairshare issue
+
