@@ -14,11 +14,18 @@ Requirements (tested with)
 * SLURM 2.2.0, 2.2.7
 * Scientificlinux 5.4 (bash, rsync, perl)
 
-Documentation
-=============
+Source and Documentation
+========================
 
 The documentation is stored in doc/ and is generated with ikiwiki,
 that is, all the documentation is written in markdown.
+
+There is a pre-generated set of documentation available at
+<http://jcftang.github.com/slurm-bank/>
+
+To get the source and documentation please do
+
+	git clone git://github.com/jcftang/slurm-bank.git
 
 Administrator Notes
 ===================
