@@ -79,11 +79,13 @@ production use at TCHPC for a year with some success.
 * Implemented in shell/perl scripts, mainly as a wrapper to sacctmgr and sshare
   - adopted similar command-line interface to git ("sbank balance" -> "sbank-balance")
   - users need only know one command
+  - tried to immitate some commonly used GOLD commands
 * Provides a workflow for just using SLURM
 * Turn complex GOLD into an issue of having the user talk to you
   - GOLD: pre-allocated hours; auto-refund didn't always work proplerly for failed jobs (e.g. due to system failure)
-  - sbank: user asks admin for a refund
+  - sbank: user asks admin for a refund, this might not scale for sites with lots of users
 * Flat hierarchy of Associations
+  - Made this assumption to simplify implementation, we didn't really need or wanted a hierachy of projects
 
 ### Features
 
@@ -95,11 +97,12 @@ production use at TCHPC for a year with some success.
   - balance statement
 * Try to be self-documenting
   - users need only know one command
+  - documented workflows on who it's supposed to work
 
 ### Off-line Project Database
 
 * Off-line (wrt to SLURM) PHP/MySQL application for allocating project codes
-  and recording abstract, PI, requested hours, requested storage, start/end
+  and recording abstract, Project Leader, requested hours, requested storage, start/end
   dates
 * Missing a connection between SLURM Bank and the project end dates
   - could use a simple text DB such as recutils, but this still requires
@@ -117,6 +120,7 @@ production use at TCHPC for a year with some success.
 
 * SLURM 2.2.x, 2.3.x and 2.4.x
 * SL5x (and system version of perl/bash)
+  * Experimented with deploying on ARCHLINUX
 
 ## Limitations
 
@@ -175,4 +179,4 @@ production use at TCHPC for a year with some success.
     gain some extra, ``unauthorised'' hours, but not for long.
 * Upgrade to current SLURM
   - Done (2.4.x) without issue.
-
+* Hooks for reporting disk quotas or other resources that were used
