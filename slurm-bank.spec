@@ -1,7 +1,7 @@
 # Pass --without docs to rpmbuild if you don't want the documentation
 
 Name:           slurm-bank
-Version:        1.2
+Version:        1.2.1
 Release:        2%{?dist}
 Summary:        SLURM Bank, a collection of wrapper scripts to do banking
 

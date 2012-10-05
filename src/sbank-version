@@ -1,4 +1,4 @@
-SBANK_VERSION=1.2
+SBANK_VERSION=1.2.1
 
 usage() 
 {
