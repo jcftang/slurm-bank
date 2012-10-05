@@ -28,3 +28,4 @@ git add src/sbank-version
 git add VERSION
 git add slurm-bank.spec
 git commit -m "Bumped version number to $1"
+git tag -a $(cat VERSION) -m "Tagging version number to $(cat VERSION)"
