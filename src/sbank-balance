@@ -46,6 +46,7 @@ cmd_statement()
 	debug "define some variables"
 	DEFINE_string 'account' '' 'specify a slurm account' 'a'
 	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
+	DEFINE_string 'user' '' 'specify a username' 'U'
 	DEFINE_boolean 'all' false 'show all users in the account' 'A'
 	DEFINE_boolean 'useronly' false 'show only the current user' 'u'
 
@@ -60,6 +61,7 @@ cmd_statement()
 
 	[ "${FLAGS_cluster}" != "" ]  && opts="$opts -c ${FLAGS_cluster}"
 	[ "${FLAGS_account}" != "" ]  && opts="$opts -a ${FLAGS_account}"
+	[ "${FLAGS_user}" != "" ]  && opts="$opts -U ${FLAGS_user}"
 	[ ${FLAGS_all} -eq ${FLAGS_TRUE} ] && opts="$opts -A"
 	[ ${FLAGS_useronly} -eq ${FLAGS_TRUE} ] && opts="$opts -u"
 
