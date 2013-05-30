@@ -20,7 +20,7 @@ WVSTART "init"
 WVPASS which perl
 WVPASS which scontrol
 WVPASS which sacctmgr
-WVPASS which sshare
+WVPASS which sreport
 WVPASS which sinfo
 WVPASS which sbatch
 
