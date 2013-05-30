@@ -8,11 +8,17 @@ in *slurm.conf*
 
     AccountingStorageEnforce=limits
 
-The following parameters must also be set, we do not want a decay or
-reset of the usage that is recorded in slurmdbd.
+Note that the *PriorityDecayHalfLife* and *PriorityUsageResetPeriod* can
+be used to allow usage half-life decay and reset. This is because
+the usage information is pulled directly from the Slurmdbd via
+*sreport*; whereas the two parameters above only affect the way
+usage is stored in local *_usage files.
 
-    PriorityDecayHalfLife=0
-    PriorityUsageResetPeriod=NONE
+Note also that when the scheduler looks to see if an association has
+sufficient balance to start a new job, it compares the "GrpCPUMins"
+field against the local *_usage files to check if enough time is
+available (not the Slurmdbd), this can result in negative balances
+being reported by "sbank balance statement".
 
 What is also required is a pretty good estimate of the total available
 cpu hours that you have on your cluster that you can allocate to
@@ -24,7 +30,7 @@ accounts.
 
 Users will need to learn how to use accounts (nothing new here).
 
-sbatch, sinfo, sacctmgr and sshare is required and must be working.
+sbatch, sinfo, sacctmgr and sreport are required and must be working.
 
 If you do not already have a cluster registered and configured in slurm,
 
