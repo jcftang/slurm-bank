@@ -74,10 +74,10 @@ sub thous( $ ) {
 
 # print headers for the output
 sub print_headers() {
-	printf "%-10s %11s | %16s %11s | %13s %11s (CPU hrs)\n",
+	printf "%-10s %9s | %14s %9s | %13s %9s (CPU hrs)\n",
 		"User", "Usage", "Account", "Usage", "Account Limit", "Available";
-	printf "%10s %11s + %16s %11s + %13s %11s\n",
-		"-"x10, "-"x11, "-"x16, "-"x11, "-"x13, "-"x11;
+	printf "%10s %9s + %14s %9s + %13s %9s\n",
+		"-"x10, "-"x9, "-"x14, "-"x9, "-"x13, "-"x9;
 }
 
 # print the formatted values
@@ -88,7 +88,7 @@ sub print_values( $$$$$ ) {
 	my $acc_usage = shift;
 	my $acc_limit = shift;
 
-	printf "%-10s %11s | %16s %11s | %13s %11s\n",
+	printf "%-10s %9s | %14s %9s | %13s %9s\n",
 		$thisuser, fmt_mins_as_hrs($user_usage),
 		$acc, fmt_mins_as_hrs($acc_usage),
 		fmt_mins_as_hrs($acc_limit),
