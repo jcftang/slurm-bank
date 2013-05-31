@@ -72,6 +72,29 @@ sub thous( $ ) {
 	return $n;
 }
 
+# print headers for the output
+sub print_headers() {
+	printf "%-10s %11s | %16s %11s | %13s %11s (CPU hrs)\n",
+		"User", "Usage", "Account", "Usage", "Account Limit", "Available";
+	printf "%10s %11s + %16s %11s + %13s %11s\n",
+		"-"x10, "-"x11, "-"x16, "-"x11, "-"x13, "-"x11;
+}
+
+# print the formatted values
+sub print_values( $$$$$ ) {
+	my $thisuser = shift;
+	my $user_usage = shift;
+	my $acc = shift;
+	my $acc_usage = shift;
+	my $acc_limit = shift;
+
+	printf "%-10s %11s | %16s %11s | %13s %11s\n",
+		$thisuser, fmt_mins_as_hrs($user_usage),
+		$acc, fmt_mins_as_hrs($acc_usage),
+		fmt_mins_as_hrs($acc_limit),
+		fmt_mins_as_hrs($acc_limit - $acc_usage);
+}
+
 
 #####################################################################
 # get options
@@ -205,10 +228,7 @@ if ($showallusers && $accountname ne "") {
 
 
 	# display formatted output
-	printf "%-10s %11s | %16s %11s | %13s %11s (CPU hrs)\n",
-		"User", "Usage", "Account", "Usage", "Account Limit", "Available";
-	printf "%10s %11s + %16s %11s + %13s %11s\n",
-		"-"x10, "-"x11, "-"x16, "-"x11, "-"x13, "-"x11;
+	print_headers();
 	printf "\n";
 
 	# get the usage values
@@ -256,11 +276,7 @@ if ($showallusers && $accountname ne "") {
 				$acc_usage{$account} = 0;
 			}
 
-			printf "%-10s %11s | %16s %11s | %13s %11s\n",
-				$user, fmt_mins_as_hrs(sprintf("%.0f", $rawusage)),
-				$account, fmt_mins_as_hrs($acc_usage{$account}),
-				fmt_mins_as_hrs($acc_limits{$account}),
-				fmt_mins_as_hrs($acc_limits{$account} - $acc_usage{$account});
+			print_values($user, sprintf("%.0f", $rawusage), $account, $acc_usage{$account}, $acc_limits{$account});
 		}
 	}
 
@@ -293,10 +309,7 @@ if ($showallusers && $accountname ne "") {
 	close(SACCTMGR);
 
 	# display formatted output
-	printf "%-10s %11s | %16s %11s | %13s %11s (CPU hrs)\n",
-		"User", "Usage", "Account", "Usage", "Account Limit", "Available";
-	printf "%10s %11s + %16s %11s + %13s %11s\n",
-		"-"x10, "-"x11, "-"x16, "-"x11, "-"x13, "-"x11;
+	print_headers();
 	printf "\n";
 
 
@@ -352,11 +365,7 @@ if ($showallusers && $accountname ne "") {
 				$acc_usage{$account} = 0;
 			}
 
-			printf "%-10s %11s | %16s %11s | %13s %11s\n",
-				$user, fmt_mins_as_hrs(sprintf("%.0f", $rawusage)),
-				$account, fmt_mins_as_hrs($acc_usage{$account}),
-				fmt_mins_as_hrs($acc_limits{$account}),
-				fmt_mins_as_hrs($acc_limits{$account} - $acc_usage{$account});
+			print_values($user, sprintf("%.0f", $rawusage), $account, $acc_usage{$account}, $acc_limits{$account});
 		}
 	}
 
@@ -388,11 +397,7 @@ if ($showallusers && $accountname ne "") {
 				$acc_usage{$account} = 0;
 			}
 
-			printf "%-10s %11s | %16s %11s | %13s %11s\n",
-				$user, fmt_mins_as_hrs(sprintf("%.0f", $rawusage)),
-				$account, fmt_mins_as_hrs($acc_usage{$account}),
-				fmt_mins_as_hrs($acc_limits{$account}),
-				fmt_mins_as_hrs($acc_limits{$account} - $acc_usage{$account});
+			print_values($user, sprintf("%.0f", $rawusage), $account, $acc_usage{$account}, $acc_limits{$account});
 		}
 	}
 
@@ -443,10 +448,7 @@ if ($showallusers && $accountname ne "") {
 	}
 
 	# display formatted output
-	printf "%-10s %11s | %16s %11s | %13s %11s (CPU hrs)\n",
-		"User", "Usage", "Account", "Usage", "Account Limit", "Available";
-	printf "%10s %11s + %16s %11s + %13s %11s\n",
-		"-"x10, "-"x11, "-"x16, "-"x11, "-"x13, "-"x11;
+	print_headers();
 
 
 	###############################################################################
@@ -509,11 +511,7 @@ if ($showallusers && $accountname ne "") {
 				$acc_usage{$account} = 0;
 			}
 
-			printf "%-10s %11s | %16s %11s | %13s %11s\n",
-				$user, fmt_mins_as_hrs(sprintf("%.0f", $rawusage)),
-				$account, fmt_mins_as_hrs($acc_usage{$account}),
-				fmt_mins_as_hrs($acc_limits{$account}),
-				fmt_mins_as_hrs($acc_limits{$account} - $acc_usage{$account});
+			print_values($user, sprintf("%.0f", $rawusage), $account, $acc_usage{$account}, $acc_limits{$account});
 		}
 	}
 
@@ -639,10 +637,7 @@ if ($showallusers && $accountname ne "") {
 
 
 	# display formatted output
-	printf "%-10s %11s | %16s %11s | %13s %11s (CPU hrs)\n",
-		"User", "Usage", "Account", "Usage", "Account Limit", "Available";
-	printf "%10s %11s + %16s %11s + %13s %11s\n",
-		"-"x10, "-"x11, "-"x16, "-"x11, "-"x13, "-"x11;
+	print_headers();
 
 	foreach my $acc (sort keys %user_usage) {
 		# stop warnings if this account doesn't have a limit
@@ -655,11 +650,7 @@ if ($showallusers && $accountname ne "") {
 			$acc_usage{$acc} = 0;
 		}
 
-		printf "%-10s %11s | %16s %11s | %13s %11s\n",
-			$thisuser, fmt_mins_as_hrs($user_usage{$acc}),
-			$acc, fmt_mins_as_hrs($acc_usage{$acc}),
-			fmt_mins_as_hrs($acc_limits{$acc}),
-			fmt_mins_as_hrs($acc_limits{$acc} - $acc_usage{$acc});
+		print_values($thisuser, $user_usage{$acc}, $acc, $acc_usage{$acc}, $acc_limits{$acc});
 	}
 }
 
