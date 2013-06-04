@@ -12,6 +12,7 @@ usage()
 	echo "        -A display all accounts (defaults to all accounts of the current user)"
 	echo "        -u display only the current user's balances (defaults to all users in all accounts of the current user)"
 	echo "        -U display information for the given username, instead of the current user"
+	echo "        -s report usage starting from yyyy-mm-dd, instead of 3 years ago"
 	echo
 	echo "options for 'request'"
 	echo "        -a specify account"
@@ -48,6 +49,7 @@ cmd_statement()
 	DEFINE_string 'account' '' 'specify a slurm account' 'a'
 	DEFINE_string 'cluster' '' 'specify a cluster' 'c'
 	DEFINE_string 'user' '' 'specify a username' 'U'
+	DEFINE_string 'startdate' '' 'specify a start-date yyyy-mm-dd' 's'
 	DEFINE_boolean 'all' false 'show all users in the account' 'A'
 	DEFINE_boolean 'useronly' false 'show only the current user' 'u'
 
@@ -63,6 +65,7 @@ cmd_statement()
 	[ "${FLAGS_cluster}" != "" ]  && opts="$opts -c ${FLAGS_cluster}"
 	[ "${FLAGS_account}" != "" ]  && opts="$opts -a ${FLAGS_account}"
 	[ "${FLAGS_user}" != "" ]  && opts="$opts -U ${FLAGS_user}"
+	[ "${FLAGS_startdate}" != "" ]  && opts="$opts -s ${FLAGS_startdate}"
 	[ ${FLAGS_all} -eq ${FLAGS_TRUE} ] && opts="$opts -A"
 	[ ${FLAGS_useronly} -eq ${FLAGS_TRUE} ] && opts="$opts -u"
 

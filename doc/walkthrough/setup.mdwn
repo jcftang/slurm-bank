@@ -32,6 +32,11 @@ Users will need to learn how to use accounts (nothing new here).
 
 sbatch, sinfo, sacctmgr and sreport are required and must be working.
 
+One implementation detail is that 'sreport' requires a start date
+parameter (otherwise it defaults to the previous day). The script defaults
+to using a start date of 3 years in the past. This can be changed with
+the '-s yyyy-mm-dd' parameter.
+
 If you do not already have a cluster registered and configured in slurm,
 
 	$ sbank cluster create mycluster

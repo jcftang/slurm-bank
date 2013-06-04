@@ -40,8 +40,8 @@ my $accountname = "";
 my ($account, $user, $rawusage, $prev_acc);
 my $sreport_start = "";
 my $sreport_end   = "";
-my $SREPORT_START_OFFSET = 94608000;	# 3 * 365 days
-my $SREPORT_END_OFFSET   = 172800;	# 2 days to avoid DST issues
+my $SREPORT_START_OFFSET = 94608000;	# 3 * 365 days, in seconds
+my $SREPORT_END_OFFSET   = 172800;	# 2 days to avoid DST issues, in seconds
 
 
 #####################################################################
@@ -49,13 +49,14 @@ my $SREPORT_END_OFFSET   = 172800;	# 2 days to avoid DST issues
 #####################################################################
 sub usage() {
 	print "Usage:\n";
-	print "$0 [-h] [-c clustername] [-a accountname] [-u] [-A] [-U username]\n";
+	print "$0 [-h] [-c clustername] [-a accountname] [-u] [-A] [-U username] [-s yyyy-mm-dd]\n";
 	print "\t-h:\tshow this help message\n";
 	print "\t-c:\tdisplay per cluster 'clustername' (defaults to the local cluster)\n";
 	print "\t-a:\tdisplay unformatted balance of account 'accountname' (defaults to all accounts of the current user)\n";
 	print "\t-u:\tdisplay only the current user's balances (defaults to all users in all accounts of the current user)\n";
 	print "\t-A:\tdisplay all accounts (defaults to all accounts of the current user; implies '-u')\n";
-	die   "\t-U:\tdisplay information for the given username, instead of the current user\n";
+	print "\t-U:\tdisplay information for the given username, instead of the current user\n";
+	die   "\t-s:\treport usage starting from yyyy-mm-dd, instead of " . ($SREPORT_START_OFFSET / 365 / 86400) . " years ago\n";
 }
 
 # format minutes as hours, with thousands comma separator
@@ -100,7 +101,7 @@ sub print_values( $$$$$ ) {
 # get options
 #####################################################################
 my %opts;
-getopts('huU:c:a:A', \%opts) || usage();
+getopts('huU:c:a:As:', \%opts) || usage();
 
 if (defined($opts{h})) {
 	usage();
@@ -124,6 +125,16 @@ if (defined($opts{a})) {
 
 if (defined($opts{A})) {
 	$showallaccs = 1;
+}
+
+if (defined($opts{s})) {
+	unless ($opts{s} =~ /^\d{4}-\d{2}-\d{2}$/) { usage(); }
+
+	$sreport_start = $opts{s};
+	$sreport_end   = strftime "%Y-%m-%d", (localtime(time() + $SREPORT_END_OFFSET));
+} else {
+	$sreport_start = strftime "%Y-%m-%d", (localtime(time() - $SREPORT_START_OFFSET));
+	$sreport_end   = strftime "%Y-%m-%d", (localtime(time() + $SREPORT_END_OFFSET));
 }
 
 
@@ -222,8 +233,6 @@ if ($showallusers && $accountname ne "") {
 	close(SACCTMGR);
 
 
-	$sreport_start = strftime "%Y-%m-%d", (localtime(time() - $SREPORT_START_OFFSET));
-	$sreport_end   = strftime "%Y-%m-%d", (localtime(time() + $SREPORT_END_OFFSET));
 	open (SREPORT, "sreport -t minutes -np cluster AccountUtilizationByUser account=$accountname start=$sreport_start end=$sreport_end $cluster_str |") or die "$0: Unable to run sreport: $!\n";
 
 
@@ -313,8 +322,6 @@ if ($showallusers && $accountname ne "") {
 	printf "\n";
 
 
-	$sreport_start = strftime "%Y-%m-%d", (localtime(time() - $SREPORT_START_OFFSET));
-	$sreport_end   = strftime "%Y-%m-%d", (localtime(time() + $SREPORT_END_OFFSET));
 	# run the report for all named accounts (all the ones found by sacctmgr above)
 	open (SREPORT, "sreport -t minutes -np cluster AccountUtilizationByUser account=" . join(',', sort(keys (%acc_limits))) . " start=$sreport_start end=$sreport_end $cluster_str |") or die "$0: Unable to run sreport: $!\n";
 
@@ -456,8 +463,6 @@ if ($showallusers && $accountname ne "") {
 	# we get the list of accounts by: "join(',', sort(@my_accs))"
 	###############################################################################
 
-	$sreport_start = strftime "%Y-%m-%d", (localtime(time() - $SREPORT_START_OFFSET));
-	$sreport_end   = strftime "%Y-%m-%d", (localtime(time() + $SREPORT_END_OFFSET));
 	open (SREPORT, "sreport -t minutes -np cluster AccountUtilizationByUser account=" . join(',', sort(@my_accs)) . " start=$sreport_start end=$sreport_end $cluster_str |") or die "$0: Unable to run sreport: $!\n";
 
 	$prev_acc = "";
@@ -526,8 +531,6 @@ if ($showallusers && $accountname ne "") {
 
 	$rawusage = "";	# init to a value to stop perl warnings
 
-	$sreport_start = strftime "%Y-%m-%d", (localtime(time() - $SREPORT_START_OFFSET));
-	$sreport_end   = strftime "%Y-%m-%d", (localtime(time() + $SREPORT_END_OFFSET));
 	open (SREPORT, "sreport -t minutes -np cluster AccountUtilizationByUser account=$accountname start=$sreport_start end=$sreport_end $cluster_str |") or die "$0: Unable to run sreport: $!\n";
 
 	while (<SREPORT>) {
@@ -597,8 +600,6 @@ if ($showallusers && $accountname ne "") {
 	# we get the list of accounts by: "join(',', sort(@my_accs))"
 	###############################################################################
 
-	$sreport_start = strftime "%Y-%m-%d", (localtime(time() - $SREPORT_START_OFFSET));
-	$sreport_end   = strftime "%Y-%m-%d", (localtime(time() + $SREPORT_END_OFFSET));
 	open (SREPORT, "sreport -t minutes -np cluster AccountUtilizationByUser account=" . join(',', sort(@my_accs)) . " start=$sreport_start end=$sreport_end $cluster_str |") or die "$0: Unable to run sreport: $!\n";
 
 	while (<SREPORT>) {
