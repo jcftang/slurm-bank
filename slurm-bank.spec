@@ -60,6 +60,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jun 06 2013 Paddy Doyle <paddy@tchpc.tcd.ie> - 1.3.2
+Add a '-s yyyy-mm-dd' start-date parameter to balance report.
+
 * Thu May 30 2013 Paddy Doyle <paddy@tchpc.tcd.ie> - 1.3.1
 Change usage reporting from sshare to sreport (change from local to Slurmdbd).
 
