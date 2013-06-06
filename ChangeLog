@@ -1,3 +1,8 @@
+2013-06-06  Paddy Doyle <paddy@tchpc.tcd.ie>
+	* Version: 1.3.2
+	* src/_sbank-balance.pl: Add a '-s yyyy-mm-dd' start-date parameter
+	  to balance report.
+
 2013-05-30  Paddy Doyle <paddy@tchpc.tcd.ie>
 	* Version: 1.3.1
 	* src/_sbank-balance.pl: Change the way usage data is pulled out
