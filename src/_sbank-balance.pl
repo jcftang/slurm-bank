@@ -619,23 +619,6 @@ if ($showallusers && $accountname ne "") {
 	}
 
 	close(SREPORT);
-	# first obtain the full list of users for all accounts; sreport won't report
-	# on them if they have no usage
-	open (SACCTMGR, "sacctmgr list accounts withassoc -np $cluster_str format=Account,User|") or die "$0: Unable to run sacctmgr: $!\n";
-
-	while (<SACCTMGR>) {
-		# only show outputs for accounts we're part of
-		if (/^\s*([^|]+)\|([^|]+)\|/) {
-			$account   = "\U$1";
-			$user      = "$2";
-
-			# put in a zero usage explicitly if the user hasn't run at all
-			$user_usage_per_acc{$account}{$user} = 0;
-		}
-	}
-
-	close(SACCTMGR);
-
 
 	# display formatted output
 	print_headers();
