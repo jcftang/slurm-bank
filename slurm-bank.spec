@@ -1,7 +1,7 @@
 # Pass --without docs to rpmbuild if you don't want the documentation
 
 Name:           slurm-bank
-Version:        1.2.1
+Version:        1.3.2
 Release:        2%{?dist}
 Summary:        SLURM Bank, a collection of wrapper scripts to do banking
 
@@ -60,6 +60,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jun 06 2013 Paddy Doyle <paddy@tchpc.tcd.ie> - 1.3.2
+Add a '-s yyyy-mm-dd' start-date parameter to balance report.
+
+* Thu May 30 2013 Paddy Doyle <paddy@tchpc.tcd.ie> - 1.3.1
+Change usage reporting from sshare to sreport (change from local to Slurmdbd).
+
 * Wed Jun 08 2011 Jimmy Tang <jtang@tchpc.tcd.ie> - 1.1.1.2-2
 Include bash completion when installing
 
