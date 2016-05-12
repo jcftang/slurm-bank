@@ -38,7 +38,7 @@ my $showallusers = 1;
 my $showallaccs = 0;
 my $clustername = "";
 my $accountname = "";
-my ($account, $user, $rawusage, $prev_acc);
+my ($account, $user, $prev_acc);
 my $sreport_start = "";
 my $sreport_end   = "";
 my $SREPORT_START_OFFSET = 94608000;	# 3 * 365 days, in seconds
@@ -105,6 +105,7 @@ sub print_results( $$$ ) {
 
 	my @account_list = sort keys %user_usage_per_acc;
 	my $first_iter   = 1;
+	my $rawusage;
 
 	if ($include_root) {
 		# instead of a purely sorted list, show the 'ROOT' account first (assuming
@@ -233,6 +234,8 @@ sub query_sreport_user_and_account_usage( $$$ ) {
 	my $account_param    = shift;
 	my $balance_only     = shift;
 	my $thisuser_only    = shift;
+
+	my $rawusage;
 
 	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
 	my $query_str = "sreport -t minutes -np cluster AccountUtilizationByUser start=$sreport_start end=$sreport_end $cluster_str account=$account_param ";
@@ -448,8 +451,6 @@ if ($showallusers && $accountname ne "") {
 
 	#my $cluster_str = ($clustername ne "") ? "-M $clustername " : "";
 	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
-
-	$rawusage = "";	# init to a value to stop perl warnings
 
 	# get the usage value, for all single given account
 	query_sreport_user_and_account_usage($accountname, 1, "");
