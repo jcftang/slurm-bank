@@ -99,7 +99,7 @@ sub print_values( $$$$$ ) {
 
 # query sacctmgr to find the list of users and accounts
 # populates the global %user_usage_per_acc HashOfHash
-# if $user is not empty, also populate global @my_accs list
+# if $populate_my_accs is not empty, also populate global @my_accs list
 sub query_users_and_accounts( $$$ ) {
 	my $account_param    = shift;
 	my $user_param       = shift;
@@ -142,6 +142,50 @@ sub query_users_and_accounts( $$$ ) {
 			}
 		}
 	}
+}
+
+# query sreport/sshare to find the actual usage, for users and/or accounts
+# populates the global %user_usage_per_acc HashOfHash
+sub query_sreport_user_and_account_usage( $$$ ) {
+	my $account_param    = shift;
+	my $balance_only     = shift;
+	my $thisuser_only    = shift;
+
+	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
+	my $query_str = "sreport -t minutes -np cluster AccountUtilizationByUser start=$sreport_start end=$sreport_end $cluster_str account=$account_param ";
+
+	# open the pipe and run the query
+	open (SREPORT, "$query_str |") or die "$0: Unable to run sreport: $!\n";
+
+	while (<SREPORT>) {
+		# only show outputs for accounts we're part of
+		if (/^\s*[^|]+\|([^|]*)\|([^|]*)\|[^|]*\|([^|]*)/) {
+			$account      = "\U$1";
+			$user         = $2;
+			$rawusage     = $3;
+
+			if (exists( $acc_limits{$account} ) && $user eq "") {
+				# the first line is the overall account usage
+				$acc_usage{$account} = $rawusage;
+
+				# if we only want the unformatted balance, then we're done
+				if ($balance_only) {
+					last;
+				}
+
+			} elsif ($thisuser_only && $user eq $thisuser && exists( $acc_limits{$account} )) {
+                                # only reporting on the given user, not on all users in the account
+                                $user_usage_per_acc{$account}{$thisuser} = $rawusage;
+
+			} elsif (exists( $acc_limits{$account} )) {
+				# otherwise report on all users in the account
+				$user_usage_per_acc{$account}{$user} = $rawusage;
+
+			}
+		}
+	}
+
+	close(SREPORT);
 }
 
 
@@ -265,34 +309,12 @@ if ($showallusers && $accountname ne "") {
 	# on them if they have no usage
 	query_users_and_accounts($accountname, "", "");
 
-
-	open (SREPORT, "sreport -t minutes -np cluster AccountUtilizationByUser account=$accountname start=$sreport_start end=$sreport_end $cluster_str |") or die "$0: Unable to run sreport: $!\n";
+	# get the usage values (for all users in the accounts), for just the named account
+	query_sreport_user_and_account_usage($accountname, "", "");
 
 	# display formatted output
 	print_headers();
 	printf "\n";
-
-	# get the usage values
-	while (<SREPORT>) {
-		# only show outputs for accounts we're part of
-		if (/^\s*[^|]+\|([^|]*)\|([^|]*)\|[^|]*\|([^|]*)/) {
-			$account      = "\U$1";
-			$user         = $2;
-			$rawusage     = $3;
-
-			if (exists( $acc_limits{$account} ) && $user eq "") {
-				# the first line is the overall account usage
-				$acc_usage{$account} = sprintf("%.0f", $rawusage);
-			} elsif (exists( $acc_limits{$account} )) {
-				# then each subsequent line is an individual user
-				# (already in alphabetical order)
-
-				$user_usage_per_acc{$account}{$user} = $rawusage;
-			}
-		}
-	}
-
-	close(SREPORT);
 
 	# now print the values, including those users with no usage
 	foreach my $account (sort keys %user_usage_per_acc) {
@@ -333,35 +355,12 @@ if ($showallusers && $accountname ne "") {
 	# on them if they have no usage
 	query_users_and_accounts("", "", "");
 
+	# get the usage values (for all users in the accounts), for all accounts (all the ones found by sacctmgr above)
+	query_sreport_user_and_account_usage(join(',', sort(keys (%acc_limits))), "", "");
 
 	# display formatted output
 	print_headers();
 	printf "\n";
-
-	# run the report for all named accounts (all the ones found by sacctmgr above)
-	open (SREPORT, "sreport -t minutes -np cluster AccountUtilizationByUser account=" . join(',', sort(keys (%acc_limits))) . " start=$sreport_start end=$sreport_end $cluster_str |") or die "$0: Unable to run sreport: $!\n";
-
-	# get the usage values
-	while (<SREPORT>) {
-		# only show outputs for accounts we're part of
-		if (/^\s*[^|]+\|([^|]*)\|([^|]*)\|[^|]*\|([^|]*)/) {
-			$account      = "\U$1";
-			$user         = $2;
-			$rawusage     = $3;
-
-			if (exists( $acc_limits{$account} ) && $user eq "") {
-				# the first line is the overall account usage
-				$acc_usage{$account} = sprintf("%.0f", $rawusage);
-			} elsif (exists( $acc_limits{$account} )) {
-				# then each subsequent line is an individual user
-				# (already in alphabetical order)
-
-				$user_usage_per_acc{$account}{$user} = $rawusage;
-			}
-		}
-	}
-
-	close(SREPORT);
 
 	# print the root account at the top, to be backwards-compatible
 	if (exists ($user_usage_per_acc{"ROOT"})) {
@@ -444,41 +443,11 @@ if ($showallusers && $accountname ne "") {
 	# on them if they have no usage
 	query_users_and_accounts("", "", 1);
 
+	# get the usage values (for all users in the accounts), for all the accounts of the given user
+	query_sreport_user_and_account_usage(join(',', sort(@my_accs)), "", "");
 
 	# display formatted output
 	print_headers();
-
-
-	###############################################################################
-	# sreport #2 -- obtain the totals for each of the given accounts
-	# we get the list of accounts by: "join(',', sort(@my_accs))"
-	###############################################################################
-
-	open (SREPORT, "sreport -t minutes -np cluster AccountUtilizationByUser account=" . join(',', sort(@my_accs)) . " start=$sreport_start end=$sreport_end $cluster_str |") or die "$0: Unable to run sreport: $!\n";
-
-	$prev_acc = "";
-
-	# get the usage values
-	while (<SREPORT>) {
-		# only show outputs for accounts we're part of
-		if (/^\s*[^|]+\|([^|]*)\|([^|]*)\|[^|]*\|([^|]*)/) {
-			$account      = "\U$1";
-			$user         = $2;
-			$rawusage     = $3;
-
-			if (exists( $acc_limits{$account} ) && $user eq "") {
-				# the first line is the overall account usage
-				$acc_usage{$account} = sprintf("%.0f", $rawusage);
-			} elsif (exists( $acc_limits{$account} )) {
-				# then each subsequent line is an individual user
-				# (already in alphabetical order)
-
-				$user_usage_per_acc{$account}{$user} = $rawusage;
-			}
-		}
-	}
-
-	close(SREPORT);
 
 	# now print the values, including those users with no usage
 	foreach my $account (sort keys %user_usage_per_acc) {
@@ -522,31 +491,15 @@ if ($showallusers && $accountname ne "") {
 
 	$rawusage = "";	# init to a value to stop perl warnings
 
-	open (SREPORT, "sreport -t minutes -np cluster AccountUtilizationByUser account=$accountname start=$sreport_start end=$sreport_end $cluster_str |") or die "$0: Unable to run sreport: $!\n";
+	# get the usage value, for all single given account
+	query_sreport_user_and_account_usage($accountname, 1, "");
 
-	while (<SREPORT>) {
-		# only show outputs for accounts we're part of
-		if (/^\s*[^|]+\|([^|]*)\|([^|]*)\|[^|]*\|([^|]*)/) {
-			$account      = "\U$1";
-			$user         = $2;
-			$rawusage     = $3;
-
-			# the account totals have an empty user column
-			if ($user eq "") {
-				$acc_usage{$account} = sprintf("%.0f", $rawusage);
-				last;	# only one account
-			}
-		}
-	}
-
-	close(SREPORT);
-
-	if ($rawusage eq "") {
+	if ($acc_usage{$accountname} eq "") {
 		die "$0: invalid account string '$accountname'\n";
 	}
 
 	# this is minutes - we need to convert to hours
-	printf "%.0f\n", (($acc_limits{$account} - $acc_usage{$account})/60);
+	printf "%.0f\n", (($acc_limits{$accountname} - $acc_usage{$accountname})/60);
 
 } else {
 	#####################################################################
@@ -564,31 +517,8 @@ if ($showallusers && $accountname ne "") {
 
 	query_users_and_accounts("", $thisuser, 1);
 
-	###############################################################################
-	# sreport #2 -- obtain the totals for each of the given accounts
-	# we get the list of accounts by: "join(',', sort(@my_accs))"
-	###############################################################################
-
-	open (SREPORT, "sreport -t minutes -np cluster AccountUtilizationByUser account=" . join(',', sort(@my_accs)) . " start=$sreport_start end=$sreport_end $cluster_str |") or die "$0: Unable to run sreport: $!\n";
-
-	while (<SREPORT>) {
-		# only show outputs for accounts we're part of
-		if (/^\s*[^|]+\|([^|]*)\|([^|]*)\|[^|]*\|([^|]*)/) {
-			$account      = "\U$1";
-			$user         = $2;
-			$rawusage     = $3;
-
-			# the account totals have an empty user column
-			if ($user eq "") {
-				$acc_usage{$account} = sprintf("%.0f", $rawusage);
-			} elsif ($user eq $thisuser) {
-				#$user_usage{$account} = sprintf("%.0f", $rawusage);
-				$user_usage_per_acc{$account}{$thisuser} = sprintf("%.0f", $rawusage);
-			}
-		}
-	}
-
-	close(SREPORT);
+	# get the usage values (for just the given user), for all the accounts of the given user
+	query_sreport_user_and_account_usage(join(',', sort(@my_accs)), "", 1);
 
 	# display formatted output
 	print_headers();
