@@ -97,6 +97,89 @@ sub print_values( $$$$$ ) {
 		fmt_mins_as_hrs($acc_limit - $acc_usage);
 }
 
+# print the formatted values
+sub print_results( $$$ ) {
+	my $multiple_users = shift;
+	my $multiple_accs  = shift;
+	my $include_root   = shift;
+
+	my @account_list = sort keys %user_usage_per_acc;
+	my $first_iter   = 1;
+
+	if ($include_root) {
+		# instead of a purely sorted list, show the 'ROOT' account first (assuming
+		# that the account is actually called 'ROOT')
+		my $root_acc = 'ROOT';
+
+		# linear search (even though the list is sorted and we could do a binary)
+		my $index = 0;
+		$index++ until ($index > $#account_list || $account_list[$index] eq $root_acc);
+
+		# remove that index from the array
+		splice(@account_list, $index, 1);
+
+		# and push 'ROOT' back as the first element
+		unshift(@account_list, $root_acc);
+	}
+
+        print_headers();
+        #printf "\n";
+
+	# now print the values, including those users with no usage
+	foreach my $account (@account_list) {
+
+		if (!$first_iter && $multiple_accs) {
+			# separate each account
+			print "\n";
+		}
+		$first_iter = 0;
+
+		if (!$multiple_users) {
+			# only reporting for a single user
+
+			# stop warnings if this account doesn't have a limit
+			if (! exists($acc_limits{$account})) {
+				$acc_limits{$account} = 0;
+			}
+
+			# stop warnings if this account doesn't have any usage
+			if (! exists($acc_usage{$account})) {
+				$acc_usage{$account} = 0;
+			}
+
+			#print_values($thisuser, $user_usage{$account}, $account, $acc_usage{$account}, $acc_limits{$account});
+			print_values($thisuser, $user_usage_per_acc{$account}{$thisuser}, $account, $acc_usage{$account}, $acc_limits{$account});
+
+		} else {
+			# else loop over the users
+
+			foreach my $user (sort keys %{ $user_usage_per_acc{$account} } ) {
+				# then each subsequent line is an individual user
+				# (already in alphabetical order)
+
+				$rawusage = $user_usage_per_acc{$account}{$user};
+
+				# highlight current user
+				if ($multiple_users && $user eq $thisuser) {
+					$user = "$user *";
+				}
+
+				# stop warnings if this account doesn't have a limit
+				if (! exists($acc_limits{$account})) {
+					$acc_limits{$account} = 0;
+				}
+
+				# stop warnings if this account doesn't have any usage
+				if (! exists($acc_usage{$account})) {
+					$acc_usage{$account} = 0;
+				}
+
+				print_values($user, sprintf("%.0f", $rawusage), $account, $acc_usage{$account}, $acc_limits{$account});
+			}
+		}
+	}
+}
+
 # query sacctmgr to find the list of users and accounts
 # populates the global %user_usage_per_acc HashOfHash
 # if $populate_my_accs is not empty, also populate global @my_accs list
@@ -313,35 +396,7 @@ if ($showallusers && $accountname ne "") {
 	query_sreport_user_and_account_usage($accountname, "", "");
 
 	# display formatted output
-	print_headers();
-	printf "\n";
-
-	# now print the values, including those users with no usage
-	foreach my $account (sort keys %user_usage_per_acc) {
-		foreach my $user (sort keys %{ $user_usage_per_acc{$account} } ) {
-			# then each subsequent line is an individual user
-			# (already in alphabetical order)
-
-			$rawusage = $user_usage_per_acc{$account}{$user};
-
-			# highlight current user
-			if ($user eq $thisuser) {
-				$user = "$user *";
-			}
-
-			# stop warnings if this account doesn't have a limit
-			if (! exists($acc_limits{$account})) {
-				$acc_limits{$account} = 0;
-			}
-
-			# stop warnings if this account doesn't have any usage
-			if (! exists($acc_usage{$account})) {
-				$acc_usage{$account} = 0;
-			}
-
-			print_values($user, sprintf("%.0f", $rawusage), $account, $acc_usage{$account}, $acc_limits{$account});
-		}
-	}
+	print_results(1, 0, 0);
 
 } elsif ($showallusers && $showallaccs) {
 	#####################################################################
@@ -359,71 +414,7 @@ if ($showallusers && $accountname ne "") {
 	query_sreport_user_and_account_usage(join(',', sort(keys (%acc_limits))), "", "");
 
 	# display formatted output
-	print_headers();
-	printf "\n";
-
-	# print the root account at the top, to be backwards-compatible
-	if (exists ($user_usage_per_acc{"ROOT"})) {
-		$account = "ROOT";
-
-		foreach my $user (sort keys %{ $user_usage_per_acc{$account} } ) {
-			# then each subsequent line is an individual user
-			# (already in alphabetical order)
-
-			$rawusage = $user_usage_per_acc{$account}{$user};
-
-			# highlight current user
-			if ($user eq $thisuser) {
-				$user = "$user *";
-			}
-
-			# stop warnings if this account doesn't have a limit
-			if (! exists($acc_limits{$account})) {
-				$acc_limits{$account} = 0;
-			}
-
-			# stop warnings if this account doesn't have any usage
-			if (! exists($acc_usage{$account})) {
-				$acc_usage{$account} = 0;
-			}
-
-			print_values($user, sprintf("%.0f", $rawusage), $account, $acc_usage{$account}, $acc_limits{$account});
-		}
-	}
-
-	# now print the values, including those users with no usage
-	foreach my $account (sort keys %user_usage_per_acc) {
-		next if ($account eq "ROOT");	# we've already done the root account
-
-		# separate each account
-		print "\n";
-
-		foreach my $user (sort keys %{ $user_usage_per_acc{$account} } ) {
-			# then each subsequent line is an individual user
-			# (already in alphabetical order)
-
-			$rawusage = $user_usage_per_acc{$account}{$user};
-
-			# highlight current user
-			if ($user eq $thisuser) {
-				$user = "$user *";
-			}
-
-			# stop warnings if this account doesn't have a limit
-			if (! exists($acc_limits{$account})) {
-				$acc_limits{$account} = 0;
-			}
-
-			# stop warnings if this account doesn't have any usage
-			if (! exists($acc_usage{$account})) {
-				$acc_usage{$account} = 0;
-			}
-
-			print_values($user, sprintf("%.0f", $rawusage), $account, $acc_usage{$account}, $acc_limits{$account});
-		}
-	}
-
-
+	print_results(1, 1, 1);
 
 } elsif ($showallusers) {
 	#####################################################################
@@ -447,38 +438,7 @@ if ($showallusers && $accountname ne "") {
 	query_sreport_user_and_account_usage(join(',', sort(@my_accs)), "", "");
 
 	# display formatted output
-	print_headers();
-
-	# now print the values, including those users with no usage
-	foreach my $account (sort keys %user_usage_per_acc) {
-
-		# separate each account
-		print "\n";
-
-		foreach my $user (sort keys %{ $user_usage_per_acc{$account} } ) {
-			# then each subsequent line is an individual user
-			# (already in alphabetical order)
-
-			$rawusage = $user_usage_per_acc{$account}{$user};
-
-			# highlight current user
-			if ($user eq $thisuser) {
-				$user = "$user *";
-			}
-
-			# stop warnings if this account doesn't have a limit
-			if (! exists($acc_limits{$account})) {
-				$acc_limits{$account} = 0;
-			}
-
-			# stop warnings if this account doesn't have any usage
-			if (! exists($acc_usage{$account})) {
-				$acc_usage{$account} = 0;
-			}
-
-			print_values($user, sprintf("%.0f", $rawusage), $account, $acc_usage{$account}, $acc_limits{$account});
-		}
-	}
+	print_results(1, 1, 0);
 
 } elsif ($accountname ne "") {
 	#####################################################################
@@ -521,22 +481,7 @@ if ($showallusers && $accountname ne "") {
 	query_sreport_user_and_account_usage(join(',', sort(@my_accs)), "", 1);
 
 	# display formatted output
-	print_headers();
+	print_results(0, 0, 0);
 
-
-	foreach my $acc (sort keys %user_usage_per_acc) {
-		# stop warnings if this account doesn't have a limit
-		if (! exists($acc_limits{$acc})) {
-			$acc_limits{$acc} = 0;
-		}
-
-		# stop warnings if this account doesn't have any usage
-		if (! exists($acc_usage{$acc})) {
-			$acc_usage{$acc} = 0;
-		}
-
-		#print_values($thisuser, $user_usage{$acc}, $acc, $acc_usage{$acc}, $acc_limits{$acc});
-		print_values($thisuser, $user_usage_per_acc{$acc}{$thisuser}, $acc, $acc_usage{$acc}, $acc_limits{$acc});
-	}
 }
 
