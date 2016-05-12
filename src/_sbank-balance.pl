@@ -230,7 +230,7 @@ sub query_users_and_accounts( $$$ ) {
 	}
 }
 
-# query sreport/sshare to find the actual usage, for users and/or accounts
+# query sreport to find the actual usage, for users and/or accounts
 # populates the global %user_usage_per_acc HashOfHash
 sub query_sreport_user_and_account_usage( $$$ ) {
 	my $account_param    = shift;
@@ -274,6 +274,54 @@ sub query_sreport_user_and_account_usage( $$$ ) {
 	}
 
 	close(SREPORT);
+}
+
+# query sshare to find the actual usage, for users and/or accounts
+# populates the global %user_usage_per_acc HashOfHash
+sub query_sshare_user_and_account_usage( $$$ ) {
+	my $account_param    = shift;
+	my $balance_only     = shift;
+	my $thisuser_only    = shift;
+
+	my $rawusage;
+
+	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
+	my $user_str  = ($thisuser_only ne "") ? "" : "-a ";
+
+	my $query_str = "sshare -hp $cluster_str $user_str -A $account_param ";
+
+	# open the pipe and run the query
+	open (SSHARE, "$query_str |") or die "$0: Unable to run sshare $!\n";
+
+	while (<SSHARE>) {
+		# only show outputs for accounts we're part of
+		if (/^\s*([^|]+)\|([^|]*)\|[^|]*\|[^|]*\|([^|]*)/) {
+			$account      = "\U$1";
+			$user         = $2;
+			$rawusage     = $3;
+
+			if (exists( $acc_limits{$account} ) && $user eq "") {
+				# the first line is the overall account usage
+				$acc_usage{$account} = sprintf("%.0f", $rawusage/60); # sshare reports in seconds
+
+				# if we only want the unformatted balance, then we're done
+				if ($balance_only) {
+					last;
+				}
+
+			} elsif ($thisuser_only && $user eq $thisuser && exists( $acc_limits{$account} )) {
+                                # only reporting on the given user, not on all users in the account
+                                $user_usage_per_acc{$account}{$thisuser} = sprintf("%.0f", $rawusage/60); # sshare reports in seconds
+
+			} elsif (exists( $acc_limits{$account} )) {
+				# otherwise report on all users in the account
+				$user_usage_per_acc{$account}{$user} = sprintf("%.0f", $rawusage/60); # sshare reports in seconds
+
+			}
+		}
+	}
+
+	close(SSHARE);
 }
 
 
@@ -404,7 +452,7 @@ if ($showallusers && $accountname ne "") {
 	query_users_and_accounts($accountname, "", "");
 
 	# get the usage values (for all users in the accounts), for just the named account
-	query_sreport_user_and_account_usage($accountname, "", "");
+	query_sshare_user_and_account_usage($accountname, "", "");
 
 	# display formatted output
 	print_results(1, 0, 0);
@@ -422,7 +470,7 @@ if ($showallusers && $accountname ne "") {
 	query_users_and_accounts("", "", "");
 
 	# get the usage values (for all users in the accounts), for all accounts (all the ones found by sacctmgr above)
-	query_sreport_user_and_account_usage(join(',', sort(keys (%acc_limits))), "", "");
+	query_sshare_user_and_account_usage(join(',', sort(keys (%acc_limits))), "", "");
 
 	# display formatted output
 	print_results(1, 1, 1);
@@ -446,7 +494,7 @@ if ($showallusers && $accountname ne "") {
 	query_users_and_accounts("", "", 1);
 
 	# get the usage values (for all users in the accounts), for all the accounts of the given user
-	query_sreport_user_and_account_usage(join(',', sort(@my_accs)), "", "");
+	query_sshare_user_and_account_usage(join(',', sort(@my_accs)), "", "");
 
 	# display formatted output
 	print_results(1, 1, 0);
@@ -461,7 +509,7 @@ if ($showallusers && $accountname ne "") {
 	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
 
 	# get the usage value, for all single given account
-	query_sreport_user_and_account_usage($accountname, 1, "");
+	query_sshare_user_and_account_usage($accountname, 1, "");
 
 	if ($acc_usage{$accountname} eq "") {
 		die "$0: invalid account string '$accountname'\n";
@@ -487,7 +535,7 @@ if ($showallusers && $accountname ne "") {
 	query_users_and_accounts("", $thisuser, 1);
 
 	# get the usage values (for just the given user), for all the accounts of the given user
-	query_sreport_user_and_account_usage(join(',', sort(@my_accs)), "", 1);
+	query_sshare_user_and_account_usage(join(',', sort(@my_accs)), "", 1);
 
 	# display formatted output
 	print_results(0, 0, 0);
