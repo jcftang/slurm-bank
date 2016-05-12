@@ -32,6 +32,7 @@ my %acc_limits = ();
 my %acc_usage = ();
 my %user_usage = ();
 my %user_usage_per_acc = ();
+my @my_accs = ();
 my $thisuser = (getpwuid($<))[0];	# who is running the script
 my $showallusers = 1;
 my $showallaccs = 0;
@@ -94,6 +95,53 @@ sub print_values( $$$$$ ) {
 		$acc, fmt_mins_as_hrs($acc_usage),
 		fmt_mins_as_hrs($acc_limit),
 		fmt_mins_as_hrs($acc_limit - $acc_usage);
+}
+
+# query sacctmgr to find the list of users and accounts
+# populates the global %user_usage_per_acc HashOfHash
+# if $user is not empty, also populate global @my_accs list
+sub query_users_and_accounts( $$$ ) {
+	my $account_param    = shift;
+	my $user_param       = shift;
+	my $populate_my_accs = shift;
+
+	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
+	my $query_str = "sacctmgr list accounts withassoc -np $cluster_str format=Account,User ";
+
+	if ($account_param) {
+		$query_str .= "accounts=$account_param ";
+	} elsif ($user_param) {
+		$query_str .= "users=$user_param ";
+	}
+
+	# open the pipe and run the query
+	open (SACCTMGR, "$query_str |") or die "$0: Unable to run sacctmgr: $!\n";
+
+	while (<SACCTMGR>) {
+		# only show outputs for accounts we're part of
+		if (/^\s*([^|]+)\|([^|]+)\|/) {
+			my $account   = "\U$1";
+			my $user      = "$2";
+
+			# put in a zero usage explicitly if the user hasn't run at all
+			$user_usage_per_acc{$account}{$user} = 0;
+
+		}
+	}
+
+	close(SACCTMGR);
+
+	if ($populate_my_accs) {
+		# but only look at my accounts, not all accounts
+		foreach my $account (sort keys %user_usage_per_acc) {
+			if (exists ($user_usage_per_acc{$account}{$thisuser}) ) {
+				push (@my_accs, $account);
+			} else {
+				# remove the account
+				delete $user_usage_per_acc{$account};
+			}
+		}
+	}
 }
 
 
@@ -211,30 +259,14 @@ if ($showallusers && $accountname ne "") {
 	# show all users in the given account
 	#####################################################################
 
-	my @my_accs = ();
 	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
-
-	$account = "";	# init to a value to stop perl warnings
 
 	# first obtain the full list of users for this account; sreport won't report
 	# on them if they have no usage
-	open (SACCTMGR, "sacctmgr list accounts accounts=$accountname withassoc -np $cluster_str format=User|") or die "$0: Unable to run sacctmgr: $!\n";
-
-	while (<SACCTMGR>) {
-		# only show outputs for accounts we're part of
-		if (/^\s*([^|]+)\|/) {
-			$user      = "$1";
-
-			# put in a zero usage explicitly if the user hasn't run at all
-			$user_usage_per_acc{"\U$accountname"}{$user} = 0;
-		}
-	}
-
-	close(SACCTMGR);
+	query_users_and_accounts($accountname, "", "");
 
 
 	open (SREPORT, "sreport -t minutes -np cluster AccountUtilizationByUser account=$accountname start=$sreport_start end=$sreport_end $cluster_str |") or die "$0: Unable to run sreport: $!\n";
-
 
 	# display formatted output
 	print_headers();
@@ -295,32 +327,16 @@ if ($showallusers && $accountname ne "") {
 	# we need to show all users in ALL Accounts
 	#####################################################################
 
-	my @my_accs = ();
 	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
-
-	$account = "";	# init to a value to stop perl warnings
 
 	# first obtain the full list of users for all accounts; sreport won't report
 	# on them if they have no usage
-	open (SACCTMGR, "sacctmgr list accounts withassoc -np $cluster_str format=Account,User|") or die "$0: Unable to run sacctmgr: $!\n";
+	query_users_and_accounts("", "", "");
 
-	while (<SACCTMGR>) {
-		# only show outputs for accounts we're part of
-		if (/^\s*([^|]+)\|([^|]+)\|/) {
-			$account   = "\U$1";
-			$user      = "$2";
-
-			# put in a zero usage explicitly if the user hasn't run at all
-			$user_usage_per_acc{$account}{$user} = 0;
-		}
-	}
-
-	close(SACCTMGR);
 
 	# display formatted output
 	print_headers();
 	printf "\n";
-
 
 	# run the report for all named accounts (all the ones found by sacctmgr above)
 	open (SREPORT, "sreport -t minutes -np cluster AccountUtilizationByUser account=" . join(',', sort(keys (%acc_limits))) . " start=$sreport_start end=$sreport_end $cluster_str |") or die "$0: Unable to run sreport: $!\n";
@@ -418,10 +434,7 @@ if ($showallusers && $accountname ne "") {
 	# and secondly to dump all users in those accounts
 	#####################################################################
 
-	my @my_accs = ();
 	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
-
-	$account = "";	# init to a value to stop perl warnings
 
 	###############################################################################
 	# sacctmgr #1 -- obtain the usage for this user, and also the list of all of their accounts
@@ -429,30 +442,8 @@ if ($showallusers && $accountname ne "") {
 
 	# first obtain the full list of users for all accounts; sreport won't report
 	# on them if they have no usage
-	open (SACCTMGR, "sacctmgr list accounts withassoc -np $cluster_str format=Account,User|") or die "$0: Unable to run sacctmgr: $!\n";
+	query_users_and_accounts("", "", 1);
 
-	while (<SACCTMGR>) {
-		# only show outputs for accounts we're part of
-		if (/^\s*([^|]+)\|([^|]+)\|/) {
-			$account   = "\U$1";
-			$user      = "$2";
-
-			# put in a zero usage explicitly if the user hasn't run at all
-			$user_usage_per_acc{$account}{$user} = 0;
-		}
-	}
-
-	close(SACCTMGR);
-
-	# but only look at my accounts, not all accounts
-	foreach my $acc (sort keys %user_usage_per_acc) {
-		if (exists ($user_usage_per_acc{$acc}{$thisuser}) ) {
-			push (@my_accs, $acc);
-		} else {
-			# remove the account
-			delete $user_usage_per_acc{$acc};
-		}
-	}
 
 	# display formatted output
 	print_headers();
@@ -565,35 +556,13 @@ if ($showallusers && $accountname ne "") {
 	# and secondly to dump all users in those accounts
 	#####################################################################
 
-	my @my_accs = ();
 	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
 
 	###############################################################################
 	# sacctmgr #1 -- obtain the usage for this user, and also the list of all of their accounts
 	###############################################################################
 
-	$account = "";	# init to a value to stop perl warnings
-
-	open (SACCTMGR, "sacctmgr list accounts users=$thisuser withassoc -np $cluster_str format=Account|") or die "$0: Unable to run sacctmgr: $!\n";
-
-	while (<SACCTMGR>) {
-		# only show outputs for accounts we're part of
-		if (/^\s*([^|]+)\|/) {
-			$account      = "\U$1";
-
-			if (exists( $acc_limits{$account} )) {
-				# only report on accounts which are still live
-				push (@my_accs, $account);
-
-				# put in a zero value for users who haven't run at all, because
-				# sreport won't show them
-				$user_usage{$account} = 0;
-			}
-		}
-	}
-
-	close(SACCTMGR);
-
+	query_users_and_accounts("", $thisuser, 1);
 
 	###############################################################################
 	# sreport #2 -- obtain the totals for each of the given accounts
@@ -613,7 +582,8 @@ if ($showallusers && $accountname ne "") {
 			if ($user eq "") {
 				$acc_usage{$account} = sprintf("%.0f", $rawusage);
 			} elsif ($user eq $thisuser) {
-				$user_usage{$account} = sprintf("%.0f", $rawusage);
+				#$user_usage{$account} = sprintf("%.0f", $rawusage);
+				$user_usage_per_acc{$account}{$thisuser} = sprintf("%.0f", $rawusage);
 			}
 		}
 	}
@@ -623,7 +593,8 @@ if ($showallusers && $accountname ne "") {
 	# display formatted output
 	print_headers();
 
-	foreach my $acc (sort keys %user_usage) {
+
+	foreach my $acc (sort keys %user_usage_per_acc) {
 		# stop warnings if this account doesn't have a limit
 		if (! exists($acc_limits{$acc})) {
 			$acc_limits{$acc} = 0;
@@ -634,7 +605,8 @@ if ($showallusers && $accountname ne "") {
 			$acc_usage{$acc} = 0;
 		}
 
-		print_values($thisuser, $user_usage{$acc}, $acc, $acc_usage{$acc}, $acc_limits{$acc});
+		#print_values($thisuser, $user_usage{$acc}, $acc, $acc_usage{$acc}, $acc_limits{$acc});
+		print_values($thisuser, $user_usage_per_acc{$acc}{$thisuser}, $acc, $acc_usage{$acc}, $acc_limits{$acc});
 	}
 }
 
