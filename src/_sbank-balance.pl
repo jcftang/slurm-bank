@@ -36,6 +36,7 @@ my @my_accs = ();
 my $thisuser = (getpwuid($<))[0];	# who is running the script
 my $showallusers = 1;
 my $showallaccs = 0;
+my $show_unformatted_balance = 0;
 my $clustername = "";
 my $accountname = "";
 my ($account, $user, $prev_acc);
@@ -50,13 +51,14 @@ my $SREPORT_END_OFFSET   = 172800;	# 2 days to avoid DST issues, in seconds
 #####################################################################
 sub usage() {
 	print "Usage:\n";
-	print "$0 [-h] [-c clustername] [-a accountname] [-u] [-A] [-U username] [-s yyyy-mm-dd]\n";
+	print "$0 [-h] [-c clustername] [-b accountname] [-A accountname] [-a] [-u username] [-U] [-s yyyy-mm-dd]\n";
 	print "\t-h:\tshow this help message\n";
-	print "\t-c:\tdisplay per cluster 'clustername' (defaults to the local cluster)\n";
-	print "\t-a:\tdisplay unformatted balance of account 'accountname' (defaults to all accounts of the current user)\n";
-	print "\t-u:\tdisplay only the current user's balances (defaults to all users in all accounts of the current user)\n";
-	print "\t-A:\tdisplay all accounts (defaults to all accounts of the current user; implies '-u')\n";
-	print "\t-U:\tdisplay information for the given username, instead of the current user\n";
+	print "\t-c:\treport on cluster 'clustername' (defaults to the local cluster)\n";
+	print "\t-b:\treport unformatted balance of account 'accountname'\n";
+	print "\t-A:\treport balance of account 'accountname' (defaults to all accounts of the current user)\n";
+	print "\t-a:\treport all accounts (defaults to all accounts of the current user)\n";
+	print "\t-U:\treport only the current user's balances (defaults to all users in all accounts of the current user)\n";
+	print "\t-u:\treport information for the given username, instead of the current user\n";
 	die   "\t-s:\treport usage starting from yyyy-mm-dd, instead of " . ($SREPORT_START_OFFSET / 365 / 86400) . " years ago\n";
 }
 
@@ -279,30 +281,36 @@ sub query_sreport_user_and_account_usage( $$$ ) {
 # get options
 #####################################################################
 my %opts;
-getopts('huU:c:a:As:', \%opts) || usage();
+getopts('hc:b:A:au:Us:', \%opts) || usage();
 
 if (defined($opts{h})) {
 	usage();
-}
-
-if (defined($opts{u})) {
-	$showallusers = 0;
-}
-
-if (defined($opts{U})) {
-	$thisuser = $opts{U};
 }
 
 if (defined($opts{c})) {
 	$clustername = $opts{c};
 }
 
-if (defined($opts{a})) {
-	$accountname = $opts{a};
+if (defined($opts{b})) {
+	$show_unformatted_balance = 1;
+	$showallusers = 0;
+	$accountname = $opts{b};
 }
 
 if (defined($opts{A})) {
+	$accountname = $opts{A};
+}
+
+if (defined($opts{a})) {
 	$showallaccs = 1;
+}
+
+if (defined($opts{u})) {
+	$thisuser = $opts{u};
+}
+
+if (defined($opts{U})) {
+	$showallusers = 0;
 }
 
 if (defined($opts{s})) {
@@ -443,7 +451,7 @@ if ($showallusers && $accountname ne "") {
 	# display formatted output
 	print_results(1, 1, 0);
 
-} elsif ($accountname ne "") {
+} elsif ($show_unformatted_balance && $accountname ne "") {
 	#####################################################################
 	# - Scenario #4 show unformatted balance as a single figure, for the named account
 	# show only the balance for $accountname, unformatted
