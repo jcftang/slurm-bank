@@ -66,6 +66,8 @@ sub usage() {
 sub fmt_mins_as_hrs( $ ) {
 	my $n = shift;
 
+	if ($n == 0) { return 0; } # nothing to do for 0 hours
+
 	return thous(sprintf("%.0f", $n/60));
 }
 
@@ -96,7 +98,7 @@ sub print_values( $$$$$ ) {
 		$thisuser, fmt_mins_as_hrs($user_usage),
 		$acc, fmt_mins_as_hrs($acc_usage),
 		fmt_mins_as_hrs($acc_limit),
-		fmt_mins_as_hrs($acc_limit - $acc_usage);
+		($acc_limit == 0) ? "N/A" : fmt_mins_as_hrs($acc_limit - $acc_usage);
 }
 
 # print the formatted values
@@ -140,10 +142,10 @@ sub print_results( $$$ ) {
 		if (!$multiple_users) {
 			# only reporting for a single user
 
-			# stop warnings if this account doesn't have a limit
-			if (! exists($acc_limits{$account})) {
-				$acc_limits{$account} = 0;
-			}
+			## stop warnings if this account doesn't have a limit
+			#if (! exists($acc_limits{$account})) {
+			#	$acc_limits{$account} = 0;
+			#}
 
 			# stop warnings if this account doesn't have any usage
 			if (! exists($acc_usage{$account})) {
@@ -167,10 +169,10 @@ sub print_results( $$$ ) {
 					$user = "$user *";
 				}
 
-				# stop warnings if this account doesn't have a limit
-				if (! exists($acc_limits{$account})) {
-					$acc_limits{$account} = 0;
-				}
+				## stop warnings if this account doesn't have a limit
+				#if (! exists($acc_limits{$account})) {
+				#	$acc_limits{$account} = 0;
+				#}
 
 				# stop warnings if this account doesn't have any usage
 				if (! exists($acc_usage{$account})) {
@@ -412,20 +414,25 @@ while (<SACCTMGR>) {
 	if (/^([^|]+)\|([^|]*)/) {
 		if ($2 ne "") {
 			$acc_limits{"\U$1"} = sprintf("%.0f", $2);
+		} elsif (!exists($acc_limits{"\U$1"})) {
+			# store all accounts, even those without GrpCPUMins allocated, so we can report usage
+			$acc_limits{"\U$1"} = 0;
 		}
 	}
+
 }
 
 close(SACCTMGR);
 
 
-#####################################################################
-# quick sanity check - did we find any GrpCPUMins ?
-#####################################################################
-
-if ((scalar keys %acc_limits) == 0) {
-	die "$0: Unable to find any GrpCPUMins set on Accounts in cluster '$clustername' via sacctmgr. Exiting..\n";
-}
+######################################################################
+## quick sanity check - did we find any GrpCPUMins ?
+## removing this check, as we are now storing all accounts in %acc_limits
+######################################################################
+#
+#if ((scalar keys %acc_limits) == 0) {
+#	warn "$0: warning: unable to find any GrpCPUMins set on Accounts in cluster '$clustername' via sacctmgr. Only Usage will be reported, not available balance.\n";
+#}
 
 
 #########################################################################################
