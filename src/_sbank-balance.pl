@@ -285,7 +285,7 @@ sub query_sshare_user_and_account_usage( $$$ ) {
 
 	my $rawusage;
 
-	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
+	my $cluster_str = ($clustername ne "") ? "-M $clustername " : "";
 	my $user_str  = ($thisuser_only ne "") ? "" : "-a ";
 
 	my $query_str = "sshare -hp $cluster_str $user_str -A $account_param ";
