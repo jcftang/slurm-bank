@@ -208,7 +208,7 @@ sub query_users_and_accounts( $$$ ) {
 	while (<SACCTMGR>) {
 		# only show outputs for accounts we're part of
 		if (/^\s*([^|]+)\|([^|]+)\|/) {
-			my $account   = "\U$1";
+			my $account   = "\U$1"; # normalise account names to uppercase
 			my $user      = "$2";
 
 			# put in a zero usage explicitly if the user hasn't run at all
@@ -244,13 +244,17 @@ sub query_sreport_user_and_account_usage( $$$ ) {
 	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
 	my $query_str = "sreport -t minutes -np cluster AccountUtilizationByUser start=$sreport_start end=$sreport_end $cluster_str account=$account_param ";
 
+	if ($account_param eq "") {
+		die "$0: Unable to run sreport as the account list is empty (the user/account doesn't exist on the cluster perhaps)\n";
+	}
+
 	# open the pipe and run the query
 	open (SREPORT, "$query_str |") or die "$0: Unable to run sreport: $!\n";
 
 	while (<SREPORT>) {
 		# only show outputs for accounts we're part of
 		if (/^\s*[^|]+\|([^|]*)\|([^|]*)\|[^|]*\|([^|]*)/) {
-			$account      = "\U$1";
+			$account      = "\U$1"; # normalise account names to uppercase
 			$user         = $2;
 			$rawusage     = $3;
 
@@ -292,13 +296,17 @@ sub query_sshare_user_and_account_usage( $$$ ) {
 
 	my $query_str = "sshare -hp $cluster_str $user_str -A $account_param ";
 
+	if ($account_param eq "") {
+		die "$0: Unable to run sshare as the account list is empty (the user/account doesn't exist on the cluster perhaps)\n";
+	}
+
 	# open the pipe and run the query
 	open (SSHARE, "$query_str |") or die "$0: Unable to run sshare $!\n";
 
 	while (<SSHARE>) {
 		# only show outputs for accounts we're part of
 		if (/^\s*([^|]+)\|([^|]*)\|[^|]*\|[^|]*\|([^|]*)/) {
-			$account      = "\U$1";
+			$account      = "\U$1"; # normalise account names to uppercase
 			$user         = $2;
 			$rawusage     = $3;
 
@@ -344,11 +352,11 @@ if (defined($opts{c})) {
 if (defined($opts{b})) {
 	$show_unformatted_balance = 1;
 	$showallusers = 0;
-	$accountname = $opts{b};
+	$accountname = "\U$opts{b}"; # normalise account names to uppercase
 }
 
 if (defined($opts{A})) {
-	$accountname = $opts{A};
+	$accountname = "\U$opts{A}"; # normalise account names to uppercase
 }
 
 if (defined($opts{a})) {
@@ -413,10 +421,10 @@ while (<SACCTMGR>) {
 	# format is "acct_string|nnnn|" where nnnn is the number of GrpCPUMins allocated
 	if (/^([^|]+)\|([^|]*)/) {
 		if ($2 ne "") {
-			$acc_limits{"\U$1"} = sprintf("%.0f", $2);
+			$acc_limits{"\U$1"} = sprintf("%.0f", $2); # normalise account names to uppercase
 		} elsif (!exists($acc_limits{"\U$1"})) {
 			# store all accounts, even those without GrpCPUMins allocated, so we can report usage
-			$acc_limits{"\U$1"} = 0;
+			$acc_limits{"\U$1"} = 0; # normalise account names to uppercase
 		}
 	}
 
@@ -453,6 +461,10 @@ if ($showallusers && $accountname ne "") {
 	#####################################################################
 
 	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
+
+	if (!exists($acc_limits{$accountname})) {
+		die "$0: account '$accountname' doesn't exist. Exiting..\n";
+	}
 
 	# first obtain the full list of users for this account; sreport won't report
 	# on them if they have no usage
@@ -514,6 +526,10 @@ if ($showallusers && $accountname ne "") {
 
 	#my $cluster_str = ($clustername ne "") ? "-M $clustername " : "";
 	my $cluster_str = ($clustername ne "") ? "clusters=$clustername " : "";
+
+	if (!exists($acc_limits{$accountname})) {
+		die "$0: account '$accountname' doesn't exist. Exiting..\n";
+	}
 
 	# get the usage value, for all single given account
 	query_sshare_user_and_account_usage($accountname, 1, "");
