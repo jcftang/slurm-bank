@@ -11,12 +11,13 @@
 # previous versions.
 # 
 # Requires 'sacctmgr' and 'sreport', and requires a SlurmDBD.
-# 
-# Note this is a re-write of the previous version, which used 'sshare' to
-# obtain usage information. The 'sshare' command reads from local usage
-# files, whereas as 'sreport' reads from the SlurmDBD. Specifically, 'sshare'
-# values will decay if half-life decay is enabled, while 'sreport' values
-# will not decay, and so give an actual usage.
+#
+# The default reports scrape the usage data from local *_usage files (via
+# sshare); these will report the usage (which may have been Decayed or
+# Reset) and the available Balance (if there is a Limit set on the account).
+#
+# The tool can also give a report of historical usage from the SlurmDBD (via
+# sreport); no limits or balance are reported in this case, just usage.
 # 
 
 # TODO:

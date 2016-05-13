@@ -25,7 +25,7 @@ then sbank-balance will show the balance of the user who ran the script.
 
   -a
 
-  display unformatted balance of account 'accountname' (defaults to
+  display balance of account 'accountname' (defaults to
   all accounts of the current user)
 
   -A
@@ -33,10 +33,23 @@ then sbank-balance will show the balance of the user who ran the script.
   display all accounts (defaults to all accounts of the
   current user)
 
-  -u
+  -U
 
   display only the current user's balances (defaults to all users
   in all accounts of the current user)
+
+  -u
+
+  display for the given user (defaults to the current user)
+
+  -b
+
+  display unformatted balance of account 'accountname'
+
+  -s
+
+  display historical user/account usage from the DBD via 'sreport',
+  starting from yyyy-mm-dd
 
 * request - request a number hours from an account and returns a number
   of hours remaining in the account.
@@ -70,17 +83,21 @@ then sbank-balance will show the balance of the user who ran the script.
 
 # EXAMPLES
 
-Show your own balance, including those of other members of the account
+Show your own balance (all your accounts), including those of other members of the accounts
 
 	sbank balance statement
 
-Show your own balance
+Show your own balance (all your accounts)
 
-	sbank balance statement -u
+	sbank balance statement -U
+
+Show the balance in the given account, including those of other members of the accounts
+
+	sbank balance statement -a account_name
 
 Show the unformatted balance of an account
 
-	sbank balance statement -a account_name
+	sbank balance statement -b account_name
 
 Show the balance of all accounts in the given cluster
 
@@ -99,6 +116,7 @@ to run a job.
 # AUTHOR
 
 Jimmy Tang <jtang@tchpc.tcd.ie>
+Paddy Doyle <paddy@tchpc.tcd.ie>
 
 # COPYRIGHT
 
