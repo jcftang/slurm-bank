@@ -51,12 +51,12 @@ my $SREPORT_END_OFFSET   = 172800;	# 2 days to avoid DST issues, in seconds
 #####################################################################
 sub usage() {
 	print "Usage:\n";
-	print "$0 [-h] [-c clustername] [-b accountname] [-A accountname] [-a] [-u username] [-U] [-s yyyy-mm-dd]\n";
+	print "$0 [-h] [-c clustername] [-b accountname] [-a accountname] [-A] [-u username] [-U] [-s yyyy-mm-dd]\n";
 	print "\t-h:\tshow this help message\n";
 	print "\t-c:\treport on cluster 'clustername' (defaults to the local cluster)\n";
 	print "\t-b:\treport unformatted balance of account 'accountname'\n";
-	print "\t-A:\treport balance of account 'accountname' (defaults to all accounts of the current user)\n";
-	print "\t-a:\treport all accounts (defaults to all accounts of the current user)\n";
+	print "\t-a:\treport balance of account 'accountname' (defaults to all accounts of the current user)\n";
+	print "\t-A:\treport all accounts (defaults to all accounts of the current user)\n";
 	print "\t-U:\treport only the current user's balances (defaults to all users in all accounts of the current user)\n";
 	print "\t-u:\treport information for the given username, instead of the current user\n";
 	die   "\t-s:\treport historical user/account usage from the DBD via 'sreport', starting from yyyy-mm-dd\n";
@@ -360,7 +360,7 @@ sub query_sshare_user_and_account_usage( $$$ ) {
 # get options
 #####################################################################
 my %opts;
-getopts('hc:b:A:au:Us:', \%opts) || usage();
+getopts('hc:b:a:Au:Us:', \%opts) || usage();
 
 if (defined($opts{h})) {
 	usage();
@@ -376,11 +376,11 @@ if (defined($opts{b})) {
 	$accountname = "\U$opts{b}"; # normalise account names to uppercase
 }
 
-if (defined($opts{A})) {
-	$accountname = "\U$opts{A}"; # normalise account names to uppercase
+if (defined($opts{a})) {
+	$accountname = "\U$opts{a}"; # normalise account names to uppercase
 }
 
-if (defined($opts{a})) {
+if (defined($opts{A})) {
 	$showallaccs = 1;
 }
 
