@@ -135,10 +135,10 @@ cmd_calc()
 	# now do the cals
 
 	# call 'bc' because bash doesn't do floating point!
-	float=`echo "scale=2; ($days*86400 + $hours*3600 + $mins*60 + $secs) / 3600" | bc`
+	float=$(echo "scale=2; ($days*86400 + $hours*3600 + $mins*60 + $secs) / 3600" | bc)
 	# and call printf because bc doesn't round numbers!
 	debug "rounded to the nearest hour:"
-	wallhours=`printf "%.0f\n" $float`
+	wallhours=$(printf "%.0f\n" $float)
 
 	# final check - if it has been rounded down to 0 wall hours, make it 1 (this is only
 	# an estimate anyway
@@ -189,7 +189,7 @@ cmd_estimate()
 		[ "${FLAGS_nodes}" -le "0" ] && die "nodes must be greater than 0"
 		if [ "${FLAGS_cores}" -le "0" ]
 		then
-			FLAGS_cores=$(sbank cluster cpupernode)
+			FLAGS_cores=$($SLURMBANK_DIR/sbank cluster cpupernode)
 			warn "no cores-per-node specified - estimating $cpus"
 		fi
 		printf "$(( ${FLAGS_nodes} * ${FLAGS_cores} * ${FLAGS_time} ))\n"
@@ -251,19 +251,19 @@ cmd_estimatescript()
 	[ -z "$tasks" -a -z "$nodes" ] && die "at least one of tasks (-n) or nodes (-N) must be set in the script"
 
 
-	wall_hours=$(sbank time calc -t $walltime)
+	wall_hours=$($SLURMBANK_DIR/sbank time calc -t $walltime)
 
 	if [ -n "$tasks" ]
 	then
-		cpu_hours=$(sbank time estimate -n $tasks -t $wall_hours)
+		cpu_hours=$($SLURMBANK_DIR/sbank time estimate -n $tasks -t $wall_hours)
 	elif [ -n "$nodes" ]
 	then
 		if [ -z "$cpus" ]
 		then
-			cpus=$(sbank cluster cpupernode)
+			cpus=$($SLURMBANK_DIR/sbank cluster cpupernode)
 			warn "no cores-per-node specified - estimating $cpus"
 		fi
-		cpu_hours=$(sbank time estimate -N $nodes -c $cpus -t $wall_hours)
+		cpu_hours=$($SLURMBANK_DIR/sbank time estimate -N $nodes -c $cpus -t $wall_hours)
 	fi
 
 	if [ ${FLAGS_verbose} -eq ${FLAGS_TRUE} ]

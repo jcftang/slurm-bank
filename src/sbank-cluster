@@ -124,12 +124,12 @@ cmd_cpuhrs() {
 	then
 		FLAGS_cluster="-M ${FLAGS_cluster}"
 	else
-		FLAGS_cluster="-M $(sbank cluster list)"
+		FLAGS_cluster="-M $($SLURMBANK_DIR/sbank cluster list)"
 	fi
 
 	for i in year month week day
 	do
-		_sbank-common-cpu_hrs.pl -t hours -i $i ${FLAGS_cluster}
+		$SLURMBANK_DIR/_sbank-common-cpu_hrs.pl -t hours -i $i ${FLAGS_cluster}
 	done
 }
 
