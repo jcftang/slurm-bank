@@ -59,7 +59,7 @@ sub usage() {
 	print "\t-a:\treport all accounts (defaults to all accounts of the current user)\n";
 	print "\t-U:\treport only the current user's balances (defaults to all users in all accounts of the current user)\n";
 	print "\t-u:\treport information for the given username, instead of the current user\n";
-	die   "\t-s:\treport usage starting from yyyy-mm-dd, instead of " . ($SREPORT_START_OFFSET / 365 / 86400) . " years ago\n";
+	die   "\t-s:\treport historical user/account usage from the DBD via 'sreport', starting from yyyy-mm-dd\n";
 }
 
 # format minutes as hours, with thousands comma separator
@@ -79,33 +79,54 @@ sub thous( $ ) {
 }
 
 # print headers for the output
-sub print_headers() {
-	printf "%-10s %9s | %14s %9s | %13s %9s (CPU hrs)\n",
-		"User", "Usage", "Account", "Usage", "Account Limit", "Available";
-	printf "%10s %9s + %14s %9s + %13s %9s\n",
-		"-"x10, "-"x9, "-"x14, "-"x9, "-"x13, "-"x9;
+sub print_headers( $ ) {
+	my $use_sreport = shift;
+
+	if ($use_sreport) {
+		printf "%s\n", "-"x70;
+		printf "User/Account Utilisation on $clustername $sreport_start - $sreport_end\n";
+		printf "Time reported in CPU Hours\n";
+		printf "%s\n", "-"x70;
+		printf "%-10s %9s | %14s %9s\n",
+			"User", "Usage", "Account", "Usage";
+		printf "%10s %9s + %14s %9s\n",
+			"-"x10, "-"x9, "-"x14, "-"x9;
+	} else {
+		printf "%-10s %9s | %14s %9s | %13s %9s (CPU hrs)\n",
+			"User", "Usage", "Account", "Usage", "Account Limit", "Available";
+		printf "%10s %9s + %14s %9s + %13s %9s\n",
+			"-"x10, "-"x9, "-"x14, "-"x9, "-"x13, "-"x9;
+	}
 }
 
 # print the formatted values
-sub print_values( $$$$$ ) {
+sub print_values( $$$$$$ ) {
 	my $thisuser = shift;
 	my $user_usage = shift;
 	my $acc = shift;
 	my $acc_usage = shift;
 	my $acc_limit = shift;
+	my $use_sreport = shift;
 
-	printf "%-10s %9s | %14s %9s | %13s %9s\n",
-		$thisuser, fmt_mins_as_hrs($user_usage),
-		$acc, fmt_mins_as_hrs($acc_usage),
-		fmt_mins_as_hrs($acc_limit),
-		($acc_limit == 0) ? "N/A" : fmt_mins_as_hrs($acc_limit - $acc_usage);
+	if ($use_sreport) {
+		printf "%-10s %9s | %14s %9s\n",
+			$thisuser, fmt_mins_as_hrs($user_usage),
+			$acc, fmt_mins_as_hrs($acc_usage);
+	} else {
+		printf "%-10s %9s | %14s %9s | %13s %9s\n",
+			$thisuser, fmt_mins_as_hrs($user_usage),
+			$acc, fmt_mins_as_hrs($acc_usage),
+			fmt_mins_as_hrs($acc_limit),
+			($acc_limit == 0) ? "N/A" : fmt_mins_as_hrs($acc_limit - $acc_usage);
+	}
 }
 
 # print the formatted values
-sub print_results( $$$ ) {
+sub print_results( $$$$ ) {
 	my $multiple_users = shift;
 	my $multiple_accs  = shift;
 	my $include_root   = shift;
+	my $use_sreport    = shift;
 
 	my @account_list = sort keys %user_usage_per_acc;
 	my $first_iter   = 1;
@@ -127,7 +148,7 @@ sub print_results( $$$ ) {
 		unshift(@account_list, $root_acc);
 	}
 
-        print_headers();
+        print_headers($use_sreport);
         #printf "\n";
 
 	# now print the values, including those users with no usage
@@ -153,7 +174,7 @@ sub print_results( $$$ ) {
 			}
 
 			#print_values($thisuser, $user_usage{$account}, $account, $acc_usage{$account}, $acc_limits{$account});
-			print_values($thisuser, $user_usage_per_acc{$account}{$thisuser}, $account, $acc_usage{$account}, $acc_limits{$account});
+			print_values($thisuser, $user_usage_per_acc{$account}{$thisuser}, $account, $acc_usage{$account}, $acc_limits{$account}, $use_sreport);
 
 		} else {
 			# else loop over the users
@@ -179,7 +200,7 @@ sub print_results( $$$ ) {
 					$acc_usage{$account} = 0;
 				}
 
-				print_values($user, sprintf("%.0f", $rawusage), $account, $acc_usage{$account}, $acc_limits{$account});
+				print_values($user, sprintf("%.0f", $rawusage), $account, $acc_usage{$account}, $acc_limits{$account}, $use_sreport);
 			}
 		}
 	}
@@ -374,11 +395,15 @@ if (defined($opts{U})) {
 if (defined($opts{s})) {
 	unless ($opts{s} =~ /^\d{4}-\d{2}-\d{2}$/) { usage(); }
 
+	if (defined($opts{b})) {
+		die "$0: the 'sreport' parameter doesn't make sense for the unformatted balance query. Exiting..\n";
+	}
+
 	$sreport_start = $opts{s};
 	$sreport_end   = strftime "%Y-%m-%d", (localtime(time() + $SREPORT_END_OFFSET));
-} else {
-	$sreport_start = strftime "%Y-%m-%d", (localtime(time() - $SREPORT_START_OFFSET));
-	$sreport_end   = strftime "%Y-%m-%d", (localtime(time() + $SREPORT_END_OFFSET));
+#} else {
+#	$sreport_start = strftime "%Y-%m-%d", (localtime(time() - $SREPORT_START_OFFSET));
+#	$sreport_end   = strftime "%Y-%m-%d", (localtime(time() + $SREPORT_END_OFFSET));
 }
 
 
@@ -470,11 +495,16 @@ if ($showallusers && $accountname ne "") {
 	# on them if they have no usage
 	query_users_and_accounts($accountname, "", "");
 
-	# get the usage values (for all users in the accounts), for just the named account
-	query_sshare_user_and_account_usage($accountname, "", "");
+	if (defined($opts{s})) {
+		# SREPORT: get the usage values (for all users in the accounts), for just the named account
+		query_sreport_user_and_account_usage($accountname, "", "");
+	} else {
+		# SSHARE get the usage values (for all users in the accounts), for just the named account
+		query_sshare_user_and_account_usage($accountname, "", "");
+	}
 
 	# display formatted output
-	print_results(1, 0, 0);
+	print_results(1, 0, 0, defined($opts{s}));
 
 } elsif ($showallusers && $showallaccs) {
 	#####################################################################
@@ -488,11 +518,16 @@ if ($showallusers && $accountname ne "") {
 	# on them if they have no usage
 	query_users_and_accounts("", "", "");
 
-	# get the usage values (for all users in the accounts), for all accounts (all the ones found by sacctmgr above)
-	query_sshare_user_and_account_usage(join(',', sort(keys (%acc_limits))), "", "");
+	if (defined($opts{s})) {
+		# SREPORT: get the usage values (for all users in the accounts), for all accounts (all the ones found by sacctmgr above)
+		query_sreport_user_and_account_usage(join(',', sort(keys (%acc_limits))), "", "");
+	} else {
+		# SSHARE: get the usage values (for all users in the accounts), for all accounts (all the ones found by sacctmgr above)
+		query_sshare_user_and_account_usage(join(',', sort(keys (%acc_limits))), "", "");
+	}
 
 	# display formatted output
-	print_results(1, 1, 1);
+	print_results(1, 1, 1, defined($opts{s}));
 
 } elsif ($showallusers) {
 	#####################################################################
@@ -512,11 +547,16 @@ if ($showallusers && $accountname ne "") {
 	# on them if they have no usage
 	query_users_and_accounts("", "", 1);
 
-	# get the usage values (for all users in the accounts), for all the accounts of the given user
-	query_sshare_user_and_account_usage(join(',', sort(@my_accs)), "", "");
+	if (defined($opts{s})) {
+		# SREPORT: get the usage values (for all users in the accounts), for all the accounts of the given user
+		query_sreport_user_and_account_usage(join(',', sort(@my_accs)), "", "");
+	} else {
+		# SSHARE get the usage values (for all users in the accounts), for all the accounts of the given user
+		query_sshare_user_and_account_usage(join(',', sort(@my_accs)), "", "");
+	}
 
 	# display formatted output
-	print_results(1, 1, 0);
+	print_results(1, 1, 0, defined($opts{s}));
 
 } elsif ($show_unformatted_balance && $accountname ne "") {
 	#####################################################################
@@ -531,7 +571,7 @@ if ($showallusers && $accountname ne "") {
 		die "$0: account '$accountname' doesn't exist. Exiting..\n";
 	}
 
-	# get the usage value, for all single given account
+	# SSHARE: get the usage value, for all single given account
 	query_sshare_user_and_account_usage($accountname, 1, "");
 
 	if ($acc_usage{$accountname} eq "") {
@@ -557,11 +597,16 @@ if ($showallusers && $accountname ne "") {
 
 	query_users_and_accounts("", $thisuser, 1);
 
-	# get the usage values (for just the given user), for all the accounts of the given user
-	query_sshare_user_and_account_usage(join(',', sort(@my_accs)), "", 1);
+	if (defined($opts{s})) {
+		# SREPORT get the usage values (for just the given user), for all the accounts of the given user
+		query_sreport_user_and_account_usage(join(',', sort(@my_accs)), "", 1);
+	} else {
+		# SSHARE: get the usage values (for just the given user), for all the accounts of the given user
+		query_sshare_user_and_account_usage(join(',', sort(@my_accs)), "", 1);
+	}
 
 	# display formatted output
-	print_results(0, 0, 0);
+	print_results(0, 0, 0, defined($opts{s}));
 
 }
 
