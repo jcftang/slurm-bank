@@ -48,10 +48,10 @@ cmd_job()
 	jobtime_slurm=$(sacct -n --format elapsed%30 -j "${FLAGS_jobid}")
 	debug "elapsed time from sacct $jobtime_slurm"
 
-	jobtime_hours=$(sbank time calc -t $jobtime_slurm)
+	jobtime_hours=$($SLURMBANK_DIR/sbank time calc -t $jobtime_slurm)
 	debug "elapsed time from sacct in hours $jobtime_hours"
 
-	sbank deposit -a $account -t $jobtime_hours -c $(sbank cluster list)
+	$SLURMBANK_DIR/sbank deposit -a $account -t $jobtime_hours -c $(sbank cluster list)
 }
 
 cmd_help()

@@ -34,9 +34,9 @@ cmd_submit()
         [ ! -r "${FLAGS_scriptname}" ]  && die "unable to read: ${FLAGS_scriptname}"
 
 	log "Getting balance for ${USER}"
-	sbank balance statement
+	$SLURMBANK_DIR/sbank balance statement
 	log "Checking script before submitting"
-	sbank balance checkscript -s ${FLAGS_scriptname} -v
+	$SLURMBANK_DIR/sbank balance checkscript -s ${FLAGS_scriptname} -v
 	log "sbatch'ing the script"
 	sbatch ${FLAGS_scriptname}
 }

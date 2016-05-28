@@ -47,7 +47,7 @@ cmd_deposit()
 	if [ "${FLAGS_time}" -gt "0" ];
 	then
 		# the account limit - this could be re-worked in a more clever way and check for exitcodes
-		LIMIT=`$SACCTMGR -np list associations cluster=${FLAGS_cluster} format=account,GrpCPUMins account=${FLAGS_account} | head -1 | awk -F'|' '{print $2}'`
+		LIMIT=$($SACCTMGR -np list associations cluster=${FLAGS_cluster} format=account,GrpCPUMins account=${FLAGS_account} | head -1 | awk -F'|' '{print $2}')
 		debug "${LIMIT}mins is the limit of ${FLAGS_account} on ${FLAGS_cluster}"
 
 		# new limit is the old limit +/- a delta
