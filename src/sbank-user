@@ -73,7 +73,7 @@ cmd_list()
         else
                 sacctmgr_opts="-n $sacctmgr_opts "
 	fi
-	$SACCTMGR $sacctmgr_opts list users $opts 
+	$SACCTMGR $sacctmgr_opts list users $opts format=User,DefaultAccount%15,AdminLevel%15
 }
 
 cmd_account()
