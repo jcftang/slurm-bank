@@ -3,7 +3,7 @@ usage()
 	echo "usage: sbank project create -c CLUSTER -a ACCOUNT"
 	echo "   or: sbank project delete -c CLUSTER -a ACCOUNT"
 	echo "   or: sbank project list -c CLUSTER -v"
-	echo "   or: sbank project useradd -c CLUSTER -a ACCOUNT -u USER"
+	echo "   or: sbank project useradd -c CLUSTER -a ACCOUNT -u USER [-s]"
 	echo "   or: sbank project userdel -c CLUSTER -a ACCOUNT -u USER"
 	echo "   or: sbank project expire -c CLUSTER -a ACCOUNT"
 	echo
