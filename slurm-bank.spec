@@ -1,4 +1,4 @@
-# Pass --without docs to rpmbuild if you don't want the documentation
+# Pass --with docs to rpmbuild if you want the HTML documentation (requires ikiwiki)
 
 Name:           slurm-bank
 Version:        1.4.2
@@ -31,14 +31,14 @@ if they do not have hours in their account then they cannot run jobs.
 %build
 make %{?_smp_mflags} CFLAGS="$RPM_OPT_FLAGS" \
 	%{path_settings} \
-	all %{!?_without_docs: docs}
+	all %{?_with_docs: docs}
 
 
 %install
 rm -rf %{buildroot}
 make DESTDIR=%{buildroot} \
 	%{path_settings} \
-	install %{!?_without_docs: install-docs}
+	install %{?_with_docs: install-docs}
 (find $RPM_BUILD_ROOT%{_bindir} -type f | sed -e s@^$RPM_BUILD_ROOT@@) > bin-man-doc-files
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d
@@ -53,7 +53,7 @@ rm -rf %{buildroot}
 %doc AUTHORS README
 %{_mandir}/*
 %{_sysconfdir}/bash_completion.d
-%if %{!?_without_docs:1}0
+%if %{?_with_docs:1}0
 %doc html/*
 %else
 %doc doc/*
