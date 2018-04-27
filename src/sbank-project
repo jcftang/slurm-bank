@@ -99,6 +99,7 @@ cmd_useradd()
 	DEFINE_string 'account' 'null' 'specify a slurm account' 'a'
 	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
 	DEFINE_string 'user' 'null' 'specify a user' 'u'
+	DEFINE_boolean 'setdefault' true 'toggle setting it as the DefaultAccount for the user' 's'
 
 	FLAGS_PARENT="sbank project useradd"
 
@@ -117,6 +118,15 @@ cmd_useradd()
 
 	debug "creating account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster}"
 	$SACCTMGR -i add user ${FLAGS_user} account=${FLAGS_account} cluster=${FLAGS_cluster}
+
+	if [ ${FLAGS_setdefault} -eq ${FLAGS_TRUE} ]
+	then
+		debug "setting the DefaultAccount to ${FLAGS_account} on cluster ${FLAGS_cluster} for user ${FLAGS_user}"
+		$SACCTMGR -i update users cluster=${FLAGS_cluster} set DefaultAccount=${FLAGS_account} where user=${FLAGS_user},cluster=${FLAGS_cluster}
+	else
+		debug "not updating the default account for user ${FLAGS_user}"
+	fi
+
 }
 
 cmd_userdel()
