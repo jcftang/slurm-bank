@@ -106,12 +106,12 @@ cmd_account()
 	fi
 
 	if [ ${FLAGS_verbose} -eq ${FLAGS_TRUE} ]
-        then
+	then
                 sacctmgr_opts="$sacctmgr_opts "
-		$SACCTMGR $sacctmgr_opts list users $opts format=user,cluster,DefaultAccount
+                $SACCTMGR $sacctmgr_opts list users $opts format=user%30,cluster%30,DefaultAccount%30
         else
                 sacctmgr_opts="-n $sacctmgr_opts "
-		$SACCTMGR $sacctmgr_opts list users $opts | awk '{print $2}'
+                $SACCTMGR $sacctmgr_opts list users $opts format=DefaultAccount%30| awk '{print $NF}'
         fi
 
 }
