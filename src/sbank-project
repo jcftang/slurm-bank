@@ -10,9 +10,9 @@ usage()
 }
 
 parse_args() {
-        # parse options
-        FLAGS "$@" || exit $?
-        eval set -- "${FLAGS_ARGV}"
+	# parse options
+	FLAGS "$@" || exit $?
+	eval set -- "${FLAGS_ARGV}"
 }
 
 cmd_default() 
@@ -78,7 +78,7 @@ cmd_list() {
 	parse_args "$@"
 
 	FLAGS_PARENT="sbank project"
-	
+
 	debug "list accounts for all clusters"
 
 	[ "${FLAGS_cluster}" != "" ]  && SACCTMGR_EXTRA="cluster=${FLAGS_cluster}"

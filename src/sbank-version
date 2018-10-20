@@ -7,11 +7,11 @@ usage()
 
 cmd_default() 
 {
-        echo "$SBANK_VERSION"
+	echo "$SBANK_VERSION"
 }
 
 cmd_help() 
 {
-        usage
-        exit 0
+	usage
+	exit 0
 }

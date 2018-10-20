@@ -1,26 +1,26 @@
 ## generic functions
 die()
 {
-        [ $# -gt 0 ] && echo "error: $@" >&2
-        flags_help
-        exit 1
+	[ $# -gt 0 ] && echo "error: $@" >&2
+	flags_help
+	exit 1
 }
 
 
 log()
 {
-        echo "log: $@" >&2
+	echo "log: $@" >&2
 }
 
 warn()
 {
-        echo "warn: $@" >&2
+	echo "warn: $@" >&2
 }
 
 debug()
 {
-        [ "${FLAGS_debug}" = "${FLAGS_TRUE}" ] || return
-        echo "DEBUG: $@" >&2
+	[ "${FLAGS_debug}" = "${FLAGS_TRUE}" ] || return
+	echo "DEBUG: $@" >&2
 }
 
 sanity_check()
