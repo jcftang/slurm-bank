@@ -3,16 +3,16 @@ usage()
 	echo "usage: sbank project create -c CLUSTER -a ACCOUNT"
 	echo "   or: sbank project delete -c CLUSTER -a ACCOUNT"
 	echo "   or: sbank project list -c CLUSTER -v"
-	echo "   or: sbank project useradd -c CLUSTER -a ACCOUNT -u USER"
+	echo "   or: sbank project useradd -c CLUSTER -a ACCOUNT -u USER [-s]"
 	echo "   or: sbank project userdel -c CLUSTER -a ACCOUNT -u USER"
 	echo "   or: sbank project expire -c CLUSTER -a ACCOUNT"
 	echo
 }
 
 parse_args() {
-        # parse options
-        FLAGS "$@" || exit $?
-        eval set -- "${FLAGS_ARGV}"
+	# parse options
+	FLAGS "$@" || exit $?
+	eval set -- "${FLAGS_ARGV}"
 }
 
 cmd_default() 
@@ -78,7 +78,7 @@ cmd_list() {
 	parse_args "$@"
 
 	FLAGS_PARENT="sbank project"
-	
+
 	debug "list accounts for all clusters"
 
 	[ "${FLAGS_cluster}" != "" ]  && SACCTMGR_EXTRA="cluster=${FLAGS_cluster}"
@@ -99,6 +99,7 @@ cmd_useradd()
 	DEFINE_string 'account' 'null' 'specify a slurm account' 'a'
 	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
 	DEFINE_string 'user' 'null' 'specify a user' 'u'
+	DEFINE_boolean 'setdefault' true 'toggle setting it as the DefaultAccount for the user' 's'
 
 	FLAGS_PARENT="sbank project useradd"
 
@@ -117,6 +118,15 @@ cmd_useradd()
 
 	debug "creating account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster}"
 	$SACCTMGR -i add user ${FLAGS_user} account=${FLAGS_account} cluster=${FLAGS_cluster}
+
+	if [ ${FLAGS_setdefault} -eq ${FLAGS_TRUE} ]
+	then
+		debug "setting the DefaultAccount to ${FLAGS_account} on cluster ${FLAGS_cluster} for user ${FLAGS_user}"
+		$SACCTMGR -i update users cluster=${FLAGS_cluster} set DefaultAccount=${FLAGS_account} where user=${FLAGS_user},cluster=${FLAGS_cluster}
+	else
+		debug "not updating the default account for user ${FLAGS_user}"
+	fi
+
 }
 
 cmd_userdel()

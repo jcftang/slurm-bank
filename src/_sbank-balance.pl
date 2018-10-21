@@ -149,8 +149,8 @@ sub print_results( $$$$ ) {
 		unshift(@account_list, $root_acc);
 	}
 
-        print_headers($use_sreport);
-        #printf "\n";
+	print_headers($use_sreport);
+	#printf "\n";
 
 	# now print the values, including those users with no usage
 	foreach my $account (@account_list) {
@@ -290,8 +290,8 @@ sub query_sreport_user_and_account_usage( $$$ ) {
 				}
 
 			} elsif ($thisuser_only && $user eq $thisuser && exists( $acc_limits{$account} )) {
-                                # only reporting on the given user, not on all users in the account
-                                $user_usage_per_acc{$account}{$thisuser} = $rawusage;
+				# only reporting on the given user, not on all users in the account
+				$user_usage_per_acc{$account}{$thisuser} = $rawusage;
 
 			} elsif (exists( $acc_limits{$account} )) {
 				# otherwise report on all users in the account
@@ -342,8 +342,8 @@ sub query_sshare_user_and_account_usage( $$$ ) {
 				}
 
 			} elsif ($thisuser_only && $user eq $thisuser && exists( $acc_limits{$account} )) {
-                                # only reporting on the given user, not on all users in the account
-                                $user_usage_per_acc{$account}{$thisuser} = sprintf("%.0f", $rawusage/60); # sshare reports in seconds
+				# only reporting on the given user, not on all users in the account
+				$user_usage_per_acc{$account}{$thisuser} = sprintf("%.0f", $rawusage/60); # sshare reports in seconds
 
 			} elsif (exists( $acc_limits{$account} )) {
 				# otherwise report on all users in the account

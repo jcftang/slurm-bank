@@ -7,14 +7,14 @@ usage()
 }
 
 parse_args() {
-        # parse options
-        FLAGS "$@" || exit $?
-        eval set -- "${FLAGS_ARGV}"
+	# parse options
+	FLAGS "$@" || exit $?
+	eval set -- "${FLAGS_ARGV}"
 }
 
 cmd_default()
 {
-        cmd_help "$@"
+	cmd_help "$@"
 }
 
 cmd_job() 

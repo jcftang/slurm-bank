@@ -8,9 +8,9 @@ usage()
 }
 
 parse_args() {
-        # parse options
-        FLAGS "$@" || exit $?
-        eval set -- "${FLAGS_ARGV}"
+	# parse options
+	FLAGS "$@" || exit $?
+	eval set -- "${FLAGS_ARGV}"
 }
 
 cmd_default() 
@@ -26,7 +26,7 @@ cmd_create()
 	DEFINE_string 'cluster' 'null' 'specify a cluster' 'c'
 	DEFINE_string 'user' 'null' 'specify a user' 'u'
 
-	FLAGS_PARENT="sbank user create"	
+	FLAGS_PARENT="sbank user create"
 
 	# parse the command line
 	debug "parse command line"
@@ -40,9 +40,9 @@ cmd_create()
 
 	debug "check if user is specified"
 	[ ${FLAGS_user} = 'null' ] && die "${FLAGS_user}" "is not an user, no user specified"
- 	
+ 
 	debug "creating account with the following account name ${FLAGS_account} and cluster name ${FLAGS_cluster}"
-        $SACCTMGR -i add user cluster=${FLAGS_cluster} name=${FLAGS_user} account=${FLAGS_account}
+	$SACCTMGR -i add user cluster=${FLAGS_cluster} name=${FLAGS_user} account=${FLAGS_account}
 }
 
 cmd_list()
@@ -57,7 +57,7 @@ cmd_list()
 	DEFINE_string 'user' '' 'specify a user' 'u'
 	DEFINE_boolean 'verbose' false 'verbose output' 'v'
 
-	FLAGS_PARENT="sbank user list"	
+	FLAGS_PARENT="sbank user list"
 
 	# parse the command line
 	debug "parse command line"
@@ -68,12 +68,12 @@ cmd_list()
 	[ "${FLAGS_user}" != "" ]  && opts="$opts names=${FLAGS_user}"
 
 	if [ ${FLAGS_verbose} -eq ${FLAGS_TRUE} ]
-        then
-                sacctmgr_opts="$sacctmgr_opts "
-        else
-                sacctmgr_opts="-n $sacctmgr_opts "
+	then
+		sacctmgr_opts="$sacctmgr_opts "
+	else
+		sacctmgr_opts="-n $sacctmgr_opts "
 	fi
-	$SACCTMGR $sacctmgr_opts list users $opts 
+	$SACCTMGR $sacctmgr_opts list users $opts format=User,DefaultAccount%15,AdminLevel%15
 }
 
 cmd_account()
@@ -107,12 +107,12 @@ cmd_account()
 
 	if [ ${FLAGS_verbose} -eq ${FLAGS_TRUE} ]
 	then
-                sacctmgr_opts="$sacctmgr_opts "
-                $SACCTMGR $sacctmgr_opts list users $opts format=user%30,cluster%30,DefaultAccount%30
-        else
-                sacctmgr_opts="-n $sacctmgr_opts "
-                $SACCTMGR $sacctmgr_opts list users $opts format=DefaultAccount%30| awk '{print $NF}'
-        fi
+		sacctmgr_opts="$sacctmgr_opts "
+		$SACCTMGR $sacctmgr_opts list users $opts format=user%30,cluster%30,DefaultAccount%30
+	else
+		sacctmgr_opts="-n $sacctmgr_opts "
+		$SACCTMGR $sacctmgr_opts list users $opts format=DefaultAccount%30
+	fi
 
 }
 
