@@ -1,7 +1,5 @@
 [[!sidebar content="""
 
-[[!img tchpc_icon128x128.png link=no]]
-
 * [[download]]
 * [[install]]
 * [[bugs]]
