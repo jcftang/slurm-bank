@@ -1,11 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>linkingrules</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="../../style.css" type="text/css" />
 
@@ -14,7 +13,12 @@
 
 
 
+
+
 <meta name="robots" content="noindex, follow" />
+
+
+
 </head>
 <body>
 
@@ -38,25 +42,33 @@ linkingrules
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
 
 
 
 <div id="pagebody">
 
-<div id="content">
+<div id="content" role="main">
 <p>To link to or from a <a href="../subpage.html">SubPage</a>, you can normally use a regular
 <a href="../wikilink.html">WikiLink</a> that does not contain the name of the parent directory of
 the <a href="../subpage.html">SubPage</a>. Ikiwiki descends the directory hierarchy looking for a
 page that matches your link.</p>
 
-<p>For example, if FooBar/SubPage links to "OtherPage", ikiwiki will first 
+<p>For example, if FooBar/SubPage links to "OtherPage", ikiwiki will first
 prefer pointing the link to FooBar/SubPage/OtherPage if it exists, next
 to FooBar/OtherPage and finally to OtherPage in the root of the wiki.</p>
 
@@ -88,7 +100,9 @@ links are checked for last of all.</p>
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -101,9 +115,11 @@ links are checked for last of all.</p>
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
+
+
 
 
 
@@ -124,8 +140,8 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Sat  4 Oct 15:11:08 2008</span>
-<!-- Created <span class="date">Sat  4 Oct 15:11:08 2008</span> -->
+Last edited <span class="date">Fri 12 Sep 20:23:58 2014</span>
+<!-- Created <span class="date">Fri 12 Sep 20:23:58 2014</span> -->
 </div>
 
 </div>

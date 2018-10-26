@@ -1,11 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>attachment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="../../style.css" type="text/css" />
 
@@ -14,7 +13,12 @@
 
 
 
+
+
 <meta name="robots" content="noindex, follow" />
+
+
+
 </head>
 <body>
 
@@ -38,20 +42,28 @@ attachment
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
 
 
 
 <div id="pagebody">
 
-<div id="content">
-<p>This wiki has attachments <strong>enabled</strong>.</p>
+<div id="content" role="main">
+<p>This wiki has attachments <strong>disabled</strong>.</p>
 
 <p>If attachments are enabled, the wiki admin can control what types of
 attachments will be accepted, via the <code>allowed_attachments</code>
@@ -62,7 +74,7 @@ while allowing larger mp3 files to be uploaded by joey into a specific
 directory, and check all attachments for viruses, something like this could be
 used:</p>
 
-<pre><code>virusfree() and ((user(joey) and podcast/*.mp3 and mimetype(audio/mpeg) and maxsize(15mb)) or (mimetype(image/*) and maxsize(50kb)))
+<pre><code>virusfree() and ((user(joey) and podcast/*.mp3 and mimetype(audio/mpeg) and maxsize(15mb)) or ((mimetype(image/jpeg) or mimetype(image/png)) and maxsize(50kb)))
 </code></pre>
 
 <p>The regular <a href="../pagespec.html">PageSpec</a> syntax is expanded with the following
@@ -86,11 +98,14 @@ include a glob in the type, for example <code>mimetype(image/*)</code>.</p></li>
 <li><p>"<code>virusfree()</code>" - checks the attachment with an antiviral program.</p></li>
 </ul>
 
+
 </div>
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -103,7 +118,7 @@ include a glob in the type, for example <code>mimetype(image/*)</code>.</p></li>
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
 
@@ -115,9 +130,11 @@ include a glob in the type, for example <code>mimetype(image/*)</code>.</p></li>
 
 
 
+
+
 <div class="pagedate">
-Last edited <span class="date">Wed  8 Jun 22:40:22 2011</span>
-<!-- Created <span class="date">Wed  8 Jun 22:40:22 2011</span> -->
+Last edited <span class="date">Fri  6 May 06:54:47 2016</span>
+<!-- Created <span class="date">Fri  6 May 06:54:47 2016</span> -->
 </div>
 
 </div>

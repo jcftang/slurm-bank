@@ -1,3 +1,7 @@
+// © 2006-2010 Joey Hess
+// Redistribution and use in source and compiled forms, with or without
+// modification, are permitted under any circumstances. No warranty.
+//
 // ikiwiki's javascript utility function library
 
 var hooks;

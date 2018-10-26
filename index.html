@@ -1,15 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>slurm-bank</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
 <link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
 
 
 
@@ -32,17 +36,24 @@ slurm-bank
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
 
 
 <div class="sidebar">
-<p><img src="./tchpc_icon128x128.png" width="128" height="128" class="img" /></p>
+<p>[[!img <span class="error">Error: Image::Magick is not installed</span>]]</p>
 
 <ul>
 <li><a href="./download.html">download</a></li>
@@ -54,12 +65,14 @@ slurm-bank
 <li><a href="./copyright.html">copyright</a></li>
 </ul>
 
+
 </div>
+
 
 
 <div id="pagebody">
 
-<div id="content">
+<div id="content" role="main">
 <h2>About</h2>
 
 <p>SLURM Bank, a collection of wrapper scripts to give slurm GOLD like
@@ -105,6 +118,7 @@ to projects using <a href="./sbank-deposit.html">sbank-deposit</a>.</p>
 </tr>
 </table>
 
+
 <h2>Motivation</h2>
 
 <p>To replace our (at <a href="http://www.tchpc.tcd.ie/">TCHPC</a>) current Resource Management and Allocation Systems
@@ -123,6 +137,7 @@ with just slurm</li>
 from GOLD</li>
 </ul>
 
+
 <p>And also benefits for end users of clusters:</p>
 
 <ul>
@@ -130,6 +145,7 @@ from GOLD</li>
 <li>Faster job submission and turn-around</li>
 <li>Greater overall system stability</li>
 </ul>
+
 
 <h2>Experience with the migratation</h2>
 
@@ -142,11 +158,13 @@ gather some information.</p>
 <li>List of users</li>
 </ul>
 
+
 <p>We also required a set of associations</p>
 
 <ul>
 <li>PI -&gt; projects -&gt; users</li>
 </ul>
+
 
 <p>The mapping we ended up having in the end in the slurmdbd was kept simple</p>
 
@@ -154,28 +172,38 @@ gather some information.</p>
 <li>projects -&gt; users</li>
 </ul>
 
+
 <p>Which gave us a hierachy like this</p>
 
 <ul>
 <li>root
+
 <ul>
 <li>project1
+
 <ul>
 <li>user1</li>
 <li>user2</li>
-</ul></li>
+</ul>
+</li>
 <li>project2
+
 <ul>
 <li>user1</li>
 <li>user3</li>
 <li>user4</li>
-</ul></li>
+</ul>
+</li>
 <li>project3
+
 <ul>
 <li>user3</li>
-</ul></li>
-</ul></li>
 </ul>
+</li>
+</ul>
+</li>
+</ul>
+
 
 <p>and so on...</p>
 
@@ -214,6 +242,7 @@ time they have used.</li>
 (easily).</li>
 </ul>
 
+
 <p>You can do everything that these wrapper scripts are doing with plain
 slurm commands! We stress that these scripts are just fixing the
 workflows in managing accounts and users as well as providing some
@@ -244,6 +273,7 @@ slurm-bank.</p>
 <li><a href="./sbank-time.html">sbank-time</a></li>
 </ul>
 
+
 <h3>Experimental scripts</h3>
 
 <ul>
@@ -252,12 +282,14 @@ slurm-bank.</p>
 <li><a href="./sbank-refund.html">sbank-refund</a></li>
 </ul>
 
+
 <h3>Proposed scripts</h3>
 
 <ul>
 <li><span class="createlink">sbank-report</span> -- this might be better provided with the
 <a href="./sbank-balance.html">sbank-balance</a> script.</li>
 </ul>
+
 
 <h2>Repo history</h2>
 
@@ -268,7 +300,9 @@ slurm-bank.</p>
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -281,7 +315,7 @@ slurm-bank.</p>
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
 
@@ -293,9 +327,11 @@ slurm-bank.</p>
 
 
 
+
+
 <div class="pagedate">
 Last edited <span class="date">Tue 21 Feb 23:35:21 2012</span>
-<!-- Created <span class="date">Tue 21 Feb 23:22:27 2012</span> -->
+<!-- Created <span class="date">Tue 21 Feb 23:35:21 2012</span> -->
 </div>
 
 </div>

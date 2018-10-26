@@ -1,11 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>pagespec</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="../style.css" type="text/css" />
 
@@ -14,7 +13,12 @@
 
 
 
+
+
 <meta name="robots" content="noindex, follow" />
+
+
+
 </head>
 <body>
 
@@ -36,19 +40,27 @@ pagespec
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
 
 
 
 <div id="pagebody">
 
-<div id="content">
+<div id="content" role="main">
 <p>To select a set of pages, such as pages that are locked, pages
 whose commit emails you want subscribe to, or pages to combine into a
 blog, the wiki uses a PageSpec. This is an expression that matches
@@ -93,26 +105,30 @@ number</li>
 was created</li>
 <li>"<code>created_before(page)</code>" - matches only files created before the given page
 was created</li>
-<li>"<code>internal(glob)</code>" - like <code>glob()</code>, but matches even internal-use 
+<li>"<code>internal(glob)</code>" - like <code>glob()</code>, but matches even internal-use
 pages that globs do not usually match.</li>
 <li>"<code>title(glob)</code>", "<code>author(glob)</code>", "<code>authorurl(glob)</code>",
-"<code>license(glob)</code>", "<code>copyright(glob)</code>", "<code>guid(glob)</code>" 
+"<code>license(glob)</code>", "<code>copyright(glob)</code>", "<code>guid(glob)</code>"
+
 <ul>
 <li>match pages that have the given metadata, matching the specified glob.</li>
-</ul></li>
+</ul>
+</li>
 <li>"<code>user(username)</code>" - tests whether a modification is being made by a
 user with the specified username. If openid is enabled, an openid can also
-be put here. Glob patterns can be used in the username. For example, 
+be put here. Glob patterns can be used in the username. For example,
 to match all openid users, use <code>user(*://*)</code></li>
 <li>"<code>admin()</code>" - tests whether a modification is being made by one of the
 wiki admins.</li>
 <li>"<code>ip(address)</code>" - tests whether a modification is being made from the
-specified IP address.</li>
+specified IP address. Glob patterns can be used in the address. For
+example, <code>ip(127.0.0.*)</code></li>
 <li>"<code>comment(glob)</code>" - matches comments to a page matching the glob.</li>
 <li>"<code>comment_pending(glob)</code>" - matches unmoderated, pending comments.</li>
-<li>"<code>postcomment(glob)</code>" - matches only when comments are being 
+<li>"<code>postcomment(glob)</code>" - matches only when comments are being
 posted to a page matching the specified glob</li>
 </ul>
+
 
 <p>For example, to match all pages in a blog that link to the page about music
 and were written in 2005:</p>
@@ -147,7 +163,9 @@ linking to the page containing the PageSpec.</p>
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -160,9 +178,11 @@ linking to the page containing the PageSpec.</p>
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
+
+
 
 
 
@@ -187,8 +207,8 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Wed  8 Jun 22:40:22 2011</span>
-<!-- Created <span class="date">Wed  8 Jun 22:40:22 2011</span> -->
+Last edited <span class="date">Fri 12 Sep 20:23:58 2014</span>
+<!-- Created <span class="date">Fri 12 Sep 20:23:58 2014</span> -->
 </div>
 
 </div>

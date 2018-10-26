@@ -1,3 +1,7 @@
+// © 2006-2010 Joey Hess
+// Redistribution and use in source and compiled forms, with or without
+// modification, are permitted under any circumstances. No warranty.
+//
 // Uses CSS to hide toggleables, to avoid any flashing on page load. The
 // CSS is only emitted after it tests that it's going to be able
 // to show the toggleables.

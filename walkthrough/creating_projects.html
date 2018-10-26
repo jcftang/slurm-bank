@@ -1,15 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>creating projects</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="../style.css" type="text/css" />
 
 <link rel="stylesheet" href="../local.css" type="text/css" />
+
+
+
+
+
 
 
 
@@ -36,47 +40,65 @@ creating projects
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
 
 
 
 <div id="pagebody">
 
-<div id="content">
+<div id="content" role="main">
 <p>To create projects in your slurmdbd for a given cluster you can do
-something like the following with the <a href="../sbank-project.html">sbank-project</a> command</p>
+something like the following with the <a href="../sbank-project.html">sbank-project</a> command:</p>
 
-<pre><code>&#036; sbank project create -c mycluster -a myaccount
+<pre><code>$ sbank project create -c mycluster -a myaccount
 </code></pre>
 
-<p>If you make a mess of things you can delete it by doing</p>
+<p>If you make a mess of things you can delete it by doing:</p>
 
-<pre><code>&#036; sbank project delete -c mycluster -a myaccount
+<pre><code>$ sbank project delete -c mycluster -a myaccount
 </code></pre>
 
 <p>Once you have created some accounts you may want to associate users with
-the account</p>
+the account:</p>
 
-<pre><code>&#036; sbank project useradd -c mycluster -a myaccount -u someuser
+<pre><code>$ sbank project useradd -c mycluster -a myaccount -u someuser
 </code></pre>
 
-<p>This will create a user and associate 'someuser' with 'myaccount',
-you can also remove users from accounts.</p>
+<p>This will create a user and associate 'someuser' with 'myaccount'. It
+also sets 'myaccount' as the DefaultAccount for the user.</p>
 
-<pre><code>&#036; sbank project userdel -c mycluster -a myaccount -u someuser
+<p>If instead you do not wish to update the DefaultAccount, then add
+this flag:</p>
+
+<pre><code>$ sbank project useradd -c mycluster -a myaccount -u someuser -s
+</code></pre>
+
+<p>you can also remove users from accounts.</p>
+
+<pre><code>$ sbank project userdel -c mycluster -a myaccount -u someuser
 </code></pre>
 
 </div>
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -89,7 +111,7 @@ you can also remove users from accounts.</p>
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
 
@@ -101,9 +123,11 @@ you can also remove users from accounts.</p>
 
 
 
+
+
 <div class="pagedate">
-Last edited <span class="date">Tue 21 Feb 23:22:27 2012</span>
-<!-- Created <span class="date">Tue 21 Feb 23:22:27 2012</span> -->
+Last edited <span class="date">Fri 26 Oct 04:17:36 2018</span>
+<!-- Created <span class="date">Fri 26 Oct 04:17:36 2018</span> -->
 </div>
 
 </div>

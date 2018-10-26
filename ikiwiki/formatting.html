@@ -1,11 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Formatting wiki pages</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="../style.css" type="text/css" />
 
@@ -14,7 +13,12 @@
 
 
 
+
+
 <meta name="robots" content="noindex, follow" />
+
+
+
 </head>
 <body>
 
@@ -36,19 +40,27 @@ Formatting wiki pages
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
 
 
 
 <div id="pagebody">
 
-<div id="content">
+<div id="content" role="main">
 <p>Text on this wiki is, by default, written in a form very close to how you
 might write text for an email message. This style of text formatting is
 called <a href="./markdown.html">MarkDown</a>, and it works like this:</p>
@@ -65,6 +77,7 @@ in single or double asterisks.</p>
 <li>"* another item"</li>
 </ul>
 
+
 <p>To make a numbered list, start each line with a number (any number will
 do) followed by a period:</p>
 
@@ -73,6 +86,7 @@ do) followed by a period:</p>
 <li>"2. second line"</li>
 <li>"2. third line"</li>
 </ol>
+
 
 <p>To create a header, start a line with one or more <code>#</code> characters followed
 by a space and the header text. The number of <code>#</code> characters controls the
@@ -97,10 +111,8 @@ their own line:</p>
 
 <p>To quote someone, prefix the quote with "&gt;":</p>
 
-<blockquote>
-  <p>To be or not to be,
-that is the question.</p>
-</blockquote>
+<blockquote><p>To be or not to be,
+that is the question.</p></blockquote>
 
 <p>To write a code block, indent each line with a tab or 4 spaces:</p>
 
@@ -127,29 +139,27 @@ actions.
 For example, you can:</p>
 
 <ul>
-<li>Add a table of contents to a page:</li>
+<li><p>Add a table of contents to a page:</p>
+
+<p>[[!toc ]]</p></li>
+<li><p>Change the title of a page:</p>
+
+<p>[[!meta  title="full page title"]]</p></li>
+<li><p>Create a blog by inlining a set of pages:</p>
+
+<p>[[!inline  pages="blog/*"]]</p></li>
+</ul>
+</li>
 </ul>
 
-<p>[[!toc ]]</p>
-
-<ul>
-<li>Change the title of a page:</li>
-</ul>
-
-<p>[[!meta  title="full page title"]]</p>
-
-<ul>
-<li>Create a blog by inlining a set of pages:</li>
-</ul>
-
-<p><p>[[!inline  pages="blog/*"]]</p></li>
-</ul></p>
 
 </div>
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -162,9 +172,11 @@ For example, you can:</p>
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
+
+
 
 
 
@@ -185,8 +197,8 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Wed  8 Jun 22:40:22 2011</span>
-<!-- Created <span class="date">Wed  8 Jun 22:40:22 2011</span> -->
+Last edited <span class="date">Tue 17 May 15:09:03 2016</span>
+<!-- Created <span class="date">Tue 17 May 15:09:03 2016</span> -->
 </div>
 
 </div>

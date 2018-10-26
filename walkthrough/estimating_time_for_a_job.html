@@ -1,15 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>estimating time for a job</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="../style.css" type="text/css" />
 
 <link rel="stylesheet" href="../local.css" type="text/css" />
+
+
+
+
+
 
 
 
@@ -36,19 +40,27 @@ estimating time for a job
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
 
 
 
 <div id="pagebody">
 
-<div id="content">
+<div id="content" role="main">
 <p>There will be times when you will need to figure out how many CPU hours
 you need to see if it exceeds the available hours in your account balance.</p>
 
@@ -57,20 +69,20 @@ you need to see if it exceeds the available hours in your account balance.</p>
 <p>Assuming that you wish to run a 64 node job with 2 cores per node,
 that's 128 cores for 72hrs of wall time</p>
 
-<pre><code>&#036; sbank time estimate  -N 64 -c 2 -t 72
+<pre><code>$ sbank time estimate  -N 64 -c 2 -t 72
 9216
 </code></pre>
 
 <p>Or you want to run 256 tasks for 48hrs</p>
 
-<pre><code>&#036; sbank time estimate  -n 256 -t 48
+<pre><code>$ sbank time estimate  -n 256 -t 48
 12288
 </code></pre>
 
 <p>You can also use <a href="../sbank-time.html">sbank-time</a>'s helper function 'estimatescript'
-to check the job script that you have </p>
+to check the job script that you have</p>
 
-<pre><code>&#036; sbank time estimatescript -s sample-job1.sh
+<pre><code>$ sbank time estimatescript -s sample-job1.sh
 3072
 </code></pre>
 
@@ -88,7 +100,9 @@ echo "HELLO WORLD"
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -101,9 +115,11 @@ echo "HELLO WORLD"
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
+
+
 
 
 

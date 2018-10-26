@@ -1,3 +1,7 @@
+// © 2006-2010 Joey Hess
+// Redistribution and use in source and compiled forms, with or without
+// modification, are permitted under any circumstances. No warranty.
+//
 // Causes html elements in the 'relativedate' class to be displayed
 // as relative dates. The date is parsed from the title attribute, or from
 // the element content.

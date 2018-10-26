@@ -1,11 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>templates</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
@@ -14,7 +13,12 @@
 
 
 
+
+
 <meta name="robots" content="noindex, follow" />
+
+
+
 </head>
 <body>
 
@@ -34,19 +38,27 @@ templates
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
 
 
 
 <div id="pagebody">
 
-<div id="content">
+<div id="content" role="main">
 <p><a href="./ikiwiki.html">Ikiwiki</a> uses many templates for many purposes. By editing its templates,
 you can fully customise its appearance, and avoid duplicate content.</p>
 
@@ -62,10 +74,13 @@ easy to learn. All you really need to know to modify templates is this:</p>
 use <code>&lt;TMPL_IF variable&gt;text&lt;TMPL_ELSE&gt;other text&lt;/TMPL_IF&gt;</code></li>
 </ul>
 
+
 <h2>template pages</h2>
 
-<p>Template pages are regular wiki pages that are used as templates for other
-pages.</p>
+<p>Template pages are regular wiki pages containing a
+[[!iki  ikiwiki/directive/templatebody desc="templatebody directive"]],
+used as templates for other pages. The parts of the template
+page outside the directive can be used to document it.</p>
 
 <p>The [[!iki  ikiwiki/directive/template desc="template directive"]] allows
 template pages to be filled out and inserted into other pages in the wiki.</p>
@@ -83,6 +98,10 @@ template pages to be filled out and inserted into other pages in the wiki.</p>
 
 </p>
 
+
+
+<p>If the template does not contain a <code>templatebody</code> directive, the entire
+source of the page is used for the template. This is deprecated.</p>
 
 <h2>template files</h2>
 
@@ -113,7 +132,7 @@ key template to customise to change the look and feel of Ikiwiki.</p></li>
 <li><code>feedlink.tmpl</code> - Used to add rss/atom links if <code>blogpost.tmpl</code> is not used.</li>
 <li><code>aggregatepost.tmpl</code> - Used by the aggregate plugin to create
 a page for a post.</li>
-<li><code>searchform.tmpl</code>, <code>googleform.tmpl</code> - Used by the search plugin 
+<li><code>searchform.tmpl</code>, <code>googleform.tmpl</code> - Used by the search plugin
 and google plugin to add search forms to wiki pages.</li>
 <li><code>searchquery.tmpl</code> - This is a Omega template, used by the
 search plugin.</li>
@@ -124,18 +143,26 @@ search plugin.</li>
 <li><code>autotag.tmpl</code> - Filled in by the tag plugin to make tag pages.</li>
 <li><code>calendarmonth.tmpl</code>, <code>calendaryear.tmpl</code> - Used by ikiwiki-calendar to
 make calendar archive pages.</li>
+<li><code>trails.tmpl</code> - Used by the trail plugin to generate links on each page
+that is a member of a trail.</li>
+<li><code>notifyemail.tmpl</code> - Used by the notifymail plugin to generate mails about
+changed pages.</li>
 <li><code>editpage.tmpl</code>, <code>editconflict.tmpl</code>, <code>editcreationconflict.tmpl</code>,
 <code>editfailedsave.tmpl</code>, <code>editpagegone.tmpl</code>, <code>pocreatepage.tmpl</code>,
 <code>editcomment.tmpl</code> <code>commentmoderation.tmpl</code>, <code>renamesummary.tmpl</code>,
-<code>passwordmail.tmpl</code>, <code>openid-selector.tmpl</code>, <code>revert.tmpl</code> - Parts of ikiwiki's user
-interface; do not normally need to be customised.</li>
+<code>passwordmail.tmpl</code>, <code>emailauth.tmpl</code>, <code>login-selector.tmpl</code>,
+<code>revert.tmpl</code> - Parts of ikiwiki's user interface; do not normally need
+to be customised.</li>
 </ul>
+
 
 </div>
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -148,9 +175,11 @@ interface; do not normally need to be customised.</li>
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
+
+
 
 
 
@@ -171,8 +200,8 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Wed  8 Jun 22:40:22 2011</span>
-<!-- Created <span class="date">Wed  8 Jun 22:40:22 2011</span> -->
+Last edited <span class="date">Fri  1 Jan 11:25:16 2016</span>
+<!-- Created <span class="date">Fri  1 Jan 11:25:16 2016</span> -->
 </div>
 
 </div>

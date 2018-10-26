@@ -1,15 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>design</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
 <link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
 
 
 
@@ -34,27 +38,36 @@ design
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
 
 
 
 <div id="pagebody">
 
-<div id="content">
+<div id="content" role="main">
 <h2>DESIGN</h2>
 
-<p>Based on discussions from </p>
+<p>Based on discussions from</p>
 
 <ul>
 <li><a href="http://groups.google.com/group/slurm-devel/browse_frm/thread/1c8805fb274c108f#">http://groups.google.com/group/slurm-devel/browse_frm/thread/1c8805fb274c108f#</a></li>
 <li><a href="http://groups.google.com/group/slurm-devel/browse_thread/thread/b06f3985cc7504b2?tvc=2">http://groups.google.com/group/slurm-devel/browse_thread/thread/b06f3985cc7504b2?tvc=2</a></li>
 </ul>
+
 
 <h2>Requirements</h2>
 
@@ -66,12 +79,17 @@ in <em>slurm.conf</em></p>
 <pre><code>AccountingStorageEnforce=limits
 </code></pre>
 
-<p>The following parameters must also be set, we do not want a decay or
-reset of the usage that is recorded in slurmdbd.</p>
+<p>Note that the <em>PriorityDecayHalfLife</em> and <em>PriorityUsageResetPeriod</em> can
+be used to allow usage half-life decay and reset. This is because
+the usage information is pulled directly from the Slurmdbd via
+<em>sreport</em>; whereas the two parameters above only affect the way
+usage is stored in local *_usage files.</p>
 
-<pre><code>PriorityDecayHalfLife=0
-PriorityUsageResetPeriod=NONE
-</code></pre>
+<p>Note also that when the scheduler looks to see if an association has
+sufficient balance to start a new job, it compares the "GrpCPUMins"
+field against the local *_usage files to check if enough time is
+available (not the Slurmdbd), this can result in negative balances
+being reported by "sbank balance statement".</p>
 
 <p>What is also required is a pretty good estimate of the total available
 cpu hours that you have on your cluster that you can allocate to
@@ -79,14 +97,19 @@ accounts.</p>
 
 <p>Users will need to learn how to use accounts (nothing new here).</p>
 
-<p>sacctmgr and sshare is required and must be working.</p>
+<p>sacctmgr and sreport are required and must be working.</p>
+
+<p>One implementation detail is that 'sreport' requires a start date
+parameter (otherwise it defaults to the previous day). The script defaults
+to using a start date of 3 years in the past. This can be changed with
+the '-s yyyy-mm-dd' parameter.</p>
 
 <h2>How it works</h2>
 
 <p>Time is deposited to an account, which gets drawn from whenever a job
 is submitted to the cluster. Currently the "GrpCPUMins" is used.</p>
 
-<p>Note that there is no concept of 'Reserved' time, like Gold does. This 
+<p>Note that there is no concept of 'Reserved' time, like Gold does. This
 is probably a good thing - as the Gold way of doing it sometimes leads
 to Reserved time getting stuck, and never released. The Slurm way seems
 to only subtract time when the jobs are actually running.</p>
@@ -107,34 +130,46 @@ slurmdbd. (This is our current assumption to keep things simple)</p>
 
 <ul>
 <li>root 20N hours available
+
 <ul>
 <li>account1 with 1N hours</li>
 <li>account2 with 1N hours</li>
 <li>account3 with 2N hours</li>
 <li>account4 with 2N hours</li>
-</ul></li>
 </ul>
+</li>
+</ul>
+
 
 <p>There is effectively no hierachy at all, we could do something like this...</p>
 
 <ul>
 <li>root with 20U of time
+
 <ul>
 <li>CLASS-A with 1U time
+
 <ul>
 <li>account1</li>
 <li>account2</li>
-</ul></li>
+</ul>
+</li>
 <li>CLASS-B with 0.5U time
+
 <ul>
 <li>account3</li>
-</ul></li>
+</ul>
+</li>
 <li>CLASS-C with 0.25U time
+
 <ul>
 <li>account4</li>
-</ul></li>
-</ul></li>
 </ul>
+</li>
+</ul>
+</li>
+</ul>
+
 
 <p>We would have to add some checks or script up the <a href="./sbank-project.html">sbank-project</a>
 wrapper to work in a pre-defined way to allow for the different
@@ -154,9 +189,10 @@ with overlapping reservations. We tried this but we can't set a
 <em>maint</em> reservation that is honoured by slurm. So this is a no go
 for now. One idea is to do it with an external database and some
 helper scripts (done via crontab or something similar).
+
 <ul>
 <li>Note that setting GrpCPUMins to 0 can be used to do this - to put
-an end on the account.  </li>
+an end on the account.</li>
 <li>One idea is to do this offline with an external database and a
 handful of scripts.</li>
 <li>Another idea is to use a flat text file with KEY, PROJECTNAME,
@@ -166,11 +202,13 @@ needed. <a href="http://www.gnu.org/software/recutils/">gnu-recutils</a> looks l
 manipulating a flatfile based database. We could dump out a
 recutils styled db with a perl script every night, then run our
 own expiration script. On second thought sqlite3 might be a better choice.</li>
-</ul></li>
+</ul>
+</li>
 <li>This was mainly conceived as a Gold (bank) replacement, if we ditch maui,
 what other functionality will users miss? Have a 'showq' and 'checkjob'
 wrapper?</li>
 </ul>
+
 
 <h4>recutils as a database backend</h4>
 
@@ -208,28 +246,28 @@ status: active
 
 <p>To insert a record</p>
 
-<pre><code>&#036; recins -t project -f project -v chemistry \
+<pre><code>$ recins -t project -f project -v chemistry \
     -f enddate -v 2011-06-06 \
     projects.rec
-&#036; recins -t project -f project -v physics \
+$ recins -t project -f project -v physics \
     -f enddate -v "2012-06-06" \
     projects.rec
 </code></pre>
 
 <p>To select records after whose accounts are to expire</p>
 
-<pre><code>&#036; recsel -t project -e "enddate &gt;&gt; '2011-07-01'" projects.rec
+<pre><code>$ recsel -t project -e "enddate &gt;&gt; '2011-07-01'" projects.rec
 </code></pre>
 
 <p>Or for a machine readable form</p>
 
-<pre><code>&#036; recsel -C -R project -t project \
+<pre><code>$ recsel -C -R project -t project \
     -e "enddate &lt;&lt; '2012-07-01'" projects.rec
 </code></pre>
 
 <p>Return a list of projects that are 'active' after an 'enddate'</p>
 
-<pre><code>&#036; recsel -C -R project -t project \
+<pre><code>$ recsel -C -R project -t project \
     -e "enddate &lt;&lt; '2012-07-01'" -e "status='active'" projects.rec
 </code></pre>
 
@@ -245,8 +283,7 @@ manually doing it by hand and doing the sums). (This is somewhat
 done as <a href="./sbank-deposit.html">sbank-deposit</a>)</li>
 <li>And to add/remove users from an Account. (see below with gchproject
 idea). <a href="./sbank-project.html">sbank-project</a></li>
-<li>some additional commands/wrapper scripts to mimic GOLD
-<ul>
+<li>some additional commands/wrapper scripts to mimic GOLD</li>
 <li>wrapper script for creating accounts (gmkproject like command),
 default behaviour should create accounts associated with a default
 root account and allow the user to define a parent account if
@@ -254,12 +291,12 @@ necessary. Need to define how projects should be created deleted,
 do you want a structure/hierachy in the accounting db?
 <a href="./sbank-project.html">sbank-project</a></li>
 <li>wrapper script for adding/deleting users from (gchproject like
-command) <a href="./sbank-user.html">sbank-user</a> or <a href="./sbank-project.html">sbank-project</a> </li>
+command) <a href="./sbank-user.html">sbank-user</a> or <a href="./sbank-project.html">sbank-project</a></li>
 <li>wrapper script for making users (gmkuser), do we need to create
 users in slurmdbd before associating users with
 projects/accounts. <a href="./sbank-user.html">sbank-user</a></li>
-</ul></li>
 </ul>
+
 
 <h2>TODO for the script(s)</h2>
 
@@ -267,6 +304,7 @@ projects/accounts. <a href="./sbank-user.html">sbank-user</a></li>
 <li>Re-write using Slurm-Perl API (or in C).</li>
 <li>A bunch of basic tests (partially done), need to be more systematic.</li>
 </ul>
+
 
 <h2>Ideas</h2>
 
@@ -287,6 +325,7 @@ string. Should the transaction logs be checked so users don't get
 multiple refunds?</p></li>
 </ul>
 
+
 <h3>Implemented Ideas</h3>
 
 <ul>
@@ -302,9 +341,9 @@ leave out the account name in their job script, and so slurm will just
 use their default one. <a href="./sbank-user.html">sbank-user</a></li>
 <li><p>for 'sbank balance request', the verbose flag prints out the following:</p>
 
-<p>Current balance     = nnn
-Requested CPU hours = nnn
-Expected balance    = nnn</p></li>
+<p>  Current balance     = nnn
+  Requested CPU hours = nnn
+  Expected balance    = nnn</p></li>
 <li><p>I'd like 'user list' to maybe default to the current user, on the local
 cluster, and print their default account ? Not sure if the current behaviour
 of showing all users is the best. It could be specified with '-a' or something <a href="./sbank-user.html">sbank-user</a></p></li>
@@ -314,6 +353,7 @@ will catch this, but it's no harm to have it. <span class="createlink">sbank-com
 <li>Simple <a href="./tests.html">tests</a> to make sure things are working</li>
 </ul>
 
+
 <h2>Tested on</h2>
 
 <ul>
@@ -321,11 +361,14 @@ will catch this, but it's no harm to have it. <span class="createlink">sbank-com
 <li>SL5x (and system version of perl/bash)</li>
 </ul>
 
+
 </div>
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -338,9 +381,11 @@ will catch this, but it's no harm to have it. <span class="createlink">sbank-com
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
+
+
 
 
 
@@ -359,8 +404,8 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Tue 21 Feb 23:22:27 2012</span>
-<!-- Created <span class="date">Tue 21 Feb 23:22:27 2012</span> -->
+Last edited <span class="date">Sat 16 Jul 11:35:03 2016</span>
+<!-- Created <span class="date">Sat 16 Jul 11:35:03 2016</span> -->
 </div>
 
 </div>

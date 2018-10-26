@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SUG2012-paper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+<div class="page">
+
+<div class="pageheader">
+<div class="header">
+<span>
+<span class="parentlinks">
+
+<a href="./index.html">slurm-bank</a>/ 
+
+</span>
+<span class="title">
+SUG2012-paper
+
+</span>
+</span>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+<div id="pagebody">
+
+<div id="content" role="main">
+<h1><a name="index1h1"></a>SLURM Bank</h1>
+
+<div class="toc">
+<ol>
+	<li class="L1"><a href="#index1h1">SLURM Bank</a>
+	<ol>
+		<li class="L2"><a href="#index1h2">Abstract</a>
+		</li>
+		<li class="L2"><a href="#index2h2">Background</a>
+		<ol>
+			<li class="L3"><a href="#index1h3">FIXME Points are to be moved to slides</a>
+			</li>
+		</ol>
+		</li>
+		<li class="L2"><a href="#index3h2">Design</a>
+		<ol>
+			<li class="L3"><a href="#index2h3">Features</a>
+			</li>
+			<li class="L3"><a href="#index3h3">Off-line Project Database</a>
+			</li>
+		</ol>
+		</li>
+		<li class="L2"><a href="#index4h2">Admin</a>
+		</li>
+		<li class="L2"><a href="#index5h2">User</a>
+		</li>
+		<li class="L2"><a href="#index6h2">Deployed on</a>
+		</li>
+		<li class="L2"><a href="#index7h2">Limitations</a>
+		</li>
+		<li class="L2"><a href="#index8h2">Our Experiences</a>
+		</li>
+		<li class="L2"><a href="#index9h2">Future Work</a>
+		</li>
+	</ol>
+	</li>
+</ol>
+</div>
+
+
+<h2><a name="index1h2"></a>Abstract</h2>
+
+<p>SLURM Bank (sbank) is a collection of wrapper scripts to give GOLD-like
+capabilities for managing resources to SLURM. With the SLURM Bank scripts we
+are able to provide a simple banking system where we can deposit hours
+to an account. Users are associated with these accounts which they use
+to run jobs. If users do not have an account or if they do not have
+hours in their account then they cannot run jobs.</p>
+
+<h2><a name="index2h2"></a>Background</h2>
+
+<h3><a name="index1h3"></a>FIXME Points are to be moved to slides</h3>
+
+<ul>
+<li>Brief history of TCHPC and systems/resource managers
+
+<ul>
+<li>Funding agencies wanted accountability for CPU time; reporting of this</li>
+</ul>
+</li>
+<li>Were running GOLD+Maui+Torque</li>
+<li>Tried GOLD+Maui+SLURM
+
+<ul>
+<li>interface very unreliable, complex</li>
+</ul>
+</li>
+<li>Wanted to just use SLURM (simpler, less complex, more reliable)</li>
+<li>Refs to slurm-dev mailing list threads</li>
+</ul>
+
+
+<hr />
+
+<p>Trinity Centre for High Performance Computing (TCHPC) is based in
+Trinity College Dublin. TCHPC provides a number of storage and compute
+services. The <em>slurm-bank</em> package relates to the compute services
+provided. There are a number of computing systems available to
+academics in TCD, these range from small to medium sized clusters and
+a rack of Bluegene/P.</p>
+
+<p>In the past Torque, Maui and GOLD were deployed to provide the accounting and
+banking features that were required by the funding agencies for justifying
+the funding streams and usage of the funded systems. The deployed system was
+in general not as reliable as we desired. This prompted the devops team to
+look for more suitable alternatives. Prior to the development of slurm-bank
+the solution was to deploy SLURM, Maui and GOLD. While this solution worked
+it was not as reliable or as transparent as desired.</p>
+
+<p>A number of emails were exchanged during FIXME: look up refs. and
+internally at TCHPC the devops decided to implement some of the ideas
+that were expressed by the SLURM developers.</p>
+
+<p>At TCHPC, we were motivated to replace the resource management and
+allocation systems which comprised of three pieces of software (SLURM,
+GOLD and maui) with just a single piece of software: SLURM. Having all
+of the banking functionality in SLURM has benefits for both the
+systems administrators:</p>
+
+<ul>
+<li>Having just SLURM without maui means there are fewer things to go
+wrong</li>
+<li>Overall performance for scheduling and launching jobs is much better
+with just SLURM</li>
+<li>GOLD is overly complicated and we don't need many of the features
+from GOLD</li>
+</ul>
+
+
+<p>And also benefits for end users of clusters:</p>
+
+<ul>
+<li>Fewer commands/systems to learn</li>
+<li>Faster job submission and turn-around</li>
+<li>Greater overall system stability</li>
+</ul>
+
+
+<p>The package is not feature complete and there are issues with the
+current proposed implementation. Despite this, SLURM Bank has been in
+production use at TCHPC for a year with some success.</p>
+
+<h2><a name="index3h2"></a>Design</h2>
+
+<ul>
+<li>Use existing GrpCPUMins feature in SLURM
+
+<ul>
+<li>allocated through SLURM Associations</li>
+</ul>
+</li>
+<li>Usage of spent CPU hours/minutes obtained via sshare
+
+<ul>
+<li>user usage per association is available from the SlurmDBD</li>
+<li>hard GrpCPUMins limits (PriorityDecayHalfLife=0, PriorityUsageResetPeriod=NONE)</li>
+<li>requires PriorityType=priority/multifactor</li>
+<li>but no half-life decay to reduce impact of usage over time</li>
+</ul>
+</li>
+<li>Implemented in shell/perl scripts, mainly as a wrapper to sacctmgr and sshare
+
+<ul>
+<li>adopted similar command-line interface to git ("sbank balance" -&gt; "sbank-balance")</li>
+<li>users need only know one command</li>
+<li>tried to immitate some commonly used GOLD commands</li>
+</ul>
+</li>
+<li>Provides a workflow for just using SLURM</li>
+<li>Turn complex GOLD into an issue of having the user talk to you
+
+<ul>
+<li>GOLD: pre-allocated hours; auto-refund didn't always work proplerly for failed jobs (e.g. due to system failure)</li>
+<li>sbank: user asks admin for a refund, this might not scale for sites with lots of users</li>
+</ul>
+</li>
+<li>Flat hierarchy of Associations
+
+<ul>
+<li>Made this assumption to simplify implementation, we didn't really need or wanted a hierachy of projects</li>
+</ul>
+</li>
+</ul>
+
+
+<h3><a name="index2h3"></a>Features</h3>
+
+<ul>
+<li>Create SLURM Associations (called ``projects'')</li>
+<li>Add users to projects</li>
+<li>Add/subtract hours to/from projects</li>
+<li>Workflows to help users track hours
+
+<ul>
+<li>checking job scripts for CPU hours</li>
+<li>balance statement</li>
+</ul>
+</li>
+<li>Try to be self-documenting
+
+<ul>
+<li>users need only know one command</li>
+<li>documented workflows on who it's supposed to work</li>
+</ul>
+</li>
+</ul>
+
+
+<h3><a name="index3h3"></a>Off-line Project Database</h3>
+
+<ul>
+<li>Off-line (wrt to SLURM) PHP/MySQL application for allocating project codes
+and recording abstract, Project Leader, requested hours, requested storage, start/end
+dates</li>
+<li>Missing a connection between SLURM Bank and the project end dates
+
+<ul>
+<li>could use a simple text DB such as recutils, but this still requires
+some kind of synchronisation workflow</li>
+</ul>
+</li>
+</ul>
+
+
+<h2><a name="index4h2"></a>Admin</h2>
+
+<ul>
+<li>Walkthrough</li>
+</ul>
+
+
+<h2><a name="index5h2"></a>User</h2>
+
+<ul>
+<li>Walkthrough</li>
+</ul>
+
+
+<h2><a name="index6h2"></a>Deployed on</h2>
+
+<ul>
+<li>SLURM 2.2.x, 2.3.x and 2.4.x</li>
+<li>SL5x (and system version of perl/bash)
+
+<ul>
+<li>Experimented with deploying on ARCHLINUX</li>
+</ul>
+</li>
+</ul>
+
+
+<h2><a name="index7h2"></a>Limitations</h2>
+
+<ul>
+<li>SLURM fairshare essentially fails if the period is too long
+
+<ul>
+<li>no reset of fairshare (hard GrpCPUMins limit with PriorityDecayHalfLife=0
+and PriorityUsageResetPeriod=NONE)</li>
+<li>there is no half-life decay, so the user's small usage in the past X
+number of weeks is less important than their large usage Y months ago.</li>
+<li>people's fairshare tends to zero if they've used a lot of their allocation
+`in the past' at any point. Even if they haven't run out of hours, and used
+all of those hours Y months.
+We sort-of knew that this was going to happen, but it wasn't obvious that it
+would become a big issue.</li>
+</ul>
+</li>
+<li>No support for SLURM hierarchy of Associations</li>
+<li>Written as shell/perl, rather than integrated with SLURM source</li>
+<li>Disconnect between project expiry and SLURM/Sbank Associations
+
+<ul>
+<li>recutils</li>
+<li>would need crontab or similar to query and expire Assocations</li>
+</ul>
+</li>
+<li>Many small jobs: has the potential to query sacctmgr many times and create a bottleneck</li>
+</ul>
+
+
+<h2><a name="index8h2"></a>Our Experiences</h2>
+
+<ul>
+<li>sbank balance statement written to the slurm-NNN.out file by the Epilog
+
+<ul>
+<li>some users notice and read this, others don't</li>
+</ul>
+</li>
+<li>Policy of our site: create a new Association/project for each new user-submitted
+project
+
+<ul>
+<li>since priorities/fairshare are calculated on a per-association basis, (no
+per-user weighting) it means that someone who's been hammering the queue and
+runs out of hours, and then is granted a new project code, all of a sudden has
+top priority again, even though someone who's only used half of their
+allocation has a fairshare tending towards zero.</li>
+</ul>
+</li>
+<li>Effects of lack half-life decay and no usage reset
+
+<ul>
+<li>the heavy users won't notice their priorities tending to zero (run out of hours
+and apply for a new project)</li>
+<li>light/casual users don't run out of hours, and don't notice their low priorities;
+they might have a project for over a year (lack of automated project expiry)</li>
+<li>favours new users, and heavy users who are canny enough to keep applying for
+new hours when they run out</li>
+</ul>
+</li>
+<li>Had issues with QoS and multiplier (global vs per-user)
+
+<ul>
+<li>Wanted to implement a higher charge-rate for reservations; needs further exploration</li>
+</ul>
+</li>
+</ul>
+
+
+<h2><a name="index9h2"></a>Future Work</h2>
+
+<ul>
+<li>Re-implement in C, and integrate with upstream source</li>
+<li><p>We're considering stopping with the whole 'fixed hours' concept of sbank, and
+going to a per-quarter reporting with cut-off system.</p>
+
+<ul>
+<li>So we use SLURM's fairshare system as intended!</li>
+<li>Everyone's usage gets reset every 3 months (and so it levels off new and
+existing users).</li>
+<li>Half-life decay works again, so my usage in the last week is more important
+than last month</li>
+<li>Use sreport quarterly to get usage stats.</li>
+<li>Compare that to the off-line PHP/MySQL Project database, and if someone has
+gone over their allocation, that project code is turned off. So someone can
+gain some extra, ``unauthorised'' hours, but not for long.</li>
+</ul>
+</li>
+<li>Upgrade to current SLURM
+
+<ul>
+<li>Done (2.4.x) without issue.</li>
+</ul>
+</li>
+<li>Hooks for reporting disk quotas or other resources that were used</li>
+</ul>
+
+
+</div>
+
+
+
+
+
+<div id="comments" role="complementary">
+
+
+
+
+<div class="addcomment">Comments on this page are closed.</div>
+
+</div>
+
+
+
+</div>
+
+<div id="footer" class="pagefooter" role="contentinfo">
+
+<div id="pageinfo">
+
+
+
+
+
+
+
+
+
+
+
+<div class="pagedate">
+Last edited <span class="date">Thu 19 Dec 16:50:21 2013</span>
+<!-- Created <span class="date">Thu 19 Dec 16:50:21 2013</span> -->
+</div>
+
+</div>
+
+
+<!-- from slurm-bank -->
+</div>
+
+</div>
+
+</body>
+</html>

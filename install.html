@@ -1,15 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Installing slurm bank</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
 <link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
 
 
 
@@ -34,19 +38,27 @@ Installing slurm bank
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
 
 
 
 <div id="pagebody">
 
-<div id="content">
+<div id="content" role="main">
 <p>To install slurm-bank</p>
 
 <h2>Requirements</h2>
@@ -67,12 +79,17 @@ in <em>slurm.conf</em></p>
 <pre><code>AccountingStorageEnforce=limits
 </code></pre>
 
-<p>The following parameters must also be set, we do not want a decay or
-reset of the usage that is recorded in slurmdbd.</p>
+<p>Note that the <em>PriorityDecayHalfLife</em> and <em>PriorityUsageResetPeriod</em> can
+be used to allow usage half-life decay and reset. This is because
+the usage information is pulled directly from the Slurmdbd via
+<em>sreport</em>; whereas the two parameters above only affect the way
+usage is stored in local *_usage files.</p>
 
-<pre><code>PriorityDecayHalfLife=0
-PriorityUsageResetPeriod=NONE
-</code></pre>
+<p>Note also that when the scheduler looks to see if an association has
+sufficient balance to start a new job, it compares the "GrpCPUMins"
+field against the local *_usage files to check if enough time is
+available (not the Slurmdbd), this can result in negative balances
+being reported by "sbank balance statement".</p>
 
 <p>What is also required is a pretty good estimate of the total available
 cpu hours that you have on your cluster that you can allocate to
@@ -80,17 +97,23 @@ accounts.</p>
 
 <p><a href="./sbank-cluster.html">sbank-cluster</a> can provide a rough estimate of what's available.</p>
 
-<pre><code>&#036; sbank cluster cpuhrs
+<pre><code>$ sbank cluster cpuhrs
 </code></pre>
 
 <p>Users will need to learn how to use accounts (nothing new here).</p>
 
-<p>sbatch, sinfo, sacctmgr and sshare is required and must be working.</p>
+<p>sbatch, sinfo, sacctmgr and sreport are required and must be working.</p>
+
+<p>One implementation detail is that 'sreport' requires a start date
+parameter (otherwise it defaults to the previous day). The script defaults
+to using a start date of 3 years in the past. This can be changed with
+the '-s yyyy-mm-dd' parameter.</p>
 
 <p>If you do not already have a cluster registered and configured in slurm,</p>
 
-<pre><code>&#036; sbank cluster create mycluster
+<pre><code>$ sbank cluster create mycluster
 </code></pre>
+
 
 
 
@@ -98,26 +121,26 @@ accounts.</p>
 
 <p>If you have a release tarball, and have ikiwiki installed</p>
 
-<pre><code>&#036; rpmbuild -ta slurm-bank-1.0.tar.gz
+<pre><code>$ rpmbuild -ta slurm-bank-1.0.tar.gz
 </code></pre>
 
 <p>or else if you do not have ikiwiki you can do</p>
 
-<pre><code>&#036; rpmbuild -ta --without docs slurm-bank-1.0.tar.gz
+<pre><code>$ rpmbuild -ta --without docs slurm-bank-1.0.tar.gz
 </code></pre>
 
 <p>Once the RPM's are created you can simply install the RPM's</p>
 
 <h2>Installing on a generic Linux system</h2>
 
-<pre><code>&#036; tar zxvf slurm-bank-1.0.tar.gz
-&#036; cd slurm-bank-1.0
-&#036; make install
+<pre><code>$ tar zxvf slurm-bank-1.0.tar.gz
+$ cd slurm-bank-1.0
+$ make install
 </code></pre>
 
 <p>To install the html documentation,</p>
 
-<pre><code>&#036; make install-docs
+<pre><code>$ make install-docs
 </code></pre>
 
 <p>The html documentation requires ikiwiki to be installed.</p>
@@ -127,12 +150,12 @@ accounts.</p>
 <p>Once the package is installed users and admins can do following to get
 inline help</p>
 
-<pre><code>&#036; man sbank
+<pre><code>$ man sbank
 </code></pre>
 
 <p>or</p>
 
-<pre><code>&#036; sbank help
+<pre><code>$ sbank help
 </code></pre>
 
 <h2>Tests</h2>
@@ -150,7 +173,9 @@ behaviour is correct.</p>
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -163,9 +188,11 @@ behaviour is correct.</p>
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
+
+
 
 
 

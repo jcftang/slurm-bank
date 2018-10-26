@@ -1,15 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>shortcuts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
 <link rel="stylesheet" href="local.css" type="text/css" />
+
+
+
+
+
 
 
 
@@ -34,19 +38,27 @@ shortcuts
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
 
 
 
 <div id="pagebody">
 
-<div id="content">
+<div id="content" role="main">
 <p>This wiki has shortcuts <strong>disabled</strong>.</p>
 
 <p>Some examples of using shortcuts include:</p>
@@ -54,7 +66,7 @@ shortcuts
 <pre><code>[[!google  foo]]
 [[!wikipedia  War_of_1812]]
 [[!debbug  12345]]
-Check the [[!cia  ikiwiki desc="CIA page for %s"]].
+Check the [[!google  ikiwiki desc="google search for %s"]].
 </code></pre>
 
 <p>This page controls what shortcut links the wiki supports.</p>
@@ -62,29 +74,37 @@ Check the [[!cia  ikiwiki desc="CIA page for %s"]].
 <ul>
 <li>[[!shortcut  name=google url="https://encrypted.google.com/search?q=%s"]]</li>
 <li>[[!shortcut  name=archive url="http://web.archive.org/*/%S"]]</li>
-<li>[[!shortcut  name=gmap url="http://maps.google.com/maps?q=%s"]]</li>
-<li>[[!shortcut  name=gmsg url="http://groups.google.com/groups?selm=%s"]]</li>
-<li>[[!shortcut  name=wikipedia url="https://secure.wikimedia.org/wikipedia/en/wiki/%s"]]</li>
+<li>[[!shortcut  name=gmap url="https://maps.google.com/maps?q=%s"]]</li>
+<li>[[!shortcut  name=gmsg url="https://groups.google.com/groups?selm=%s"]]</li>
+<li>[[!shortcut  name=wikipedia url="https://en.wikipedia.org/wiki/%W"]]</li>
 <li>[[!shortcut  name=wikitravel url="https://wikitravel.org/en/%s"]]</li>
-<li>[[!shortcut  name=wiktionary url="https://secure.wikimedia.org/wiktionary/en/wiki/%s"]]</li>
+<li>[[!shortcut  name=wiktionary url="https://en.wiktionary.org/wiki/%s"]]</li>
 <li>[[!shortcut  name=debbug url="http://bugs.debian.org/%S" desc="Debian bug #%s"]]</li>
-<li>[[!shortcut  name=deblist url="http://lists.debian.org/debian-%s" desc="debian-%s@lists.debian.org"]]</li>
+<li>[[!shortcut  name=deblist url="https://lists.debian.org/debian-%s" desc="debian-%s@lists.debian.org"]]</li>
 <li>[[!shortcut  name=debpkg url="http://packages.debian.org/%s"]]</li>
 <li>[[!shortcut  name=debpkgsid url="http://packages.debian.org/sid/%s"]]</li>
 <li>[[!shortcut  name=debpts url="http://packages.qa.debian.org/%s"]]</li>
-<li>[[!shortcut  name=debmsg url="http://lists.debian.org/msgid-search/%s"]]</li>
+<li>[[!shortcut  name=debmsg url="https://lists.debian.org/msgid-search/%s"]]</li>
 <li>[[!shortcut  name=debrt url="https://rt.debian.org/Ticket/Display.html?id=%s"]]</li>
-<li>[[!shortcut  name=debss url="http://snapshot.debian.net/package/%s"]]
+<li>[[!shortcut  name=debss url="http://snapshot.debian.org/package/%s/"]]
+
 <ul>
-<li>Usage: <code>[[!debss  package]]</code>, <code>[[!debss  package#version]]</code>, or <code>[[!debss  package/version]]</code>.  See http://snapshot.debian.net for details.</li>
-</ul></li>
-<li>[[!shortcut  name=debwiki url="http://wiki.debian.org/%s"]]</li>
+<li>Usage: <code>[[!debss  package]]</code> or <code>[[!debss  package/version]]</code>.  See <a href="http://snapshot.debian.org/">http://snapshot.debian.org/</a> for details.</li>
+</ul>
+</li>
+<li>[[!shortcut  name=debwiki url="https://wiki.debian.org/%S"]]</li>
+<li>[[!shortcut  name=debcve url="https://security-tracker.debian.org/tracker/%S"]]
+
+<ul>
+<li>also supports Debian bug numbers, packages and whatever the <a href="https://security-tracker.debian.org/tracker/">security tracker</a> supports.</li>
+</ul>
+</li>
 <li>[[!shortcut  name=fdobug url="https://bugs.freedesktop.org/show_bug.cgi?id=%s" desc="freedesktop.org bug #%s"]]</li>
 <li>[[!shortcut  name=fdolist url="http://lists.freedesktop.org/mailman/listinfo/%s" desc="%s@lists.freedesktop.org"]]</li>
-<li>[[!shortcut  name=gnomebug url="http://bugzilla.gnome.org/show_bug.cgi?id=%s" desc="GNOME bug #%s"]]</li>
-<li>[[!shortcut  name=linuxbug url="http://bugzilla.kernel.org/show_bug.cgi?id=%s" desc="Linux bug #%s"]]</li>
+<li>[[!shortcut  name=gnomebug url="https://bugzilla.gnome.org/show_bug.cgi?id=%s" desc="GNOME bug #%s"]]</li>
+<li>[[!shortcut  name=linuxbug url="https://bugzilla.kernel.org/show_bug.cgi?id=%s" desc="Linux bug #%s"]]</li>
 <li>[[!shortcut  name=mozbug url="https://bugzilla.mozilla.org/show_bug.cgi?id=%s" desc="Mozilla bug #%s"]]</li>
-<li>[[!shortcut  name=gnulist url="http://lists.gnu.org/mailman/listinfo/%s" desc="%s@gnu.org"]]</li>
+<li>[[!shortcut  name=gnulist url="https://lists.gnu.org/mailman/listinfo/%s" desc="%s@gnu.org"]]</li>
 <li>[[!shortcut  name=marcmsg url="http://marc.info/?i=%s"]]</li>
 <li>[[!shortcut  name=marclist url="http://marc.info/?l=%s"]]</li>
 <li>[[!shortcut  name=gmane url="http://dir.gmane.org/gmane.%s" desc="gmane.%s"]]</li>
@@ -94,8 +114,8 @@ Check the [[!cia  ikiwiki desc="CIA page for %s"]].
 <li>[[!shortcut  name=hoogle url="http://haskell.org/hoogle/?q=%s"]]</li>
 <li>[[!shortcut  name=iki url="http://ikiwiki.info/%S/"]]</li>
 <li>[[!shortcut  name=ljuser url="http://%s.livejournal.com/"]]</li>
-<li>[[!shortcut  name=rfc url="http://www.ietf.org/rfc/rfc%s.txt" desc="RFC %s"]]</li>
-<li>[[!shortcut  name=c2 url="http://c2.com/cgi/wiki?%s"]]</li>
+<li>[[!shortcut  name=rfc url="https://www.ietf.org/rfc/rfc%s.txt" desc="RFC %s"]]</li>
+<li>[[!shortcut  name=c2 url="http://wiki.c2.com/?%s"]]</li>
 <li>[[!shortcut  name=meatballwiki url="http://www.usemod.com/cgi-bin/mb.pl?%s"]]</li>
 <li>[[!shortcut  name=emacswiki url="http://www.emacswiki.org/cgi-bin/wiki/%s"]]</li>
 <li>[[!shortcut  name=haskellwiki url="http://haskell.org/haskellwiki/%s"]]</li>
@@ -104,21 +124,29 @@ Check the [[!cia  ikiwiki desc="CIA page for %s"]].
 <li>[[!shortcut  name=gpg url="http://pgpkeys.mit.edu:11371/pks/lookup?op=vindex&amp;exact=on&amp;search=0x%s"]]</li>
 <li>[[!shortcut  name=perldoc url="http://perldoc.perl.org/search.html?q=%s"]]</li>
 <li>[[!shortcut  name=whois url="http://reports.internic.net/cgi/whois?whois_nic=%s&amp;type=domain"]]</li>
-<li>[[!shortcut  name=cve url="http://cve.mitre.org/cgi-bin/cvename.cgi?name=%s"]]</li>
-<li>[[!shortcut  name=cia url="http://cia.vc/stats/project/%s"]]</li>
-<li>[[!shortcut  name=ciauser url="http://cia.vc/stats/user/%s"]]</li>
-<li>[[!shortcut  name=flickr url="http://www.flickr.com/photos/%s"]]</li>
-<li>[[!shortcut  name=man url="http://linux.die.net/man/%s"]]</li>
-<li>[[!shortcut  name=ohloh url="http://www.ohloh.net/projects/%s"]]</li>
+<li>[[!shortcut  name=cve url="https://cve.mitre.org/cgi-bin/cvename.cgi?name=%s"]]</li>
+<li>[[!shortcut  name=flickr url="https://secure.flickr.com/photos/%s"]]</li>
+<li>[[!shortcut  name=man url="http://manpages.debian.org/%s"]]</li>
+<li>[[!shortcut  name=ohloh url="https://www.ohloh.net/p/%s"]]</li>
 <li>[[!shortcut  name=cpanrt url="https://rt.cpan.org/Ticket/Display.html?id=%s" desc="CPAN RT#%s"]]</li>
 <li>[[!shortcut  name=novellbug url="https://bugzilla.novell.com/show_bug.cgi?id=%s" desc="bug %s"]]</li>
+<li>[[!shortcut  name=ubupkg url="http://packages.ubuntu.com/%s"]]</li>
+<li>[[!shortcut  name=mozillazinekb url="http://kb.mozillazine.org/%s"]]</li>
+<li>[[!shortcut  name=freebsdwiki url="http://wiki.freebsd.org/%s"]]</li>
+<li>[[!shortcut  name=hackage url="http://hackage.haskell.org/package/%s"]]</li>
+<li>[[!shortcut  name=pkgsrc url="http://pkgsrc.se/%S"]]</li>
+<li>[[!shortcut  name=doi url="http://dx.doi.org/%s" desc="doi:%s"]]</li>
+<li>[[!shortcut  name=arxiv url="http://arxiv.org/abs/%s" desc="arXiv:%s"]]</li>
 </ul>
+
 
 <p>To add a new shortcut, use the <code>shortcut</code>
 <a href="./ikiwiki/directive.html">directive</a>. In the url, "%s" is replaced with the
 text passed to the named shortcut, after [[!wikipedia  url_encoding]]
-it, and '%S' is replaced with the raw, non-encoded text. The optional
-<code>desc</code> parameter controls the description of the link.</p>
+it, and '%S' is replaced with the raw, non-encoded text.
+Additionally, <code>%W</code> is replaced with the text encoded just right for
+Wikipedia. The optional <code>desc</code> parameter controls the description of
+the link.</p>
 
 <p>Remember that the <code>name</code> you give the shortcut will become a new
 <a href="./ikiwiki/directive.html">directive</a>.  Avoid using a <code>name</code> that conflicts
@@ -134,7 +162,9 @@ ikiwiki will include your shortcut in the standard underlay.</p>
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -147,9 +177,11 @@ ikiwiki will include your shortcut in the standard underlay.</p>
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
+
+
 
 
 
@@ -168,8 +200,8 @@ Links:
 
 
 <div class="pagedate">
-Last edited <span class="date">Wed  8 Jun 22:40:22 2011</span>
-<!-- Created <span class="date">Wed  8 Jun 22:40:22 2011</span> -->
+Last edited <span class="date">Mon  9 Jan 14:09:35 2017</span>
+<!-- Created <span class="date">Mon  9 Jan 14:09:35 2017</span> -->
 </div>
 
 </div>

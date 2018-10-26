@@ -1,15 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>expiring accounts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="../style.css" type="text/css" />
 
 <link rel="stylesheet" href="../local.css" type="text/css" />
+
+
+
+
+
 
 
 
@@ -36,24 +40,32 @@ expiring accounts
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
 
 
 
 <div id="pagebody">
 
-<div id="content">
+<div id="content" role="main">
 <p>To expire projects the admin can either use <a href="../sbank-deposit.html">sbank-deposit</a> and remove
 all the accounts from an account or use <a href="../sbank-project.html">sbank-project</a> to expire
 an account.</p>
 
-<pre><code>&#036; sbank project expire -c mycluster -a myaccount
+<pre><code>$ sbank project expire -c mycluster -a myaccount
 </code></pre>
 
 <p>The above command simply zero's the account limit.</p>
@@ -62,7 +74,9 @@ an account.</p>
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -75,9 +89,11 @@ an account.</p>
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
+
+
 
 
 

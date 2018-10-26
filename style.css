@@ -5,14 +5,12 @@
  */
 
 /* html5 compat */
-article,
-header,
-footer,
-nav {
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section {
 	display: block;
 }
 
-.header {
+div.header, header.header {
 	margin: 0;
 	font-size: 140%;
 	font-weight: bold;
@@ -58,7 +56,8 @@ nav {
 	border-bottom: 1px solid #000;
 }
 
-.inlinecontent {
+.inlinecontent,
+.inlineenclosure {
 	margin-top: .4em;
 }
 
@@ -202,6 +201,13 @@ div.recentchanges {
 	margin-top: 1em;
 }
 
+.archivepagedate {
+	font-style: italic;
+}
+.archivepage {
+	margin-bottom: 1em;
+}
+
 .error {
 	color: #C00;
 }
@@ -275,6 +281,7 @@ div.progress-done {
 @media print {
 	.actions { display: none; }
 	.tags { display: none; }
+	.trails { display: none; }
 	.feedbutton { display: none; }
 	#searchform { display: none; }
 	.blogform, #blogform { display: none; }
@@ -315,6 +322,7 @@ div.progress-done {
 .popup .paren,
 .popup .expand {
 	display: none;
+	text-align: left;
 }
 .popup:hover .balloon,
 .popup:focus .balloon {
@@ -457,39 +465,131 @@ li.L8 { list-style: upper-alpha; }
 	display: none;
 }
 
-/* openid selector */
-#openid_choice {
+/* login selector */
+#login_choice {
 	display: none;
 }
-#openid_input_area {
+#login_input_area {
 	clear: both;
 	padding: 10px;
 }
-#openid_btns, #openid_btns br {
+#login_btns, #login_btns br {
 	clear: both;
 }
-#openid_highlight {
+#login_highlight {
 	background-color: black;
 	float: left;
 }
-.openid_large_btn {
+.login_large_btn {
 	padding: 1em 1.5em;
 	border: 1px solid #DDD;
 	margin: 3px;
 	float: left;
 }
-.openid_small_btn {
+.login_small_btn {
 	padding: 4px 4px;
 	border: 1px solid #DDD;
 	margin: 3px;
 	float: left;
 }
-a.openid_large_btn:focus {
+a.login_large_btn:focus {
 	outline: none;
 }
-a.openid_large_btn:focus {
+a.login_large_btn:focus {
 	outline-style: none;
 }
-.openid_selected {
+.login_selected {
 	border: 4px solid #DDD;
+}
+
+.fileupload-content .ui-progressbar {
+	width: 200px;
+	height: 20px;
+}
+.fileupload-content .ui-progressbar-value {
+	background: url(ikiwiki/images/pbar-ani.gif);
+}
+
+.trails {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+.trail {
+	display: block;
+	clear: both;
+	position: relative;
+}
+
+.trailprev {
+	display: block;
+	text-align: left;
+	position: absolute;
+	top: 0%;
+	left: 3%;
+	width: 30%;
+}
+
+.trailup {
+	display: block;
+	text-align: center;
+	margin-left: 35%;
+	margin-right: 35%;
+}
+
+.trailnext {
+	display: block;
+	text-align: right;
+	position: absolute;
+	top: 0%;
+	width: 30%;
+	right: 3%;
+}
+
+.trailsep {
+	display: none;
+}
+
+/* mobile/small-screen-friendly layout */
+@media (max-width: 600px) {
+	.sidebar {
+		width: auto;
+		float: none;
+		margin-top: 0;
+		border: none;
+	}
+
+	/* if the mobile browser is new enough, use flex layout to shuffle
+	 * the sidebar to the end */
+	.page {
+		display: -webkit-box;
+		display: -webkit-flexbox;
+		display: -webkit-flex;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-webkit-flex-direction: tb;
+		-webkit-flex-direction: column;
+		-webkit-flex-flow: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+	}
+	#pageheader {
+		-webkit-box-ordinal-group: -1;
+		-webkit-order: -1;
+		-ms-box-ordinal-group: -1;
+		-ms-flex-order: -1;
+		order: -1;
+	}
+	.sidebar, #footer {
+		-webkit-box-ordinal-group: 1;
+		-webkit-order: 1;
+		-ms-box-ordinal-group: 1;
+		-ms-flex-order: 1;
+		order: 1;
+	}
+
+	.blogform, #blogform {
+		padding: 4px 4px;
+	}
 }

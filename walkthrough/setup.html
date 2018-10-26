@@ -1,15 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Setup slurm and slurmdbd (need root access)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" href="../style.css" type="text/css" />
 
 <link rel="stylesheet" href="../local.css" type="text/css" />
+
+
+
+
+
 
 
 
@@ -36,19 +40,27 @@ Setup slurm and slurmdbd (need root access)
 </span>
 </span>
 
-</div>
-
-
-
 
 
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
 
 
 
 <div id="pagebody">
 
-<div id="content">
+<div id="content" role="main">
 <p>The first thing to do is to setup <a href="https://computing.llnl.gov/linux/slurm/">slurm</a> and <a href="https://computing.llnl.gov/linux/slurm/accounting.html">slurmdbd</a>. This
 documentation assumes the user knows basic slurm administration.</p>
 
@@ -58,12 +70,17 @@ in <em>slurm.conf</em></p>
 <pre><code>AccountingStorageEnforce=limits
 </code></pre>
 
-<p>The following parameters must also be set, we do not want a decay or
-reset of the usage that is recorded in slurmdbd.</p>
+<p>Note that the <em>PriorityDecayHalfLife</em> and <em>PriorityUsageResetPeriod</em> can
+be used to allow usage half-life decay and reset. This is because
+the usage information is pulled directly from the Slurmdbd via
+<em>sreport</em>; whereas the two parameters above only affect the way
+usage is stored in local *_usage files.</p>
 
-<pre><code>PriorityDecayHalfLife=0
-PriorityUsageResetPeriod=NONE
-</code></pre>
+<p>Note also that when the scheduler looks to see if an association has
+sufficient balance to start a new job, it compares the "GrpCPUMins"
+field against the local *_usage files to check if enough time is
+available (not the Slurmdbd), this can result in negative balances
+being reported by "sbank balance statement".</p>
 
 <p>What is also required is a pretty good estimate of the total available
 cpu hours that you have on your cluster that you can allocate to
@@ -71,23 +88,30 @@ accounts.</p>
 
 <p><a href="../sbank-cluster.html">sbank-cluster</a> can provide a rough estimate of what's available.</p>
 
-<pre><code>&#036; sbank cluster cpuhrs
+<pre><code>$ sbank cluster cpuhrs
 </code></pre>
 
 <p>Users will need to learn how to use accounts (nothing new here).</p>
 
-<p>sbatch, sinfo, sacctmgr and sshare is required and must be working.</p>
+<p>sbatch, sinfo, sacctmgr and sreport are required and must be working.</p>
+
+<p>One implementation detail is that 'sreport' requires a start date
+parameter (otherwise it defaults to the previous day). The script defaults
+to using a start date of 3 years in the past. This can be changed with
+the '-s yyyy-mm-dd' parameter.</p>
 
 <p>If you do not already have a cluster registered and configured in slurm,</p>
 
-<pre><code>&#036; sbank cluster create mycluster
+<pre><code>$ sbank cluster create mycluster
 </code></pre>
 
 </div>
 
 
 
-<div id="comments">
+
+
+<div id="comments" role="complementary">
 
 
 
@@ -100,7 +124,7 @@ accounts.</p>
 
 </div>
 
-<div id="footer" class="pagefooter">
+<div id="footer" class="pagefooter" role="contentinfo">
 
 <div id="pageinfo">
 
@@ -112,9 +136,11 @@ accounts.</p>
 
 
 
+
+
 <div class="pagedate">
-Last edited <span class="date">Tue 21 Feb 23:22:27 2012</span>
-<!-- Created <span class="date">Tue 21 Feb 23:22:27 2012</span> -->
+Last edited <span class="date">Sat 16 Jul 11:35:03 2016</span>
+<!-- Created <span class="date">Sat 16 Jul 11:35:03 2016</span> -->
 </div>
 
 </div>
