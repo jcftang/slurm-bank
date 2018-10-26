@@ -2,5 +2,3 @@ To download the development source code please go to
 
 * <https://github.com/jcftang/slurm-bank> -- this seems to be where all
 the changes end up getting pushed to first.
-* <http://thammuz.tchpc.tcd.ie/mirrors/slurm-bank/> -- the occasional
-snapshots gets put here.
