@@ -32,13 +32,13 @@ Administrator Notes
 
 To build an installable RPM from the tarball
 
-	rpmbuild -ta slurm-bank-1.1.1.2.tar.gz
+	rpmbuild -ta --nodebuginfo slurm-bank-1.1.1.2.tar.gz
 
 The above assumes that the appropriate compiler and rpm-build packages
 are installed on your system. You will need ikiwiki installed to generate
 the html documetation. If you do not have ikiwiki installed you can do:
 
-	rpmbuild -ta --without docs slurm-bank-1.1.1.2.tar.gz
+	rpmbuild -ta --nodebuginfo --without docs slurm-bank-1.1.1.2.tar.gz
 
 If you have a clone of the repository, there is a pre-generated set of
 html pages stored in the html branch.
