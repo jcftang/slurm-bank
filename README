@@ -25,7 +25,7 @@ There is a pre-generated set of documentation available at
 
 To get the source and documentation please do
 
-	git clone git://github.com/jcftang/slurm-bank.git
+	git clone https://github.com/jcftang/slurm-bank.git
 
 Administrator Notes
 ===================
