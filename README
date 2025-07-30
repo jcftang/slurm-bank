@@ -11,8 +11,8 @@ if they do not have hours in their account then they cannot run jobs.
 
 Requirements (tested with)
 
-* SLURM 2.2.0, 2.2.7, 2.4.1, 2.5.3, 2.6.x, 14.11.x, 15.08.x
-* Scientific Linux 5.x, 6.x (bash, rsync, perl)
+* SLURM 2.2.0, 2.2.7, 2.4.1, 2.5.3, 2.6.x, 14.11.x, 15.08.x, 25.05.x
+* Scientific Linux 5.x, 6.x, 9.x (bash, rsync, perl)
 
 Source and Documentation
 ========================
@@ -32,13 +32,13 @@ Administrator Notes
 
 To build an installable RPM from the tarball
 
-	rpmbuild -ta --nodebuginfo slurm-bank-1.1.1.2.tar.gz
+	rpmbuild -ta --nodebuginfo slurm-bank-1.4.3.tar.gz
 
 The above assumes that the appropriate compiler and rpm-build packages
 are installed on your system. You will need ikiwiki installed to generate
 the html documetation. If you do not have ikiwiki installed you can do:
 
-	rpmbuild -ta --nodebuginfo --without docs slurm-bank-1.1.1.2.tar.gz
+	rpmbuild -ta --nodebuginfo --without docs slurm-bank-1.4.3.tar.gz
 
 If you have a clone of the repository, there is a pre-generated set of
 html pages stored in the html branch.
