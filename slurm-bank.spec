@@ -1,7 +1,7 @@
 # Pass --with docs to rpmbuild if you want the HTML documentation (requires ikiwiki)
 
 Name:           slurm-bank
-Version:        1.4.2
+Version:        1.4.3
 Release:        1%{?dist}
 Summary:        SLURM Bank, a collection of wrapper scripts to do banking
 
