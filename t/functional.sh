@@ -10,22 +10,26 @@ FAKE_BIN="$TMP_ROOT/bin"
 STAGED_SRC="$TMP_ROOT/src"
 LOG="$TMP_ROOT/commands.log"
 ERR="$TMP_ROOT/stderr"
+ASSOC_LIMIT_STATE="$TMP_ROOT/assoc-limit"
 mkdir -p "$FAKE_BIN" "$STAGED_SRC"
 : > "$LOG"
+printf '%s\n' 120 > "$ASSOC_LIMIT_STATE"
 
 export SBANK_TEST_LOG="$LOG"
-export FAKE_ASSOC_LIMIT=120
+export ASSOC_LIMIT_STATE
 export FAKE_BALANCE=1000
 export FAKE_DEFAULT_ACCOUNT=defaultacct
 export FAKE_LOCAL_CLUSTER=localcluster
 export FAKE_SACCT_ACCOUNT=refundacct
 export FAKE_SACCT_ELAPSED=01:00:00
 export FAKE_SINFO_OUTPUT=$'16 debug\n32 batch'
+export SLURMBANK_LOCK_DIR="$TMP_ROOT/locks"
 
 # Stage the production shell code so helper programs can be replaced without
 # modifying the checkout. The real shFlags implementation is still used.
 cp "$REPO_ROOT/src/sbank" "$STAGED_SRC/"
 cp "$REPO_ROOT/src/sbank-common" "$STAGED_SRC/"
+cp "$REPO_ROOT/src/sbank-bank-common" "$STAGED_SRC/"
 for command in balance cluster deduct deposit project refund submit time user version; do
     cp "$REPO_ROOT/src/sbank-$command" "$STAGED_SRC/"
 done
@@ -51,6 +55,22 @@ cat > "$FAKE_BIN/sacctmgr" <<'EOF_FAKE'
 printf 'sacctmgr %s\n' "$*" >> "$SBANK_TEST_LOG"
 args="$*"
 case "$args" in
+    *"list associations"*"Format=Account,User,Partition,ParentName,ID,GrpCPUMins,GrpTRESMins%1000"*"WOPLimits"*)
+        account=
+        for arg in "$@"; do
+            case "$arg" in
+                Accounts=*) account=${arg#Accounts=} ;;
+            esac
+        done
+        printf '%s|||root|42|%s|\n' "$account" "$(cat "$ASSOC_LIMIT_STATE")"
+        ;;
+    *"modify account"*"GrpCPUMins="*)
+        for arg in "$@"; do
+            case "$arg" in
+                GrpCPUMins=*) printf '%s\n' "${arg#GrpCPUMins=}" > "$ASSOC_LIMIT_STATE" ;;
+            esac
+        done
+        ;;
     *"list association cluster="*"format=Account,GrpCPUMins"*)
         printf 'ROOT|0|\nproject-a|6000|\nproject-b|12000|\n'
         ;;
@@ -64,7 +84,7 @@ case "$args" in
         printf 'ROOT|root|\nproject-a|alice|\nproject-a|bob|\nproject-b|alice|\nproject-b|charlie|\n'
         ;;
     *"list associations"*"format=account,GrpCPUMins"*)
-        printf 'testacct|%s|\n' "${FAKE_ASSOC_LIMIT:-120}"
+        printf 'testacct|%s|\n' "$(cat "$ASSOC_LIMIT_STATE")"
         ;;
     *"list associations"*"format=cluster%30,account%30"*)
         printf 'cluster-a account-a\ncluster-b account-b\n'
@@ -386,7 +406,7 @@ run "$SBANK" user account
 export USER=$OLD_USER
 assert_log_contains 'names=bob' 'user account falls back to current USER'
 
-export FAKE_ASSOC_LIMIT=120
+printf '%s\n' 120 > "$ASSOC_LIMIT_STATE"
 reset_log
 run "$SBANK" deposit -c cluster-a -a project-a -t 2
 assert_rc 0 'deposit succeeds'
@@ -397,7 +417,7 @@ run "$SBANK" deposit -c cluster-a -a project-a -t 0
 assert_rc 0 'zero-hour deposit is a no-op'
 assert_log_not_contains 'modify account' 'zero-hour deposit does not mutate accounting limit'
 
-export FAKE_ASSOC_LIMIT=300
+printf '%s\n' 300 > "$ASSOC_LIMIT_STATE"
 reset_log
 run "$SBANK" deduct -c cluster-a -a project-a -t 2
 assert_log_contains 'sacctmgr -i modify account account=project-a set GrpCPUMins=180 where cluster=cluster-a' 'deduct subtracts hours converted to minutes'
@@ -431,7 +451,7 @@ assert_rc 0 'submit completes when mock balance check succeeds'
 assert_log_contains 'sbatch ' 'submit invokes sbatch'
 assert_log_contains "$JOB_TASKS" 'submit passes script path to backend commands'
 
-export FAKE_ASSOC_LIMIT=120
+printf '%s\n' 120 > "$ASSOC_LIMIT_STATE"
 export FAKE_SACCT_ELAPSED=01:00:00
 reset_log
 run "$SBANK" refund job -a project-a -j 123
@@ -439,6 +459,7 @@ assert_rc 0 'refund with explicit account succeeds'
 assert_log_contains 'sacct -n --format elapsed%30 -j 123' 'refund reads job elapsed time'
 assert_log_contains 'set GrpCPUMins=180 where cluster=localcluster' 'refund deposits elapsed hours into local cluster account'
 
+printf '%s\n' 120 > "$ASSOC_LIMIT_STATE"
 export FAKE_SACCT_ACCOUNT=refundacct
 reset_log
 run "$SBANK" refund job -j 456
