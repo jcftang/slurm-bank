@@ -11,8 +11,10 @@ sbank deduct [OPTION]...
 # DESCRIPTION
 
 slurm bank administrative tool for adding or removing finite resource-hour
-credits on a Slurm account. Amounts are positive whole hours. CPU is the
-default resource. GPU-hour banking is selected with `--tres gres/gpu`.
+credits on a Slurm account. Deposits accept positive whole hours and, for
+backward compatibility, zero as a successful no-op. Deductions require positive
+whole hours. CPU is the default resource. GPU-hour banking is selected with
+`--tres gres/gpu`.
 
 CPU credits continue to use the legacy `GrpCPUMins` association limit for
 compatibility with existing slurm-bank installations.
@@ -131,9 +133,10 @@ GPU bank.
 
 * -t, --time
 
-  Specify positive whole hours to deposit or deduct. Values must be canonical
-  base-10 integers without leading zeroes and must fit within sbank's safe
-  integer range.
+  Specify whole hours to deposit or deduct. A deposit of zero is accepted as
+  a successful no-op for backward compatibility; deductions must be greater
+  than zero. Non-zero values must be canonical base-10 integers without leading
+  zeroes and must fit within sbank's safe integer range.
 
 * -r, --tres
 

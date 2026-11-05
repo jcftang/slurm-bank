@@ -3,6 +3,7 @@ set -u
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 REPO_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
+SOURCE_DIR=${SBANK_TEST_SOURCE:-$REPO_ROOT/src}
 TMP_ROOT=$(mktemp -d "${TMPDIR:-/tmp}/slurm-bank-test.XXXXXX")
 trap 'rm -rf "$TMP_ROOT"' EXIT
 
@@ -10,26 +11,30 @@ FAKE_BIN="$TMP_ROOT/bin"
 STAGED_SRC="$TMP_ROOT/src"
 LOG="$TMP_ROOT/commands.log"
 ERR="$TMP_ROOT/stderr"
+ASSOC_LIMIT_STATE="$TMP_ROOT/assoc-limit"
 mkdir -p "$FAKE_BIN" "$STAGED_SRC"
 : > "$LOG"
+printf '%s\n' 120 > "$ASSOC_LIMIT_STATE"
 
 export SBANK_TEST_LOG="$LOG"
-export FAKE_ASSOC_LIMIT=120
+export ASSOC_LIMIT_STATE
 export FAKE_BALANCE=1000
 export FAKE_DEFAULT_ACCOUNT=defaultacct
 export FAKE_LOCAL_CLUSTER=localcluster
 export FAKE_SACCT_ACCOUNT=refundacct
 export FAKE_SACCT_ELAPSED=01:00:00
 export FAKE_SINFO_OUTPUT=$'16 debug\n32 batch'
+export SLURMBANK_LOCK_DIR="$TMP_ROOT/locks"
 
 # Stage the production shell code so helper programs can be replaced without
 # modifying the checkout. The real shFlags implementation is still used.
-cp "$REPO_ROOT/src/sbank" "$STAGED_SRC/"
-cp "$REPO_ROOT/src/sbank-common" "$STAGED_SRC/"
+cp "$SOURCE_DIR/sbank" "$STAGED_SRC/"
+cp "$SOURCE_DIR/sbank-common" "$STAGED_SRC/"
+cp "$SOURCE_DIR/sbank-bank-common" "$STAGED_SRC/"
 for command in balance cluster deduct deposit project refund submit time user version; do
-    cp "$REPO_ROOT/src/sbank-$command" "$STAGED_SRC/"
+    cp "$SOURCE_DIR/sbank-$command" "$STAGED_SRC/"
 done
-ln -s "$REPO_ROOT/shFlags/src/shflags" "$STAGED_SRC/shflags"
+cp -L "$SOURCE_DIR/shflags" "$STAGED_SRC/shflags"
 chmod +x "$STAGED_SRC/sbank"
 
 cat > "$STAGED_SRC/_sbank-balance.pl" <<'EOF_HELPER'
@@ -51,6 +56,22 @@ cat > "$FAKE_BIN/sacctmgr" <<'EOF_FAKE'
 printf 'sacctmgr %s\n' "$*" >> "$SBANK_TEST_LOG"
 args="$*"
 case "$args" in
+    *"list associations"*"Format=Account,User,Partition,ParentName,ID,GrpCPUMins,GrpTRESMins%1000"*"WOPLimits"*)
+        account=
+        for arg in "$@"; do
+            case "$arg" in
+                Accounts=*) account=${arg#Accounts=} ;;
+            esac
+        done
+        printf '%s|||root|42|%s|\n' "$account" "$(cat "$ASSOC_LIMIT_STATE")"
+        ;;
+    *"modify account"*"GrpCPUMins="*)
+        for arg in "$@"; do
+            case "$arg" in
+                GrpCPUMins=*) printf '%s\n' "${arg#GrpCPUMins=}" > "$ASSOC_LIMIT_STATE" ;;
+            esac
+        done
+        ;;
     *"list association cluster="*"format=Account,GrpCPUMins"*)
         printf 'ROOT|0|\nproject-a|6000|\nproject-b|12000|\n'
         ;;
@@ -64,7 +85,7 @@ case "$args" in
         printf 'ROOT|root|\nproject-a|alice|\nproject-a|bob|\nproject-b|alice|\nproject-b|charlie|\n'
         ;;
     *"list associations"*"format=account,GrpCPUMins"*)
-        printf 'testacct|%s|\n' "${FAKE_ASSOC_LIMIT:-120}"
+        printf 'testacct|%s|\n' "$(cat "$ASSOC_LIMIT_STATE")"
         ;;
     *"list associations"*"format=cluster%30,account%30"*)
         printf 'cluster-a account-a\ncluster-b account-b\n'
@@ -274,7 +295,7 @@ assert_contains "$OUT" 'Available commands are:' 'unknown command prints usage'
 
 run "$SBANK" version
 assert_rc 0 'version command succeeds'
-assert_eq '1.4.3' "$OUT" 'version command reports expected version'
+assert_eq "$(sed 's/^slurm-bank-//' "$REPO_ROOT/VERSION")" "$OUT" 'version command reports expected version'
 
 run "$SBANK" time calc -t 4-00:00:00
 assert_eq '96' "$OUT" 'time calc handles days-hours:minutes:seconds'
@@ -386,7 +407,7 @@ run "$SBANK" user account
 export USER=$OLD_USER
 assert_log_contains 'names=bob' 'user account falls back to current USER'
 
-export FAKE_ASSOC_LIMIT=120
+printf '%s\n' 120 > "$ASSOC_LIMIT_STATE"
 reset_log
 run "$SBANK" deposit -c cluster-a -a project-a -t 2
 assert_rc 0 'deposit succeeds'
@@ -397,7 +418,7 @@ run "$SBANK" deposit -c cluster-a -a project-a -t 0
 assert_rc 0 'zero-hour deposit is a no-op'
 assert_log_not_contains 'modify account' 'zero-hour deposit does not mutate accounting limit'
 
-export FAKE_ASSOC_LIMIT=300
+printf '%s\n' 300 > "$ASSOC_LIMIT_STATE"
 reset_log
 run "$SBANK" deduct -c cluster-a -a project-a -t 2
 assert_log_contains 'sacctmgr -i modify account account=project-a set GrpCPUMins=180 where cluster=cluster-a' 'deduct subtracts hours converted to minutes'
@@ -431,7 +452,7 @@ assert_rc 0 'submit completes when mock balance check succeeds'
 assert_log_contains 'sbatch ' 'submit invokes sbatch'
 assert_log_contains "$JOB_TASKS" 'submit passes script path to backend commands'
 
-export FAKE_ASSOC_LIMIT=120
+printf '%s\n' 120 > "$ASSOC_LIMIT_STATE"
 export FAKE_SACCT_ELAPSED=01:00:00
 reset_log
 run "$SBANK" refund job -a project-a -j 123
@@ -439,6 +460,7 @@ assert_rc 0 'refund with explicit account succeeds'
 assert_log_contains 'sacct -n --format elapsed%30 -j 123' 'refund reads job elapsed time'
 assert_log_contains 'set GrpCPUMins=180 where cluster=localcluster' 'refund deposits elapsed hours into local cluster account'
 
+printf '%s\n' 120 > "$ASSOC_LIMIT_STATE"
 export FAKE_SACCT_ACCOUNT=refundacct
 reset_log
 run "$SBANK" refund job -j 456
@@ -449,7 +471,7 @@ run "$SBANK" refund job -j 0
 assert_rc 1 'refund rejects non-positive job ids'
 
 # Exercise the real Perl balance helper with deterministic Slurm command data.
-BALANCE_HELPER="$REPO_ROOT/src/_sbank-balance.pl"
+BALANCE_HELPER="$SOURCE_DIR/_sbank-balance.pl"
 run perl "$BALANCE_HELPER" -c localcluster -b project-a
 assert_rc 0 'Perl balance helper raw-balance query succeeds'
 assert_eq '90' "$OUT" 'Perl balance helper converts minute limit and second usage to hours'
@@ -487,7 +509,7 @@ run perl "$BALANCE_HELPER" -c localcluster -b project-a -s 2026-01-01
 if [ "$RC" -ne 0 ]; then ok 'Perl balance helper rejects historical raw-balance mode'; else not_ok 'Perl balance helper rejects historical raw-balance mode' 'expected non-zero status'; fi
 assert_contains "$STDERR" "doesn't make sense for the unformatted balance query" 'Perl balance helper explains incompatible options'
 
-CPU_HELPER="$REPO_ROOT/src/_sbank-common-cpu_hrs.pl"
+CPU_HELPER="$SOURCE_DIR/_sbank-common-cpu_hrs.pl"
 if perl -MSwitch -e 1 >/dev/null 2>&1; then
     run perl "$CPU_HELPER" -M localcluster -i day -t hours
     assert_rc 0 'CPU-hours helper day report succeeds'

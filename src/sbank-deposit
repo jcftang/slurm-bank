@@ -50,6 +50,12 @@ cmd_deposit()
 			;;
 	esac
 
+	# Preserve historical behavior: a zero-hour deposit is a successful no-op.
+	# Return before taking the account lock or querying Slurm.
+	if [ "${FLAGS_time}" = "0" ]; then
+		return 0
+	fi
+
 	sbank_parse_hours "${FLAGS_time}"
 	MINUTES=${SBANK_MINUTES}
 
