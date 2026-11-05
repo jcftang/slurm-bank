@@ -2,6 +2,7 @@
 set -u
 HERE=$(cd "$(dirname "$0")" && pwd)
 ROOT=$(cd "${HERE}/.." && pwd)
+SOURCE_DIR=${SBANK_TEST_SOURCE:-$ROOT/src}
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 mkdir -p "$TMP/bin" "$TMP/locks" "$TMP/state"
@@ -99,7 +100,7 @@ init_state() {
 run_cmd() {
   local which=$1; shift
   (
-    export MOCK_STATE="$TMP/state" PATH="$TMP/bin:$PATH" SLURMBANK_LOCK_DIR="$TMP/locks" SLURMBANK_DIR="$ROOT/src"
+    export MOCK_STATE="$TMP/state" PATH="$TMP/bin:$PATH" SLURMBANK_LOCK_DIR="$TMP/locks" SLURMBANK_DIR="$SOURCE_DIR"
     SACCTMGR="$TMP/bin/sacctmgr"
     FLAGS_TRUE=0; FLAGS_FALSE=1; FLAGS_debug=1
     debug(){ :; }
@@ -118,7 +119,7 @@ run_cmd() {
       done
       FLAGS_ARGV=''
     }
-    . "$ROOT/src/sbank-$which"
+    . "$SOURCE_DIR/sbank-$which"
     "cmd_$which" "$@"
   )
 }
