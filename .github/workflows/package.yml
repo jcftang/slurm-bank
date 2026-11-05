@@ -34,7 +34,7 @@ jobs:
           docker run --rm -v "$PWD:/work" -w /work rockylinux:9 bash -euc '
             dnf install -y epel-release dnf-plugins-core
             dnf config-manager --set-enabled crb
-            dnf install -y git make rpm-build perl perl-Switch bash rsync findutils diffutils slurm
+            dnf install -y git make rpm-build perl perl-Switch bash rsync findutils diffutils which slurm
             git config --global --add safe.directory /work
             bash .ci/rpm.sh
           '

@@ -12,7 +12,7 @@ Source0:        slurm-bank-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
-BuildRequires:  perl, bash, rsync, make
+BuildRequires:  perl, bash, rsync, make, which
 Requires:       slurm >= 2.2.0, perl, perl(Switch), bash, util-linux, coreutils, gawk, grep, sed, which, bc
 
 %define path_settings HTMLDIR=%{_docdir}/%{name}-%{version}/html
