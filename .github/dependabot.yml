@@ -8,3 +8,8 @@ updates:
       interval: "monthly"
     cooldown:
       default-days: 14
+
+  - package-ecosystem: "docker"
+    directory: "/.ci/slurm"
+    schedule:
+      interval: "monthly"

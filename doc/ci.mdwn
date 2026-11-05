@@ -1,0 +1,57 @@
+# Continuous integration
+
+Pull requests and pushes run both mock suites on Ubuntu 22.04 and 24.04,
+Bash/POSIX-shell syntax and error-level ShellCheck, Perl compile checks,
+actionlint, staged installation tests, RPM build/install tests on Rocky Linux 9,
+man/HTML generation, version consistency, and source archive checks. CodeQL
+analyzes GitHub Actions workflows, not the Bash or Perl application code.
+
+Run the fast checks with:
+
+    make -C t functional
+    make -C t functional-gpu
+    bash .ci/check-source.sh
+    bash .ci/install-smoke.sh
+
+Source checks require ShellCheck and Perl Switch. Broader ShellCheck warnings
+are not yet enforced. SC2145 is baselined only for four existing logging calls
+in src/sbank-common; all other error-level rules apply. Vendored shFlags is
+exercised by the functional tests rather than held to the application's lint
+baseline. Docs/archive checks additionally require groff; HTML needs ikiwiki.
+The scripts assume a repository checkout, except the installed commands under test.
+
+The separate Real Slurm accounting integration workflow runs manually or
+weekly on the default branch. It builds an Ubuntu 26.04 image and starts its
+own MariaDB, Munge, SlurmDBD, controller, and compute daemon. No external
+cluster configuration, mounts, credentials, or Slurm services are used.
+To reproduce it on a machine with Docker:
+
+    docker build -f .ci/slurm/Dockerfile -t sbank-slurm-ci .
+    mkdir -p artifacts
+    docker run --rm --hostname sbank-ci -v "$PWD/artifacts:/artifacts" sbank-slurm-ci
+
+The fixture creates/deletes an account, verifies CPU and GPU credit/debit and
+read-back, completes an in-budget GPU job, requires an over-budget job to stay
+pending for a GPU-minute accounting reason, then deposits credit and requires
+that same job to finish. It also holds the production advisory lock while
+another real CLI process tries to deposit; that process must fail without
+changing the account. Daemon and accounting logs are uploaded on failure.
+
+Its /dev/null GPU device is a stand-in for scheduling and GPU-minute accounting.
+It does not validate GPU hardware, drivers, device isolation, or cross-host
+filesystem locking. Cgroups are disabled in this fixture. The real integration
+workflow needs its first successful hosted run before being promoted to a
+required PR check; the scripts fail if readiness or assertions time out.
+
+The RPM job installs the built package with dependency resolution and runs both
+mock suites against installed files. The spec declares the Switch, flock and
+other command dependencies used by the application. Existing live `make test`
+is deliberately not invoked against a shared or production Slurm cluster.
+
+Actions use commit pins, read-only checkout credentials, explicit permissions,
+timeouts, concurrency cancellation, and retained functional/integration logs.
+Dependabot retains its existing GitHub Actions update policy and also watches
+the Dockerfile base image. Distribution package versions are not locked; these
+jobs test current repositories for the selected distributions. No release or
+HTML documentation is automatically published. Update required-check names in
+branch protection after replacing the two previous functional workflows.
