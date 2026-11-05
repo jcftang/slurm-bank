@@ -11,8 +11,9 @@ URL:            http://www.tchpc.tcd.ie/
 Source0:        slurm-bank-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  perl, bash, rsync, make
-Requires:       slurm >= 2.2.0, perl, bash  
+BuildArch:      noarch
+BuildRequires:  perl, bash, rsync, make, which
+Requires:       slurm >= 2.2.0, perl, perl(Switch), bash, util-linux, coreutils, gawk, grep, sed, which, bc
 
 %define path_settings HTMLDIR=%{_docdir}/%{name}-%{version}/html
 
