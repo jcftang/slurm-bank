@@ -1,0 +1,38 @@
+name: Real Slurm accounting integration
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '41 8 * * 2'
+
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  slurm:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Build disposable Slurm image
+        run: docker build -f .ci/slurm/Dockerfile -t sbank-slurm-ci .
+      - name: Test actual Slurm accounting and GPU-minute enforcement
+        run: |
+          mkdir -p artifacts
+          set -o pipefail
+          docker run --rm --hostname sbank-ci -v "$PWD/artifacts:/artifacts" sbank-slurm-ci 2>&1 | tee artifacts/integration.log
+      - name: Save accounting and daemon logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: slurm-integration-logs
+          path: artifacts/
+          if-no-files-found: ignore
+          retention-days: 14
