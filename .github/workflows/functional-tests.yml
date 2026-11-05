@@ -3,19 +3,41 @@ name: Functional tests
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  functional-tests:
-    runs-on: ubuntu-latest
+  functional:
+    name: ${{ matrix.suite }} (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+        suite: [functional, functional-gpu]
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v7
-
-      - name: Install Perl runtime dependency
-        run: sudo apt-get update && sudo apt-get install -y libswitch-perl
-
-      - name: Run mock-backed functional suite
-        run: make -C t functional
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - run: sudo apt-get update && sudo apt-get install -y libswitch-perl
+      - name: Run mock suite
+        env:
+          SUITE: ${{ matrix.suite }}
+        run: |
+          set -o pipefail
+          make -C t "$SUITE" 2>&1 | tee test-results.log
+      - name: Save test output
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ matrix.suite }}-${{ matrix.os }}
+          path: test-results.log
+          if-no-files-found: ignore
+          retention-days: 14
