@@ -3,6 +3,7 @@ set -u
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 REPO_ROOT=$(cd "$SCRIPT_DIR/.." && pwd)
+SOURCE_DIR=${SBANK_TEST_SOURCE:-$REPO_ROOT/src}
 TMP_ROOT=$(mktemp -d "${TMPDIR:-/tmp}/slurm-bank-test.XXXXXX")
 trap 'rm -rf "$TMP_ROOT"' EXIT
 
@@ -27,13 +28,13 @@ export SLURMBANK_LOCK_DIR="$TMP_ROOT/locks"
 
 # Stage the production shell code so helper programs can be replaced without
 # modifying the checkout. The real shFlags implementation is still used.
-cp "$REPO_ROOT/src/sbank" "$STAGED_SRC/"
-cp "$REPO_ROOT/src/sbank-common" "$STAGED_SRC/"
-cp "$REPO_ROOT/src/sbank-bank-common" "$STAGED_SRC/"
+cp "$SOURCE_DIR/sbank" "$STAGED_SRC/"
+cp "$SOURCE_DIR/sbank-common" "$STAGED_SRC/"
+cp "$SOURCE_DIR/sbank-bank-common" "$STAGED_SRC/"
 for command in balance cluster deduct deposit project refund submit time user version; do
-    cp "$REPO_ROOT/src/sbank-$command" "$STAGED_SRC/"
+    cp "$SOURCE_DIR/sbank-$command" "$STAGED_SRC/"
 done
-ln -s "$REPO_ROOT/shFlags/src/shflags" "$STAGED_SRC/shflags"
+cp -L "$SOURCE_DIR/shflags" "$STAGED_SRC/shflags"
 chmod +x "$STAGED_SRC/sbank"
 
 cat > "$STAGED_SRC/_sbank-balance.pl" <<'EOF_HELPER'
@@ -294,7 +295,7 @@ assert_contains "$OUT" 'Available commands are:' 'unknown command prints usage'
 
 run "$SBANK" version
 assert_rc 0 'version command succeeds'
-assert_eq '1.4.3' "$OUT" 'version command reports expected version'
+assert_eq "$(sed 's/^slurm-bank-//' "$REPO_ROOT/VERSION")" "$OUT" 'version command reports expected version'
 
 run "$SBANK" time calc -t 4-00:00:00
 assert_eq '96' "$OUT" 'time calc handles days-hours:minutes:seconds'
@@ -470,7 +471,7 @@ run "$SBANK" refund job -j 0
 assert_rc 1 'refund rejects non-positive job ids'
 
 # Exercise the real Perl balance helper with deterministic Slurm command data.
-BALANCE_HELPER="$REPO_ROOT/src/_sbank-balance.pl"
+BALANCE_HELPER="$SOURCE_DIR/_sbank-balance.pl"
 run perl "$BALANCE_HELPER" -c localcluster -b project-a
 assert_rc 0 'Perl balance helper raw-balance query succeeds'
 assert_eq '90' "$OUT" 'Perl balance helper converts minute limit and second usage to hours'
@@ -508,7 +509,7 @@ run perl "$BALANCE_HELPER" -c localcluster -b project-a -s 2026-01-01
 if [ "$RC" -ne 0 ]; then ok 'Perl balance helper rejects historical raw-balance mode'; else not_ok 'Perl balance helper rejects historical raw-balance mode' 'expected non-zero status'; fi
 assert_contains "$STDERR" "doesn't make sense for the unformatted balance query" 'Perl balance helper explains incompatible options'
 
-CPU_HELPER="$REPO_ROOT/src/_sbank-common-cpu_hrs.pl"
+CPU_HELPER="$SOURCE_DIR/_sbank-common-cpu_hrs.pl"
 if perl -MSwitch -e 1 >/dev/null 2>&1; then
     run perl "$CPU_HELPER" -M localcluster -i day -t hours
     assert_rc 0 'CPU-hours helper day report succeeds'
